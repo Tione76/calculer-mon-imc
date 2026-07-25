@@ -57,7 +57,8 @@ export function getIndexNowConfig(): IndexNowConfig | null {
 
   const siteOrigin = siteOriginFromEnv.replace(/\/$/, "");
   const host = readEnv("INDEXNOW_HOST") || new URL(siteOrigin).host;
-  const keyLocation = `${siteOrigin}/${key}.txt`;
+  /** Fichier public versionné : /indexnow.txt (Option 2 IndexNow, racine = tout le host). */
+  const keyLocation = `${siteOrigin}/indexnow.txt`;
 
   return { key, host, siteOrigin, keyLocation };
 }

@@ -188,12 +188,20 @@ Après chaque déploiement **Production** Vercel réussi, le workflow GitHub
 `.github/workflows/indexnow-production.yml` récupère le sitemap public et notifie IndexNow
 (URL indexables uniquement, dédupliquées, host canonique). Les Preview sont ignorés.
 
+Fichier de vérification versionné : `public/indexnow.txt` (servi sur
+`https://calculer-mon-imc.fr/indexnow.txt`). La clé dans ce fichier doit être
+**identique** aux secrets / variables suivants :
+
 ```env
-INDEXNOW_KEY=votre-cle
+INDEXNOW_KEY=<contenu exact de public/indexnow.txt>
 SITE_URL=https://calculer-mon-imc.fr
 ```
 
-Ajoutez le secret GitHub `INDEXNOW_KEY`. Commandes manuelles :
+À configurer :
+- secrets GitHub Actions : `INDEXNOW_KEY`, `SITE_URL`
+- variable Vercel (Production) : `INDEXNOW_KEY` (recommandé, fallback middleware)
+
+Commandes manuelles :
 
 ```bash
 npm run indexnow:notify          # sitemap live → IndexNow

@@ -4,9 +4,11 @@ name: IndexNow after Vercel production
 # Se déclenche uniquement après un déploiement Vercel Production réussi
 # (jamais sur Preview).
 #
-# Prérequis secrets GitHub :
-#   INDEXNOW_KEY
+# Prérequis secrets GitHub (valeurs strictement identiques à public/indexnow.txt) :
+#   INDEXNOW_KEY=<contenu exact de public/indexnow.txt>
 #   SITE_URL=https://calculer-mon-imc.fr
+# Variable Vercel Production recommandée : INDEXNOW_KEY (même valeur).
+# keyLocation soumis à l'API : https://calculer-mon-imc.fr/indexnow.txt
 
 on:
   deployment_status:

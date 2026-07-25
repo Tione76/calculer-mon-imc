@@ -3,13 +3,22 @@ import type { NextRequest } from "next/server";
 
 const INDEXNOW_KEY = process.env.INDEXNOW_KEY?.trim().replace(/^["']|["']$/g, "");
 
+/**
+ * Sert le fichier de vérification IndexNow.
+ * Chemins acceptés :
+ *   - /indexnow.txt          (fichier public versionné + fallback env)
+ *   - /{INDEXNOW_KEY}.txt    (Option 1 du protocole)
+ */
 export function middleware(request: NextRequest) {
   if (!INDEXNOW_KEY) {
     return NextResponse.next();
   }
 
   const { pathname } = request.nextUrl;
-  if (pathname !== `/${INDEXNOW_KEY}.txt`) {
+  const isIndexNowAlias = pathname === "/indexnow.txt";
+  const isKeyFile = pathname === `/${INDEXNOW_KEY}.txt`;
+
+  if (!isIndexNowAlias && !isKeyFile) {
     return NextResponse.next();
   }
 
@@ -23,5 +32,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/:key.txt"],
+  matcher: ["/indexnow.txt", "/:key.txt"],
 };

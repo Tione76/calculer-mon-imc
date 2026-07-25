@@ -104,7 +104,7 @@ function getConfig() {
     key,
     host,
     siteOrigin,
-    keyLocation: `${siteOrigin}/${key}.txt`,
+    keyLocation: `${siteOrigin}/indexnow.txt`,
   };
 }
 
