@@ -17,24 +17,29 @@ const microsoftClarityId =
     ? (readOptionalEnv("NEXT_PUBLIC_CLARITY_PROJECT_ID") ??
       readOptionalEnv("NEXT_PUBLIC_CLARITY_ID"))
     : undefined;
-const googleSearchConsoleId = "9nuZjW3-Co9y5HnEHO6pmgRJD0K-EBLnh3PHD3txmsw";
+/** Désactivé en attente du domaine calculer-mon-imc.fr (réactiver à l'étape Search Console). */
+const googleSearchConsoleId = undefined;
 const googleAdsenseClientId = readOptionalEnv("NEXT_PUBLIC_ADSENSE_ID");
 const adSlotAfterResult = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_AFTER_RESULT");
 const adSlotBeforeFooter = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_BEFORE_FOOTER");
 const adSlotUnderH1 = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_UNDER_H1");
 
 export const siteConfig = {
-  name: "Brut vers Net",
-  domain: "brut-vers-net.fr",
-  url: "https://brut-vers-net.fr",
+  name: "Calculer Mon IMC",
+  domain: "calculer-mon-imc.fr",
+  url: "https://calculer-mon-imc.fr",
   author: "Antoine",
   language: "fr",
   locale: "fr-FR",
 
   colors: {
-    primary: "#f28539",
-    primaryHover: "#da7830",
-    primaryLight: "#fff4ed",
+    primary: "#16A34A",
+    primaryHover: "#15803D",
+    primaryLight: "#F0FDF4",
+    primaryMuted: "#BBF7D0",
+    primaryActive: "#166534",
+    accentText: "#166534",
+    brandRgb: "22, 163, 74",
     accent: "#e1000f",
     background: "#ffffff",
     surface: "#f7f9fb",
@@ -42,28 +47,30 @@ export const siteConfig = {
     text: "#161616",
     textMuted: "#6b7280",
     textInverse: "#ffffff",
-    focus: "#f28539",
+    focus: "#16A34A",
     success: "#18753c",
     error: "#ce0500",
   },
 
   logo: {
-    src: "/logo.png?v=2",
-    alt: "Logo Brut vers Net",
+    src: "/logo.png",
+    alt: "Calculer Mon IMC",
     width: 800,
     height: 800,
   },
-  favicon: "/logo-icon.png?v=3",
-  ogImage: "/images/covers/calculateurs/Calculateur-brut-vers-net.webp",
+  favicon: "/icon.png",
+  appleTouchIcon: "/apple-icon.png",
+  /** Image OG par défaut (temporaire, en attendant la couverture IMC). */
+  ogImage: "/logo-icon.png?v=5",
 
-  footerBrandName: "BRUT-VERS-NET.FR",
+  footerBrandName: "CALCULER-MON-IMC.FR",
   footerDescription:
-    "Outils et guides gratuits pour comprendre le salaire brut et le salaire net, les cotisations salariales, la fiche de paie, les heures supplémentaires, l'indemnité de licenciement et les principaux calculs liés à la rémunération.",
+    "Outils et guides gratuits pour estimer votre IMC, comprendre le poids et utiliser des calculateurs santé pédagogiques.",
 
   home: {
-    h1: "Calculez votre salaire Brut vers Net",
+    h1: "Calculez votre IMC",
     intro: [
-      "Estimez prochainement votre salaire net à partir de votre salaire brut.",
+      "Estimez votre indice de masse corporelle et explorez nos guides sur le poids et la santé.",
     ] as [string, string?],
   },
 
@@ -77,14 +84,7 @@ export const siteConfig = {
     href: string;
   }[],
 
-  tools: [
-    {
-      title: "Calculateur HT ↔ TTC",
-      description: "Convertir un montant hors taxes en TTC, et inversement.",
-      href: "https://ht-vers-ttc.fr",
-      icon: "",
-    },
-  ] as {
+  tools: [] as {
     title: string;
     description: string;
     href: string;
@@ -98,7 +98,7 @@ export const siteConfig = {
   },
 
   contact: {
-    email: "contact@brut-vers-net.fr",
+    email: "contact@calculer-mon-imc.fr",
     companyName: "[Raison sociale]",
     address: "[Adresse complète]",
     intro:

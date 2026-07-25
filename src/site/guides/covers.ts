@@ -26,7 +26,9 @@ export interface GuideCoverImage {
   alt: string;
   width: number;
   height: number;
-  credit: CoverCredit;
+  credit?: CoverCredit;
+  /** Masque la bande crédit (logo ou visuel interne). */
+  hideCredit?: boolean;
 }
 
 const COVERS_ROOT = "/images/covers";
@@ -52,63 +54,56 @@ export function formatCoverCredit(credit: CoverCredit): string {
   return `Photo de ${credit.photographer} via ${credit.source}`;
 }
 
-/** Image de couverture : page d'accueil / calculateur Brut vers Net */
+/** Image de couverture : page d'accueil / calculateur IMC */
 export const HOME_COVER: GuideCoverImage = cover(
-  "calculateurs/Calculateur-brut-vers-net.webp",
-  "Personne consultant un calculateur de salaire brut vers net sur un ordinateur",
-  { photographer: "Kindel Media", source: "Pexels" },
+  "calculateurs/calculateur-IMC.webp",
+  "Pèse-personne rose et mètre ruban jaune vus de dessus, pour le calcul de l'IMC",
+  { photographer: "SHVETS production", source: "Pexels" },
   1200,
-  900,
+  801,
 );
 
 /** Hub /guides */
 export const GUIDES_HUB_COVER: GuideCoverImage = cover(
-  "hubs/Guides-salaire-imôts.webp",
-  "Guides pour comprendre le salaire, la fiche de paie et la rémunération",
-  { photographer: "Pixabay", source: "Pexels" },
-  1200,
-  900,
-);
-
-/** Hub /nos-outils */
-export const TOOLS_HUB_COVER: GuideCoverImage = cover(
-  "hubs/Calculateurs-salaire.webp",
-  "Outils et simulateurs gratuits pour estimer un salaire et une rémunération",
+  "hubs/Guides-IMC-poids.webp",
+  "Pile de livres tenus à deux mains, illustration des guides santé",
   { photographer: "Kindel Media", source: "Pexels" },
   1200,
   676,
 );
 
+/** Hub /nos-outils */
+export const TOOLS_HUB_COVER: GuideCoverImage = cover(
+  "hubs/Outils-santé.webp",
+  "Pèse-personne numérique en verre et mètre ruban bleu, outils de suivi santé",
+  { photographer: "Pixabay", source: "Pexels" },
+  1200,
+  798,
+);
+
 /** Page /faq */
 export const FAQ_COVER: GuideCoverImage = cover(
-  "hubs/Questions-sur-le-salaire.webp",
-  "Questions fréquentes sur le salaire brut, le salaire net et la rémunération",
-  { photographer: "www.kaboompics.com", source: "Pexels" },
-  6720,
-  4480,
+  "guides/Questions-IMC-poids.webp",
+  "Carnet ouvert, stylo doré et bulles avec points d'interrogation sur fond brun",
+  { photographer: "Leeloo The First", source: "Pexels" },
+  1200,
+  801,
 );
 
 /** Couvertures par identifiant de calculateur */
 export const CALCULATOR_COVERS: Record<string, GuideCoverImage> = {
-  "brut-vers-net": HOME_COVER,
-  "augmentation-salaire": cover(
-    "calculateurs/Calculateur-augmentation-salaire.webp",
-    "Simulation d'une augmentation de salaire et de son impact sur le net",
-    { photographer: "MART PRODUCTION", source: "Pexels" },
+  imc: HOME_COVER,
+  "poids-ideal": cover(
+    "calculateurs/Calculer-poids-idéal.webp",
+    "Groupe de jeunes adultes aux morphologies diverses, illustrant le poids idéal",
+    { photographer: "Ron Lach", source: "Pexels" },
     1200,
     800,
   ),
-  "salaire-heures-supplementaires": cover(
-    "calculateurs/Calculateur-salaire-avec-heures-supplémentaires.webp",
-    "Calcul du salaire avec heures supplémentaires en brut et en net",
-    { photographer: "Surja Raj", source: "Pexels" },
-    1200,
-    800,
-  ),
-  "indemnite-licenciement": cover(
-    "calculateurs/Simulateur-indemnité-licenciement.webp",
-    "Estimation d'une indemnité de licenciement à partir du salaire de référence",
-    { photographer: "Tima Miroshnichenko", source: "Pexels" },
+  "masse-grasse": cover(
+    "calculateurs/Calculer-masse-grasse.webp",
+    "Mesure de la masse grasse à l'aide d'un compas de plis cutanés sur l'abdomen",
+    { photographer: "Daniel Dan", source: "Pexels" },
     1200,
     800,
   ),
@@ -116,38 +111,38 @@ export const CALCULATOR_COVERS: Record<string, GuideCoverImage> = {
 
 /** Couvertures par slug de guide */
 export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
-  "comment-est-calcule-le-salaire-net": cover(
-    "guides/Comment-calculer-salaire-net.webp",
-    "Explication de la différence entre salaire brut et salaire net",
-    { photographer: "Bia Limova", source: "Pexels" },
+  "quest-ce-que-l-imc": cover(
+    "guides/IMC-Définition-calcul.webp",
+    "Pieds nus sur un pèse-personne rose, illustration de l'indice de masse corporelle",
+    { photographer: "SHVETS production", source: "Pexels" },
+    1200,
+    801,
+  ),
+  "comment-calculer-son-imc": cover(
+    "guides/calculer-son-imc.webp",
+    "Mètre ruban bleu et jaune enroulé sur un fond jaune, pour mesurer et calculer l'IMC",
+    { photographer: "Ann H", source: "Pexels" },
     1200,
     800,
   ),
-  "comment-calculer-son-salaire-net": cover(
-    "guides/Comment-calculer-son-salaire-net.webp",
-    "Méthode pas à pas pour calculer son salaire net à partir du brut",
-    { photographer: "Polina Tankilevitch", source: "Pexels" },
+  "comment-interpreter-son-imc": cover(
+    "guides/interpréter-son-IMC.webp",
+    "Professionnel de santé en blouse consultant un smartphone pour lire un résultat",
+    { photographer: "Ivan S", source: "Pexels" },
     1200,
     800,
   ),
-  "comment-lire-une-fiche-de-paie": cover(
-    "guides/Comment-lire-fiche-de-paie.webp",
-    "Lecture d'une fiche de paie : brut, cotisations, net et prélèvement à la source",
-    { photographer: "Kampus Production", source: "Pexels" },
+  "limites-de-l-imc": cover(
+    "guides/limites-IMC.webp",
+    "Groupe de femmes pratiquant le fitness en studio, au-delà du seul chiffre d'IMC",
+    { photographer: "Gustavo Fring", source: "Pexels" },
     1200,
     800,
   ),
-  "cotisations-salariales-pourquoi-brut-plus-eleve-que-net": cover(
-    "guides/Comprendre-cotisations-salariales.webp",
-    "Comprendre les cotisations salariales et l'écart entre salaire brut et net",
-    { photographer: "RDNE Stock project", source: "Pexels" },
-    1200,
-    800,
-  ),
-  "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne": cover(
-    "guides/Prélèvement-à-la-source.webp",
-    "Fonctionnement du prélèvement à la source sur le salaire",
-    { photographer: "Polina Tankilevitch", source: "Pexels" },
+  "calculer-son-poids-ideal": cover(
+    "guides/mon-poids-idéal.webp",
+    "Personne mesurant son tour de taille avec un mètre ruban rose",
+    { photographer: "kaboompics", source: "Pexels" },
     1200,
     800,
   ),

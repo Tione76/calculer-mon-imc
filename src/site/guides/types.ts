@@ -33,9 +33,16 @@ export interface GuideMistakesList {
   items: string[];
 }
 
+export interface GuideStepItem {
+  title: string;
+  description: string;
+  href?: string;
+  linkLabel?: string;
+}
+
 export interface GuideSteps {
   type: "steps";
-  items: { title: string; description: string }[];
+  items: GuideStepItem[];
 }
 
 /** Emplacement naturel pour le maillage interne */
@@ -59,11 +66,37 @@ export interface GuideList {
   items: string[];
 }
 
+export interface GuideDefinitionList {
+  type: "definition-list";
+  items: { term: string; definition: string }[];
+}
+
+export interface GuideTimeline {
+  type: "timeline";
+  items: { period: string; text: string }[];
+}
+
+export type GuideTableVariant = "default" | "imc-categories" | "imc-permits" | "editorial-comparison";
+
 export interface GuideTable {
   type: "table";
+  variant?: GuideTableVariant;
   caption?: string;
+  footnote?: string;
   headers: string[];
   rows: string[][];
+}
+
+export interface GuideSourceListItem {
+  org: string;
+  title: string;
+  year: string;
+  href: string;
+}
+
+export interface GuideSourceList {
+  type: "source-list";
+  items: GuideSourceListItem[];
 }
 
 /** Identifiant d'illustration vectorielle (réservé aux futurs guides) */
@@ -104,20 +137,36 @@ export interface GuideQuickSummaryItem {
   kind?: "level" | "connector";
 }
 
+export interface GuideQuickSummaryCard {
+  icon: string;
+  label: string;
+  value: string;
+}
+
 export interface GuideQuickSummary {
   title: string;
   items: GuideQuickSummaryItem[];
-  /** pipeline : 3 niveaux horizontaux · reading-order : parcours vertical · formula : chaîne sobre sans numéros */
-  variant?: "pipeline" | "reading-order" | "formula";
+  /** pipeline · reading-order · formula · cards (fiche synthétique) */
+  variant?: "pipeline" | "reading-order" | "formula" | "cards";
+  cards?: GuideQuickSummaryCard[];
   /** Synthèse optionnelle affichée sous le schéma */
   synthesis?: string[];
+}
+
+export interface GuideFormula {
+  type: "formula";
+  lines: string[];
 }
 
 export type GuideBlock =
   | GuideParagraph
   | GuideList
+  | GuideDefinitionList
+  | GuideTimeline
   | GuideCallout
   | GuideTable
+  | GuideFormula
+  | GuideSourceList
   | GuideChecklist
   | GuideMistakesList
   | GuideSteps
@@ -126,6 +175,18 @@ export type GuideBlock =
   | GuideInternalLink
   | GuideProfessionFaq
   | GuideContextualCta;
+
+export interface GuideEditorialNote {
+  title: string;
+  paragraphs: string[];
+}
+
+export interface GuidePostConclusion {
+  /** Synthèse finale affichée entre la conclusion et les sources */
+  summary?: GuideSection;
+  sources?: GuideSection;
+  editorialNote?: GuideEditorialNote;
+}
 
 export interface GuideSubsection {
   /** Identifiant URL pour le sommaire et les ancres (kebab-case) */
@@ -148,11 +209,15 @@ export interface GuideConclusion {
   keyPoints: string[];
   /** Phrase de clôture courte invitant à l'action */
   closingText: string;
+  /** Paragraphe de transition vers le cocon éditorial, affiché avant les CTA */
+  closingPathway?: string;
   /** CTA optionnel en fin de conclusion */
   closingCta?: {
     label: string;
     href: string;
   };
+  /** Liens secondaires textuels à proximité du CTA */
+  secondaryLinks?: { label: string; href: string }[];
 }
 
 /** Liens affichés dans la sidebar : maillage interne */
@@ -199,6 +264,8 @@ export interface Guide {
   coverImage?: GuideCoverImage;
   /** 2 à 3 phrases : réponse immédiate à la question principale, sans H2 */
   introduction: string[];
+  /** Phrase discrète affichée en fin d'introduction (après l'image si présente) */
+  introDisclaimer?: string;
   /** Synthèse courte affichée entre l'introduction et le sommaire (optionnel) */
   introSummary?: { title: string; items: string[] };
   /** Bloc visuel synthétique affiché juste après l'introduction (optionnel) */
@@ -210,6 +277,8 @@ export interface Guide {
   /** Paragraphe de transition affiché entre le titre FAQ et la liste de questions */
   faqIntro?: string;
   conclusion: GuideConclusion;
+  /** Sources et note éditoriale affichées après la conclusion (hors sommaire pour la note) */
+  postConclusion?: GuidePostConclusion;
   sidebar: GuideSidebarLinks;
   /** true uniquement pour le modèle de référence /modele : exclu du sitemap */
   isTemplate?: boolean;

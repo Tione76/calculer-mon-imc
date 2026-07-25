@@ -67,12 +67,11 @@ export { GuideCoverImage as GuideCoverImageComponent } from "./GuideCoverImage";
 export { CoverFigure } from "./CoverFigure";
 export { GuideAuthorMeta } from "./GuideAuthorMeta";
 export { GuideListCard } from "./GuideListCard";
-export { GuidesHubEditorial, GuidesHubWhySection } from "./guides-hub-editorial";
+export { GuidesHubEditorial, GuidesHubWhySection, GuidesHubChooseSection, GuidesHubTransition } from "./guides-hub-editorial";
 export { GuidesHubFaq } from "./guides-hub-faq";
 export {
   getGuideHubTeaser,
   GUIDES_HUB_FAQ,
-  GUIDES_HUB_LIST_INTRO,
   GUIDES_HUB_LIST_TITLE,
   GUIDES_HUB_PAGE_SUBTITLE,
 } from "./guides-hub-data";

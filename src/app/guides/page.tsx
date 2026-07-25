@@ -5,11 +5,10 @@ import {
   GuideListCard,
   GuidePageLayout,
 } from "@/site/guides";
-import { GuidesHubEditorial, GuidesHubWhySection } from "@/site/guides/guides-hub-editorial";
+import { GuidesHubEditorial, GuidesHubWhySection, GuidesHubChooseSection, GuidesHubTransition } from "@/site/guides/guides-hub-editorial";
 import { GuidesHubFaq } from "@/site/guides/guides-hub-faq";
 import {
   GUIDES_HUB_FAQ,
-  GUIDES_HUB_LIST_INTRO,
   GUIDES_HUB_LIST_TITLE,
   GUIDES_HUB_PAGE_SUBTITLE,
 } from "@/site/guides/guides-hub-data";
@@ -40,11 +39,16 @@ export default function GuidesHubPage() {
       <JsonLd
         data={buildHubJsonLd({
           path,
-          name: hub.title,
+          name: hub.h1,
           description: hub.description,
           hubLabel: hub.h1,
           cover: GUIDES_HUB_COVER,
           faq: GUIDES_HUB_FAQ,
+          listName: GUIDES_HUB_LIST_TITLE,
+          items: guides.map((guide) => ({
+            name: guide.title,
+            path: `/guides/${guide.slug}`,
+          })),
         })}
       />
       <GuidePageLayout
@@ -65,12 +69,13 @@ export default function GuidesHubPage() {
             <h2 id="guides-hub-list-title" className="guides-hub-list__title">
               {GUIDES_HUB_LIST_TITLE}
             </h2>
-            <p className="guides-hub-list__intro">{GUIDES_HUB_LIST_INTRO}</p>
+            <GuidesHubChooseSection />
             <div className="guide-list-grid">
               {guides.map((guide) => (
                 <GuideListCard key={guide.slug} guide={guide} />
               ))}
             </div>
+            <GuidesHubTransition />
           </section>
         )}
         <GuidesHubWhySection />

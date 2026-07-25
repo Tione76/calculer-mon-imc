@@ -14,6 +14,7 @@ interface GuidePageLayoutProps {
   children: ReactNode;
   sidebar?: ReactNode;
   prose?: boolean;
+  articleBodyClassName?: string;
 }
 
 /** Layout dédié aux guides : header hero, sans nom de site au-dessus du H1 */
@@ -23,6 +24,7 @@ export function GuidePageLayout({
   children,
   sidebar,
   prose = true,
+  articleBodyClassName,
 }: GuidePageLayoutProps) {
   const site = useSite();
 
@@ -46,7 +48,15 @@ export function GuidePageLayout({
       <main id="main-content" className="article-page">
         <div className="content-wrap content-wrap--wide">
           <div className={`article-layout${sidebar ? "" : " article-layout--single"}`}>
-            <div className={prose ? "article-body prose" : "article-body"}>{children}</div>
+            <div
+              className={
+                prose
+                  ? ["article-body", "prose", articleBodyClassName].filter(Boolean).join(" ")
+                  : ["article-body", articleBodyClassName].filter(Boolean).join(" ")
+              }
+            >
+              {children}
+            </div>
             {sidebar}
           </div>
         </div>

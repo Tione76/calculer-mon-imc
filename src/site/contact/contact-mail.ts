@@ -10,7 +10,11 @@ export const CONTACT_LIMITS = {
 export const CONTACT_SUCCESS_MESSAGE =
   "Votre message a bien été envoyé. Nous vous répondrons dans les meilleurs délais.";
 
-export const CONTACT_ERROR_MESSAGE = `Une erreur est survenue pendant l'envoi. Vous pouvez également nous écrire à ${siteConfig.contact.email}.`;
+export const CONTACT_UNAVAILABLE_MESSAGE =
+  "Le formulaire de contact est temporairement indisponible. Veuillez réessayer plus tard.";
+
+export const CONTACT_ERROR_MESSAGE =
+  "Une erreur est survenue pendant l'envoi. Veuillez réessayer plus tard.";
 
 export const ALLOWED_CONTACT_SUBJECTS = [
   "Signaler une erreur",
@@ -71,22 +75,24 @@ export function normalizeFromAddress(value: string): string {
 }
 
 export function getContactRecipient(): string[] {
-  // CONTACT_EMAIL (convention actuelle) ; CONTACT_TO_EMAIL conservé en secours
-  const raw = readEnv("CONTACT_EMAIL") || readEnv("CONTACT_TO_EMAIL", siteConfig.contact.email);
+  const raw = readEnv("CONTACT_EMAIL") || readEnv("CONTACT_TO_EMAIL");
   return parseRecipientList(raw);
 }
 
 export function getContactFromAddress(): string {
-  return normalizeFromAddress(
-    readEnv(
-      "CONTACT_FROM_EMAIL",
-      `Formulaire ${siteConfig.name} <contact@${siteConfig.domain}>`,
-    ),
-  );
+  return normalizeFromAddress(readEnv("CONTACT_FROM_EMAIL"));
 }
 
 export function getResendApiKey(): string {
   return readEnv("RESEND_API_KEY");
+}
+
+/** Vrai uniquement si Resend et les adresses expéditeur/destinataire sont configurés via l'environnement. */
+export function isContactDeliveryConfigured(): boolean {
+  if (!getResendApiKey()) return false;
+  if (getContactRecipient().length === 0) return false;
+  if (!readEnv("CONTACT_FROM_EMAIL")) return false;
+  return true;
 }
 
 export function isHoneypotFilled(payload: ContactPayload): boolean {
@@ -181,30 +187,36 @@ export function buildContactEmailContent(data: ValidatedContactPayload) {
 
 /** Origins de confiance pour POST /api/contact. */
 export function isTrustedContactOrigin(request: Request, siteUrl: string): boolean {
+  const trustedHosts = collectTrustedContactHosts(request, siteUrl);
   const originHeader = request.headers.get("origin");
 
-  // Pas d'Origin : requête same-site classique ou outil sans Origin. Le honeypot reste en place.
-  if (!originHeader) {
-    return true;
+  if (originHeader) {
+    try {
+      return trustedHosts.has(new URL(originHeader).host.toLowerCase());
+    } catch {
+      return false;
+    }
   }
 
-  let originHost: string;
-  try {
-    originHost = new URL(originHeader).host.toLowerCase();
-  } catch {
+  // Sans Origin : accepter uniquement si Host correspond à un hôte de confiance
+  // (requête same-origin ou outil local avec Host valide).
+  const hostHeader = request.headers.get("host")?.toLowerCase();
+  if (!hostHeader) {
     return false;
   }
 
+  return trustedHosts.has(hostHeader);
+}
+
+function collectTrustedContactHosts(request: Request, siteUrl: string): Set<string> {
   const trustedHosts = new Set<string>();
 
-  // Hôte réel de la requête (production, www, preview Vercel, localhost)
   try {
     trustedHosts.add(new URL(request.url).host.toLowerCase());
   } catch {
     // ignore
   }
 
-  // Domaine canonique du site + variante www
   try {
     const configuredHost = new URL(siteUrl).host.toLowerCase();
     trustedHosts.add(configuredHost);
@@ -217,7 +229,6 @@ export function isTrustedContactOrigin(request: Request, siteUrl: string): boole
     // ignore
   }
 
-  // Déploiements Vercel (Preview / Production URL système)
   for (const envKey of ["VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"] as const) {
     const raw = process.env[envKey]?.trim();
     if (!raw) continue;
@@ -229,18 +240,11 @@ export function isTrustedContactOrigin(request: Request, siteUrl: string): boole
     }
   }
 
-  if (trustedHosts.has(originHost)) {
-    return true;
+  if (process.env.NODE_ENV === "development") {
+    trustedHosts.add("localhost");
+    trustedHosts.add("127.0.0.1");
+    trustedHosts.add("[::1]");
   }
 
-  // Apex ↔ www pour le même domaine de second niveau
-  const stripWww = (host: string) => (host.startsWith("www.") ? host.slice(4) : host);
-  const originBase = stripWww(originHost);
-  for (const host of trustedHosts) {
-    if (stripWww(host) === originBase) {
-      return true;
-    }
-  }
-
-  return false;
+  return trustedHosts;
 }

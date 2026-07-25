@@ -29,6 +29,7 @@ export interface SiteSeoInput {
   author: string;
   locale: string;
   favicon: string;
+  appleTouchIcon?: string;
   ogImage: string;
   analytics: { googleSearchConsoleId?: string };
 }
@@ -84,7 +85,7 @@ export function buildPageMetadata(
 ): Metadata {
   const canonical = getCanonicalUrl(site.url, page.path);
   const { absoluteUrl, meta } = resolveOgImage(site, page.ogImage);
-  const isGuidesPage = page.path === "/guides" || page.path.startsWith("/guides/");
+  const isGuideArticle = page.path.startsWith("/guides/") && page.path.length > "/guides/".length;
 
   const ogImageEntry = {
     url: absoluteUrl,
@@ -101,7 +102,7 @@ export function buildPageMetadata(
     ...(page.robots && { robots: page.robots }),
     ...(!page.noCanonical && { alternates: { canonical } }),
     openGraph: {
-      type: isGuidesPage ? "article" : "website",
+      type: isGuideArticle ? "article" : "website",
       locale: site.locale.replace("-", "_"),
       url: canonical,
       siteName: site.name,
@@ -131,11 +132,7 @@ export function buildRootMetadata(
     title: { default: seo.home.title, template: seo.titleTemplate },
     description: seo.defaultDescription,
     authors: [{ name: site.author }],
-    icons: {
-      icon: { url: site.favicon, rel: "icon", type: "image/png", sizes: "any" },
-      shortcut: { url: site.favicon, rel: "shortcut icon", type: "image/png", sizes: "any" },
-      apple: { url: "/logo-icon@2x.png?v=3", rel: "apple-touch-icon", type: "image/png", sizes: "any" },
-    },
+    /* Favicon et Apple Touch Icon : src/app/icon.png et src/app/apple-icon.png (convention App Router). */
     manifest: "/manifest.webmanifest",
     ...(site.analytics.googleSearchConsoleId && {
       verification: { google: site.analytics.googleSearchConsoleId },

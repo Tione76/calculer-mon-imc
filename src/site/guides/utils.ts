@@ -8,10 +8,18 @@ function countWordsInBlock(block: GuideBlock): number {
       return block.text.split(/\s+/).filter(Boolean).length;
     case "list":
       return block.items.join(" ").split(/\s+/).filter(Boolean).length;
+    case "definition-list":
+      return block.items.map((i) => `${i.term} ${i.definition}`).join(" ").split(/\s+/).filter(Boolean).length;
+    case "timeline":
+      return block.items.map((i) => `${i.period} ${i.text}`).join(" ").split(/\s+/).filter(Boolean).length;
+    case "source-list":
+      return block.items.map((i) => `${i.org} ${i.title} ${i.year}`).join(" ").split(/\s+/).filter(Boolean).length;
     case "callout":
       return block.paragraphs.join(" ").split(/\s+/).filter(Boolean).length;
     case "table":
       return [...block.headers, ...block.rows.flat()].join(" ").split(/\s+/).filter(Boolean).length;
+    case "formula":
+      return block.lines.join(" ").split(/\s+/).filter(Boolean).length;
     case "internal-link":
       return (block.intro ?? block.label).split(/\s+/).filter(Boolean).length;
     case "checklist":
@@ -71,12 +79,32 @@ export function buildGuideTocH2(guide: Guide): GuideTocEntry[] {
     level: 2 as const,
   }));
 
-  entries.push({ id: "faq", title: "Questions fréquentes", level: 2 });
+  entries.push({
+    id: "faq",
+    title: guide.faqTitle ?? "Questions fréquentes",
+    level: 2,
+  });
   entries.push({
     id: "conclusion",
     title: guide.conclusion.title ?? "Conclusion",
     level: 2,
   });
+
+  if (guide.postConclusion?.summary) {
+    entries.push({
+      id: guide.postConclusion.summary.id,
+      title: guide.postConclusion.summary.title,
+      level: 2,
+    });
+  }
+
+  if (guide.postConclusion?.sources) {
+    entries.push({
+      id: guide.postConclusion.sources.id,
+      title: guide.postConclusion.sources.title,
+      level: 2,
+    });
+  }
 
   return entries;
 }

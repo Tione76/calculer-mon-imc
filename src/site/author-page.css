@@ -145,7 +145,7 @@
   margin-top: 0.5rem;
   padding: 1.5rem 1.5rem 1.6rem;
   background: var(--ds-brand-light);
-  border: 1px solid var(--ds-brand-muted, rgba(242, 133, 57, 0.28));
+  border: 1px solid var(--ds-brand-muted, rgba(22, 163, 74, 0.28));
   border-radius: 12px;
 }
 

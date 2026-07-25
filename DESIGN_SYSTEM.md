@@ -22,18 +22,19 @@ Sélection automatique : voir `src/framework/templates.ts`.
 
 | Token | Valeur par défaut | Usage |
 |-------|-------------------|-------|
-| `--ds-brand` | `#f28539` | Header, footer, liens, boutons |
-| `--ds-brand-dark` | `#da7830` | Hover boutons, bannières |
-| `--ds-brand-active` | `#c66f28` | État actif des boutons |
-| `--ds-brand-light` | `#fff4ed` | Fonds légers, états actifs nav |
-| `--ds-brand-muted` | `#f2d5bc` | Bordures brand atténuées |
-| `--ds-label-on-brand` | `#fff6f0` | Labels sur fond brand |
-| `--ds-text-on-brand` | `#fff1e8` | Texte sur fond brand |
+| `--ds-brand` | `#16A34A` | Header, footer, liens, boutons |
+| `--ds-brand-dark` | `#15803D` | Hover boutons, bannières |
+| `--ds-brand-active` | `#166534` | État actif des boutons |
+| `--ds-brand-light` | `#F0FDF4` | Fonds légers, états actifs nav |
+| `--ds-brand-muted` | `#BBF7D0` | Bordures brand atténuées |
+| `--ds-brand-accent-text` | `#166534` | Texte accentué sur fond clair |
+| `--ds-label-on-brand` | `#ffffff` | Labels sur fond brand |
+| `--ds-text-on-brand` | `#f0fdf4` | Texte sur fond brand |
 | `--ds-text` | `#161616` | Texte principal |
 | `--ds-text-muted` | `#6b7280` | Texte secondaire |
 | `--ds-border` | `#e4e8ed` | Bordures, séparateurs |
 | `--ds-border-light` | `#dde3ea` | Bordures cartes |
-| `--ds-input-border` | `#e3cbb9` | Champs formulaire |
+| `--ds-input-border` | `#bbf7d0` | Champs formulaire |
 | `--ds-surface` | `#ffffff` | Fond pages |
 | `--ds-surface-alt` | `#f7f9fb` | Encadrés, sidebar |
 
@@ -209,7 +210,7 @@ Classe `faq-item` + `details/summary`, même composant sur accueil et page `/faq
 
 ## Éléments à ne jamais modifier
 
-1. Couleur brand `#f28539` (sauf via `site.config.ts`)
+1. Couleur brand `#16A34A` (sauf via `site.config.ts`)
 2. Hauteurs des headers (600px simulateur, 200px compact)
 3. Structure footer (courbe + 3 zones)
 4. Grille 8 px

@@ -21,6 +21,7 @@ export const schemaIds = {
   faq: (path: string) => pageFragmentId(path, "faq"),
   breadcrumb: (path: string) => pageFragmentId(path, "breadcrumb"),
   primaryImage: (path: string) => pageFragmentId(path, "primaryimage"),
+  itemList: (path: string) => pageFragmentId(path, "itemlist"),
 } as const;
 
 export function absoluteUrl(path: string): string {

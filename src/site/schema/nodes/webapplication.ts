@@ -20,7 +20,7 @@ export function buildWebApplicationNode(input: WebApplicationInput): JsonLdNode 
     name,
     description,
     url: absoluteUrl(path),
-    applicationCategory: "FinanceApplication",
+    applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     browserRequirements: "Requires JavaScript. Requires HTML5.",
     isAccessibleForFree: true,

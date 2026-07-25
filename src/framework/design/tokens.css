@@ -1,37 +1,38 @@
 /* Design tokens : identité graphique officielle du framework */
 
 :root {
-  /* Couleurs brand */
-  --ds-brand: #f28539;
-  --ds-brand-dark: #da7830;
-  --ds-brand-hover: #da7830;
-  --ds-brand-active: #c66f28;
-  --ds-brand-light: #fff4ed;
-  --ds-brand-muted: #f2d5bc;
-  --ds-brand-rgb: 242, 133, 57;
+  /* Couleurs brand (vert santé) */
+  --ds-brand: #16a34a;
+  --ds-brand-dark: #15803d;
+  --ds-brand-hover: #15803d;
+  --ds-brand-active: #166534;
+  --ds-brand-light: #f0fdf4;
+  --ds-brand-muted: #bbf7d0;
+  --ds-brand-accent-text: #166534;
+  --ds-brand-rgb: 22, 163, 74;
 
   /* Texte sur fond brand (header, footer, hero) */
-  --ds-label-on-brand: #fff6f0;
-  --ds-text-on-brand: #fff1e8;
-  --ds-on-brand-faint: rgba(255, 249, 243, 0.65);
-  --ds-on-brand-soft: rgba(255, 249, 243, 0.75);
-  --ds-on-brand-medium: rgba(255, 249, 243, 0.82);
-  --ds-on-brand-strong: rgba(255, 249, 243, 0.88);
-  --ds-on-brand-muted: rgba(255, 249, 243, 0.7);
-  --ds-on-brand-separator: rgba(255, 228, 205, 0.5);
-  --ds-on-brand-disclaimer: rgba(255, 238, 220, 0.65);
-  --ds-on-brand-dim: rgba(255, 249, 243, 0.35);
+  --ds-label-on-brand: #ffffff;
+  --ds-text-on-brand: #f0fdf4;
+  --ds-on-brand-faint: rgba(255, 255, 255, 0.65);
+  --ds-on-brand-soft: rgba(255, 255, 255, 0.75);
+  --ds-on-brand-medium: rgba(255, 255, 255, 0.82);
+  --ds-on-brand-strong: rgba(255, 255, 255, 0.88);
+  --ds-on-brand-muted: rgba(255, 255, 255, 0.7);
+  --ds-on-brand-separator: rgba(255, 255, 255, 0.35);
+  --ds-on-brand-disclaimer: rgba(240, 253, 244, 0.75);
+  --ds-on-brand-dim: rgba(255, 255, 255, 0.35);
 
   /* Neutres */
   --ds-text: #161616;
   --ds-text-muted: #6b7280;
   --ds-border: #e4e8ed;
   --ds-border-light: #dde3ea;
-  --ds-input-border: #e3cbb9;
-  --ds-input-border-hover: #ccaa90;
+  --ds-input-border: #bbf7d0;
+  --ds-input-border-hover: #86efac;
   --ds-surface: #ffffff;
   --ds-surface-alt: #f7f9fb;
-  --ds-surface-thumb: #f8f2ec;
+  --ds-surface-thumb: #f0fdf4;
 
   /* Layout */
   --ds-max-content: 64rem;

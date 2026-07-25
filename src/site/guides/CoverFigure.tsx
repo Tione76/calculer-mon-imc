@@ -22,7 +22,7 @@ export function CoverFigure({
   className,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 720px",
 }: CoverFigureProps) {
-  const creditLabel = formatCoverCredit(cover.credit);
+  const creditLabel = cover.credit ? formatCoverCredit(cover.credit) : null;
 
   return (
     <figure className={["cover-figure", className].filter(Boolean).join(" ")}>
@@ -38,10 +38,12 @@ export function CoverFigure({
           decoding="async"
           priority={priority}
         />
-        <figcaption className="cover-figure__credit">
-          <span className="cover-figure__credit-band" aria-hidden="true" />
-          <span className="cover-figure__credit-text">{creditLabel}</span>
-        </figcaption>
+        {creditLabel && !cover.hideCredit ? (
+          <figcaption className="cover-figure__credit">
+            <span className="cover-figure__credit-band" aria-hidden="true" />
+            <span className="cover-figure__credit-text">{creditLabel}</span>
+          </figcaption>
+        ) : null}
       </div>
     </figure>
   );

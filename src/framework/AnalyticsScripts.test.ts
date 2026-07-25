@@ -38,4 +38,10 @@ describe("Microsoft Clarity integration", () => {
     expect(analyticsSource).not.toContain("updateConsentMode");
     expect(analyticsSource).not.toContain("gtag");
   });
+
+  it("ne charge pas GA4, Clarity ni AdSense sans identifiant configuré", () => {
+    expect(analyticsSource).toMatch(/if \(!gaId \|\| status === "pending" \|\| !preferences\.analytics\)/);
+    expect(analyticsSource).toMatch(/if \(!clientId \|\| status === "pending" \|\| !preferences\.advertising\) return null/);
+    expect(analyticsSource).toMatch(/if \(!IS_PRODUCTION \|\| !projectId \|\| status === "pending"\) return/);
+  });
 });

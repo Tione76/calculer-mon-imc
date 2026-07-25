@@ -3,6 +3,13 @@ name: IndexNow after Vercel production
 # Unique point d'envoi IndexNow automatisé.
 # Se déclenche uniquement après un déploiement Vercel Production réussi
 # (jamais sur Preview).
+#
+# Désactivé en attente de la configuration IndexNow pour https://calculer-mon-imc.fr.
+# Réactivation : passer INDEXNOW_WORKFLOW_ENABLED à "true", puis configurer
+# les secrets INDEXNOW_KEY et SITE_URL=https://calculer-mon-imc.fr
+
+env:
+  INDEXNOW_WORKFLOW_ENABLED: "false"
 
 on:
   deployment_status:
@@ -14,7 +21,8 @@ concurrency:
 jobs:
   notify-indexnow:
     # Production réussie uniquement ; exclut Preview / preview.
-    if: >
+    if: >-
+      env.INDEXNOW_WORKFLOW_ENABLED == 'true' &&
       github.event.deployment_status.state == 'success' &&
       (
         github.event.deployment_status.environment == 'Production' ||
@@ -40,6 +48,6 @@ jobs:
       - name: Notify IndexNow (sitemap public canonique)
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-          SITE_URL: https://brut-vers-net.fr
+          SITE_URL: ${{ secrets.SITE_URL }}
         # Échoue explicitement si la réponse n'est pas HTTP 200 ou 202.
         run: npm run indexnow:notify

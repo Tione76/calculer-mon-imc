@@ -18,7 +18,7 @@
  *
  * Variables d'environnement :
  *   INDEXNOW_KEY   (requis)
- *   SITE_URL       (optionnel, défaut https://brut-vers-net.fr)
+ *   SITE_URL       (requis — aucun domaine par défaut)
  *   INDEXNOW_HOST  (optionnel, dérivé de SITE_URL)
  */
 
@@ -29,7 +29,6 @@ import { fileURLToPath } from "node:url";
 const INDEXNOW_API_URL = "https://api.indexnow.org/IndexNow";
 const MAX_URLS_PER_REQUEST = 10_000;
 const KEY_PATTERN = /^[a-zA-Z0-9-]{8,128}$/;
-const DEFAULT_SITE_ORIGIN = "https://brut-vers-net.fr";
 /** Seuls 200 et 202 sont considérés comme un succès explicite. */
 const SUCCESS_STATUSES = new Set([200, 202]);
 
@@ -76,8 +75,12 @@ function logError(message) {
 }
 
 function siteOriginFromEnv() {
-  const raw =
-    readEnv("SITE_URL") || readEnv("NEXT_PUBLIC_SITE_URL") || DEFAULT_SITE_ORIGIN;
+  const raw = readEnv("SITE_URL") || readEnv("NEXT_PUBLIC_SITE_URL");
+  if (!raw) {
+    throw new Error(
+      "SITE_URL est requis (ex. https://calculer-mon-imc.fr). Aucun domaine par défaut.",
+    );
+  }
   return raw.replace(/\/$/, "");
 }
 

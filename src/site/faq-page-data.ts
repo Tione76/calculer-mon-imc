@@ -15,356 +15,375 @@ export interface FaqPageCategory {
   items: FaqPageItem[];
 }
 
-/** Métadonnées SEO déjà validées (ne pas modifier sans validation). */
+export interface FaqPageSourceItem {
+  label: string;
+  href: string;
+  linkText: string;
+}
+
 export const FAQ_PAGE_META = {
-  title: "Questions fréquentes sur le salaire et la rémunération",
+  title: "FAQ IMC : calcul, interprétation, poids idéal et masse grasse",
   description:
-    "Toutes les réponses à vos questions sur le salaire, la rémunération, les cotisations, la fiche de paie, le prélèvement à la source et bien plus.",
+    "Retrouvez les réponses aux questions fréquentes sur le calcul de l'IMC, son interprétation, ses limites, le poids idéal, la masse grasse et nos calculateurs gratuits.",
 };
 
-export const FAQ_PAGE_H1 = "Questions fréquentes sur le salaire et la rémunération";
+export const FAQ_PAGE_H1 = "Questions fréquentes sur l'IMC";
 
 export const FAQ_PAGE_SUBTITLE =
-  "Salaire brut, salaire net, cotisations, fiche de paie, prélèvement à la source et outils de calcul.";
+  "Calcul, interprétation, limites de l'IMC, poids idéal, masse grasse et utilisation de nos calculateurs.";
 
-export const FAQ_PAGE_INTRO =
-  "Retrouvez les réponses aux questions les plus fréquentes sur le salaire et la rémunération en France : salaire brut et net, cotisations, fiche de paie, prélèvement à la source, augmentation, heures supplémentaires et indemnité de licenciement. Utilisez également nos calculateurs et consultez nos guides pour approfondir chaque sujet.";
+/** Deux paragraphes d'introduction (≈ 90 à 140 mots au total). */
+export const FAQ_PAGE_INTRO_PARAGRAPHS: FaqAnswerSegment[][] = [
+  [
+    "Cette FAQ rassemble les réponses aux principales questions sur le calcul de l'IMC, son interprétation, ses limites, le poids idéal, la masse grasse et l'utilisation de nos calculateurs. Elle complète le ",
+    L.calcImc,
+    " et la page ",
+    L.guidesHubShort,
+    ", sans remplacer les articles plus détaillés.",
+  ],
+  [
+    "Les réponses sont pédagogiques et restent indicatives : elles aident à comprendre un résultat, pas à établir un diagnostic. Pour une estimation concrète, vous pouvez aussi utiliser le ",
+    L.calcPoidsIdeal,
+    " ou l'",
+    L.calcMasseGrasse,
+    ".",
+  ],
+];
 
-/** Date éditoriale stable : à mettre à jour manuellement après une révision significative du contenu. */
-export const FAQ_PAGE_UPDATED = "17 juillet 2026";
+export const FAQ_PAGE_UPDATED = "25 juillet 2026";
+
+export const FAQ_PAGE_SOURCES = {
+  id: "sources-faq",
+  title: "Sources et références",
+  tocLabel: "Sources",
+  intro:
+    "Les réponses de cette FAQ s'appuient sur les classifications institutionnelles de l'IMC et sur les publications décrivant les formules utilisées par les calculateurs. Ces références ne constituent pas une validation médicale individualisée des résultats.",
+  items: [
+    {
+      label: "Organisation mondiale de la Santé : classification de la corpulence chez l'adulte.",
+      href: "https://www.who.int/fr/news-room/fact-sheets/detail/obesity-and-overweight",
+      linkText: "OMS : obésité et surpoids",
+    },
+    {
+      label:
+        "Assurance Maladie : repères d'interprétation de l'IMC chez l'adulte (seuils et catégories).",
+      href: "https://www.ameli.fr/assure/sante/themes/obesite-adulte/imc-surpoids-obesite-adulte",
+      linkText: "Ameli : IMC, surpoids et obésité",
+    },
+    {
+      label:
+        "Haute Autorité de santé : recommandations sur le surpoids et l'obésité de l'adulte.",
+      href: "https://www.has-sante.fr/jcms/c_2025619/fr/surpoids-et-obesite-de-l-adulte",
+      linkText: "HAS : surpoids et obésité de l'adulte",
+    },
+  ] satisfies FaqPageSourceItem[],
+  methodsNote:
+    "Les formules de poids idéal (Lorentz, Devine, Robinson, Miller, Hamwi, Broca) et les méthodes d'estimation de masse grasse (Deurenberg, RFM, YMCA, U.S. Navy) correspondent à celles réellement proposées par les calculateurs du site, selon leurs publications d'origine.",
+};
 
 export const FAQ_PAGE_OUTRO_SEGMENTS: FaqAnswerSegment[] = [
-  "Pour aller plus loin, explorez la ",
-  L.toolsHub,
-  " ou consultez la ",
-  L.guidesHub,
-  ". Les réponses de cette FAQ sont générales : votre fiche de paie, votre convention collective et votre situation personnelle restent les références en cas de doute.",
+  "Cette FAQ répond aux questions courantes sur l'IMC et les indicateurs associés. Pour approfondir, consultez nos ",
+  L.guidesHubShort,
+  " ; pour obtenir une estimation, passez par ",
+  L.toolsHubShort,
+  ". Les résultats restent des estimations pédagogiques à croiser avec le contexte individuel.",
 ];
 
 export const faqPageCategories: FaqPageCategory[] = [
   {
-    id: "salaire-brut-et-net",
-    title: "Salaire brut et salaire net",
-    tocLabel: "Salaire brut et net",
+    id: "calcul-imc",
+    title: "Calcul de l'IMC",
+    tocLabel: "Calcul de l'IMC",
     items: [
       {
-        question: "Quelle est la différence entre le salaire brut et le salaire net ?",
+        question: "Comment calculer son IMC ?",
         answer: [
-          "Le salaire brut est le montant avant cotisations salariales, celui qui figure en général sur le contrat ou l'offre d'emploi. Le salaire net est ce qui reste après ces cotisations : on parle de net avant impôt, puis de net versé une fois le prélèvement à la source retiré. Pour suivre chaque étape de ce passage, consultez notre ",
-          L.guideBrutNet,
+          "Divisez votre poids en kilogrammes par le carré de votre taille en mètres. Exemple : 70 kg pour 1,75 m donne 70 ÷ (1,75 × 1,75) ≈ 22,9. Le résultat se lit ensuite selon les catégories adultes usuelles. Pour un calcul immédiat, utilisez le ",
+          L.calcImcAction,
           ".",
         ],
       },
       {
-        question: "Pourquoi le salaire net est-il inférieur au salaire brut ?",
+        question: "Quelle est la formule de l'IMC ?",
         answer: [
-          "Parce que des cotisations salariales sont prélevées sur le salaire brut (maladie, retraite, chômage, CSG-CRDS, notamment). Ces retenues financent la protection sociale et réduisent mécaniquement le montant restant. Le prélèvement à la source peut ensuite encore diminuer le virement reçu. L'écart brut / net n'est donc pas une erreur de calcul : c'est le fonctionnement habituel de la rémunération en France.",
-        ],
-      },
-      {
-        question: "Quel pourcentage retirer du brut pour obtenir le net ?",
-        answer: [
-          "Aucun pourcentage unique ne s'applique à tous les salariés. Le passage du salaire brut au salaire net dépend des cotisations salariales, du statut (cadre, non-cadre, fonction publique), des plafonds et de la situation personnelle. À titre purement indicatif, on observe souvent autour de 22 % de retenues pour un non-cadre du privé, plutôt près de 25 % pour un cadre, et un peu moins pour certains agents publics, hors cas particuliers. Pour une estimation personnalisée plutôt qu'un pourcentage approximatif, utilisez le ",
-          L.calcBrutNet,
+          "La formule de calcul de l'IMC est identique pour les hommes et les femmes adultes : poids (kg) ÷ taille (m)². En revanche, la composition corporelle moyenne, notamment la proportion de masse grasse et de masse musculaire, peut différer. L'IMC ne reflète pas directement ces différences. Le détail du calcul est expliqué dans le guide pour ",
+          L.guideCalculerImc,
           ".",
         ],
       },
       {
-        question: "Quelle différence entre salaire net et salaire net imposable ?",
+        question: "Quelle taille et quel poids utiliser pour calculer son IMC ?",
         answer: [
-          "Le salaire net avant impôt correspond au brut diminué des cotisations salariales. Le net imposable est la base utilisée pour le prélèvement à la source : il part de ce net, puis réintègre certaines cotisations non déductibles, notamment une part de CSG. Sur une fiche de paie, les deux montants sont proches mais distincts ; ils ne répondent pas à la même question.",
+          "Utilisez une taille mesurée sans chaussures et un poids pris dans des conditions stables, de préférence le matin, après être allé aux toilettes et avant un repas copieux. Une balance précise et une toise (ou un mètre mural) limitent les erreurs. Des mesures approximatives faussent surtout le résultat près d'un seuil de catégorie.",
         ],
       },
       {
-        question: "Quelle différence entre salaire net avant impôt et salaire net versé ?",
+        question: "Peut-on calculer son IMC en livres et en pieds ?",
         answer: [
-          "Le net avant impôt est le salaire après cotisations salariales, avant le prélèvement à la source. Le net versé (souvent appelé net à payer) est le montant qui arrive sur votre compte après ce prélèvement. Quand on parle de « salaire après impôt », on désigne en général ce net versé. Le détail de chaque ligne se lit sur votre bulletin.",
+          "Oui, à condition de convertir correctement : 1 livre ≈ 0,4536 kg et 1 pied = 0,3048 m (ou convertissez d'abord en kg et mètres). Une erreur d'unité fausse nettement le résultat. Sur ce site, le calculateur IMC fonctionne en unités métriques.",
         ],
       },
       {
-        question: "Le salaire brut du contrat correspond-il au montant perçu ?",
+        question: "Le calculateur IMC est-il gratuit ?",
         answer: [
-          "Non. Le brut contractuel sert de base de calcul, pas de montant versé. Entre les deux interviennent les cotisations salariales, puis le prélèvement à la source le cas échéant, sans compter primes, absences ou heures supplémentaires. Pour estimer ce que vous pourriez percevoir, utilisez le ",
-          L.calcBrutNet,
-          ", puis comparez avec votre fiche de paie.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "calcul-brut-vers-net",
-    title: "Calcul du salaire brut vers net",
-    tocLabel: "Calcul brut vers net",
-    items: [
-      {
-        question: "Comment calculer son salaire brut en net ?",
-        answer: [
-          "Partez du salaire brut, retirez les cotisations salariales pour obtenir le net avant impôt, puis appliquez le prélèvement à la source si vous voulez le net versé. En pratique, on utilise souvent un coefficient selon le profil (cadre, non-cadre, fonction publique) pour obtenir un ordre de grandeur. Notre ",
-          L.guideCalculerNet,
-          " détaille la méthode pas à pas ; le ",
-          L.calcBrutNet,
-          " fournit une estimation immédiate.",
+          "Oui, le calculateur IMC est gratuit et utilisable sans inscription.",
         ],
       },
       {
-        question: "Comment calculer son salaire net à partir de son taux horaire brut ?",
+        question: "Pourquoi mon IMC change-t-il peu après une perte de poids ?",
         answer: [
-          "Multipliez d'abord le taux horaire brut par le nombre d'heures du mois (151,67 heures à temps plein, proratisées en temps partiel) pour obtenir un brut mensuel, puis convertissez ce mensuel en net selon votre profil. Le calculateur accepte directement un montant horaire et affiche les équivalents mensuel et annuel. Saisissez votre taux dans le ",
-          L.calcBrutNet,
-          " pour obtenir une estimation sans recalculer à la main.",
-        ],
-      },
-      {
-        question: "Peut-on convertir un salaire annuel brut en salaire net ?",
-        answer: [
-          "Oui. Divisez d'abord l'annuel par le nombre de mois réellement payés (souvent 12, parfois 13 ou 14), convertissez le mensuel en net, puis remontez à l'année si besoin. Indiquez le bon nombre de mois pour ne pas fausser la comparaison. Cette conversion reste une estimation : primes variables et avantages en nature ne sont pas toujours intégrés. Le ",
-          L.calcBrutNet,
-          " gère ces conversions en une seule saisie.",
-        ],
-      },
-      {
-        question: "Le statut cadre ou non-cadre change-t-il le salaire net ?",
-        answer: [
-          "Oui, en général. À salaire brut égal, un cadre a souvent des cotisations salariales un peu plus élevées qu'un non-cadre, donc un net avant impôt un peu plus bas. La fonction publique suit encore une autre logique de retenues. C'est pourquoi toute estimation doit préciser le profil. Le résultat reste indicatif et ne remplace pas votre bulletin.",
-        ],
-      },
-      {
-        question: "Pourquoi le résultat brut vers net peut-il varier ?",
-        answer: [
-          "Parce que le net dépend du statut, du temps de travail, des plafonds de cotisations, des primes, des heures supplémentaires, de la convention collective et du taux de prélèvement à la source. Deux personnes avec le même brut mensuel peuvent donc obtenir des nets différents. Un calculateur donne un ordre de grandeur ; votre fiche de paie reste la référence.",
-        ],
-      },
-      {
-        question: "Comment calculer un salaire net en brut ?",
-        answer: [
-          "On reconstitue le brut à partir du net en appliquant, à l'envers, le coefficient ou le taux de cotisations adapté au profil. Cette conversion est utile en négociation ou pour comparer une offre exprimée en net. Cadre, non-cadre ou fonction publique modifient le résultat. Le ",
-          L.calcBrutNet,
-          " permet de saisir un net et d'obtenir le brut équivalent en estimation.",
+          "L'IMC dépend du poids divisé par le carré de la taille. Une variation de quelques kilogrammes peut donc modifier le résultat progressivement, mais l'ampleur exacte du changement dépend de votre taille. Près d'un seuil, une petite variation peut faire changer la catégorie affichée sans transformer radicalement la situation : les seuils restent des repères statistiques.",
         ],
       },
     ],
   },
   {
-    id: "cotisations-et-fiche-de-paie",
-    title: "Cotisations salariales et fiche de paie",
-    tocLabel: "Cotisations et fiche de paie",
+    id: "interpretation-imc",
+    title: "Interprétation de l'IMC",
+    tocLabel: "Interprétation de l'IMC",
     items: [
       {
-        question: "Que sont les cotisations salariales ?",
+        question: "Comment interpréter son IMC ?",
         answer: [
-          "Ce sont les retenues prélevées sur votre salaire brut pour financer la Sécurité sociale, la retraite, l'assurance chômage et d'autres contributions, dont la CSG et la CRDS. Elles expliquent l'essentiel de l'écart entre salaire brut et salaire net avant impôt. Pour une explication détaillée, consultez notre ",
-          L.guideCotisations,
+          "Comparez votre résultat aux catégories adultes usuelles (insuffisance pondérale, corpulence normale, surpoids, catégories d'obésité). Ces seuils sont des repères statistiques, pas un diagnostic. Pour une lecture détaillée des plages et des nuances, consultez le guide pour ",
+          L.guideInterpreterImc,
           ".",
         ],
       },
       {
-        question: "Quelles cotisations sont déduites du salaire brut ?",
+        question: "Quelles sont les catégories de l'IMC ?",
         answer: [
-          "On retrouve notamment, selon les cas, la part salariale liée à la maladie, la retraite de base et complémentaire, le chômage, la CSG, la CRDS et parfois d'autres contributions. L'employeur paie aussi des cotisations patronales : elles n'apparaissent pas comme une baisse de votre net, mais font partie du coût total du travail. Le détail exact figure ligne par ligne sur votre fiche de paie.",
+          "Chez l'adulte, on distingue en général : insuffisance pondérale (IMC < 18,5), corpulence normale (18,5 à 24,9), surpoids (25 à 29,9), puis obésité modérée, sévère et massive (à partir de 30, 35 et 40). Ces plages servent de cadre commun ; elles ne décrivent pas à elles seules l'état de santé.",
         ],
       },
       {
-        question: "Comment lire une fiche de paie ?",
+        question: "Quel est un IMC normal ?",
         answer: [
-          "Commencez par l'identité de l'employeur et du salarié, puis le salaire brut (salaire de base, primes, heures). Examinez ensuite le bloc des cotisations, puis les totaux : net imposable, net avant impôt, prélèvement à la source et net à payer. Notre ",
-          L.guideFichePaie,
-          " propose un parcours de lecture simple du haut vers le bas du bulletin.",
+          "Un IMC compris entre 18,5 et 24,9 est généralement classé dans la catégorie de corpulence normale chez l'adulte. Cette plage reste un repère statistique : elle ne suffit pas à évaluer la masse grasse, la condition physique ou l'état de santé général.",
         ],
       },
       {
-        question: "Où trouver le salaire net sur une fiche de paie ?",
+        question: "Que signifie un IMC inférieur à 18,5 ?",
         answer: [
-          "Le montant réellement versé apparaît en général sous l'intitulé « net à payer » ou « net à payer après impôt sur le revenu ». Plus haut sur le bulletin, vous trouverez souvent le net avant impôt et le net imposable. Ne confondez pas ces libellés : seul le net à payer correspond au virement, hors acomptes ou régularisations particulières.",
+          "Un IMC inférieur à 18,5 place le résultat dans la catégorie d'insuffisance pondérale chez l'adulte. C'est un signal statistique, pas une conclusion nutritionnelle automatique. Selon le contexte (âge, antécédents, appétit, fatigue), un professionnel de santé pourra affiner l'évaluation.",
         ],
       },
       {
-        question: "Quelle différence entre net à payer et net imposable ?",
+        question: "Que signifie un IMC supérieur à 25 ?",
         answer: [
-          "Le net à payer est ce que vous percevez après cotisations et, le cas échéant, après prélèvement à la source. Le net imposable sert de base au calcul de ce prélèvement et à la déclaration de revenus. Il peut être supérieur au net avant impôt, car certaines cotisations non déductibles y sont réintégrées. Les deux montants sont utiles, mais ne mesurent pas la même chose.",
+          "À partir de 25, le résultat se situe dans la catégorie surpoids chez l'adulte ; à partir de 30, le résultat entre dans une catégorie d'obésité selon les classes usuelles. Un chiffre élevé n'implique pas à lui seul un diagnostic clinique : masse musculaire, répartition des graisses et bilans médicaux complètent la lecture.",
+        ],
+      },
+      {
+        question: "Un IMC normal signifie-t-il être en bonne santé ?",
+        answer: [
+          "Non. Un IMC situé dans la catégorie de corpulence normale ne garantit pas à lui seul une bonne santé. Il ne renseigne pas directement sur la tension artérielle, la glycémie, la répartition de la graisse, la condition physique, le sommeil ou d'autres facteurs importants. À l'inverse, un IMC situé en dehors de cette plage ne signifie pas automatiquement qu'une personne est malade.",
+        ],
+      },
+      {
+        question: "Une variation de quelques dixièmes est-elle importante ?",
+        answer: [
+          "Rarement en soi. Passer de 24,8 à 25,1 peut faire changer de catégorie sur le papier, sans transformer radicalement la situation. Les seuils sont des frontières statistiques : une tendance sur plusieurs mesures et le contexte personnel comptent davantage qu'un dixième isolé. Pour le cadre général de l'indicateur, vous pouvez ",
+          L.guideQuestCeQueImc,
+          ".",
         ],
       },
     ],
   },
   {
-    id: "prelevement-a-la-source",
-    title: "Prélèvement à la source et salaire après impôt",
-    tocLabel: "Prélèvement à la source",
+    id: "limites-imc",
+    title: "Limites et fiabilité de l'IMC",
+    tocLabel: "Limites et fiabilité",
     items: [
       {
-        question: "Qu'est-ce que le prélèvement à la source ?",
+        question: "L'IMC est-il fiable ?",
         answer: [
-          "C'est le mode de recouvrement de l'impôt sur le revenu : l'employeur retient chaque mois une fraction de votre rémunération et la reverse à l'administration fiscale. Vous payez ainsi l'impôt au fil de l'eau, plutôt qu'en une fois l'année suivante. Notre ",
-          L.guidePas,
-          " explique le fonctionnement, les types de taux et leur lecture sur la fiche de paie.",
-        ],
-      },
-      {
-        question: "Comment le prélèvement à la source est-il calculé ?",
-        answer: [
-          "En multipliant le net imposable du mois par votre taux de prélèvement (personnalisé, individualisé ou non personnalisé). Le taux dépend de votre situation fiscale et des informations transmises par l'administration, pas uniquement du salaire du mois. Un changement de situation familiale ou de revenus peut entraîner une actualisation. Le détail des types de taux est présenté dans le ",
-          L.guidePas,
+          "L'IMC est un indicateur standardisé utile pour classer la corpulence et comparer des populations. À l'échelle individuelle, sa précision reste limitée, car il ne tient pas compte directement de la masse musculaire, de la masse grasse, de la répartition des graisses ni de nombreux autres facteurs de santé. Il peut servir de premier repère, mais ne suffit pas à décrire la santé ou la composition corporelle et doit être interprété avec le contexte individuel. Pour le détail des cas limites, voir le guide pour ",
+          L.guideLimitesImc,
           ".",
         ],
       },
       {
-        question: "Sur quel montant le prélèvement à la source est-il appliqué ?",
+        question: "Pourquoi l'IMC peut-il être trompeur ?",
         answer: [
-          "Il s'applique sur le net imposable, pas directement sur le salaire brut ni sur le net avant impôt. Deux salariés avec le même brut peuvent donc voir un prélèvement différent si leur net imposable ou leur taux diverge. Sur la fiche de paie, la ligne de prélèvement précise en général la base et le taux utilisés.",
+          "Parce qu'il ne distingue pas masse musculaire et masse grasse, ni la localisation des graisses. Une personne musclée peut avoir un IMC élevé sans excès de graisse ; une autre peut avoir un IMC situé dans la catégorie de corpulence normale avec un tour de taille élevé. L'indicateur décrit une relation poids/taille, pas un portrait de santé complet.",
         ],
       },
       {
-        question: "Quelle différence entre salaire net avant et après impôt ?",
+        question: "L'IMC convient-il aux sportifs ?",
         answer: [
-          "Le net avant impôt est le salaire après cotisations salariales. Le net après impôt (net versé) retire en plus le prélèvement à la source. Lorsque vous comparez des offres ou simulez une rémunération, précisez toujours de quel net vous parlez. Le ",
-          L.calcBrutNet,
-          " estime les deux niveaux à partir d'un taux (neutre par défaut, ou votre taux réel).",
+          "Chez les sportifs très musclés, l'IMC peut surestimer la corpulence liée à la graisse. Il reste calculable, mais son interprétation doit être complétée par d'autres informations sur la composition corporelle. Vous pouvez par exemple ",
+          L.calcMasseGrasseAction,
+          ".",
         ],
       },
       {
-        question: "Pourquoi mon taux de prélèvement à la source peut-il changer ?",
+        question: "Peut-on utiliser l'IMC chez l'enfant ?",
         answer: [
-          "Parce qu'il suit votre situation fiscale : évolution des revenus du foyer, naissance, mariage, divorce, départ à la retraite, ou choix d'un taux individualisé. Vous pouvez aussi demander une modulation auprès de l'administration fiscale si vos revenus changent fortement. Le nouvel taux s'applique ensuite via votre employeur, avec un délai de prise en compte.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "augmentation-de-salaire",
-    title: "Augmentation de salaire",
-    tocLabel: "Augmentation de salaire",
-    items: [
-      {
-        question: "Comment calculer une augmentation de salaire en pourcentage ?",
-        answer: [
-          "Appliquez le pourcentage au salaire brut actuel : nouveau brut = brut × (1 + taux). Exemple : 2 500 € brut avec +5 % devient 2 625 € brut (+125 €). Le gain net est ensuite inférieur, car les cotisations portent aussi sur la part augmentée. Notre ",
-          L.calcAugmentation,
-          " convertit automatiquement le pourcentage en euros bruts et nets.",
+          "Chez l'enfant et l'adolescent, l'IMC se calcule avec la même formule, mais il ne s'interprète pas avec les seuils fixes de l'adulte. Il doit être reporté sur des courbes de corpulence adaptées à l'âge et au sexe. Le calculateur IMC de ce site cible les adultes.",
         ],
       },
       {
-        question: "Comment calculer une augmentation de salaire en euros ?",
+        question: "L'IMC est-il adapté pendant la grossesse ?",
         answer: [
-          "Ajoutez le montant annoncé à votre brut mensuel, puis estimez le nouveau net avec les mêmes règles de cotisations, et de prélèvement si besoin. Une hausse de 200 € brut ne donne pas 200 € net : seule une fraction devient gain net. Saisissez le montant dans le ",
-          L.calcAugmentation,
-          " pour obtenir le gain mensuel et annuel estimés.",
+          "L'IMC calculé à partir du poids en cours de grossesse ne s'interprète pas avec les catégories adultes habituelles pour suivre la prise de poids gestationnelle. En revanche, l'IMC avant la grossesse ou au début de celle-ci peut être utilisé par les professionnels de santé pour adapter le suivi. La prise de poids pendant la grossesse suit d'autres repères. Le calculateur du site n'est pas conçu pour évaluer une femme enceinte : le suivi relève d'un professionnel de santé.",
         ],
       },
       {
-        question: "Quelle différence entre une augmentation brute et une augmentation nette ?",
+        question: "L'IMC est-il pertinent chez les personnes âgées ?",
         answer: [
-          "L'augmentation brute est le surplus affiché sur le contrat ou l'avenant. L'augmentation nette est ce que vous gagnez réellement après cotisations, et éventuellement après prélèvement à la source. En entreprise, les hausses sont presque toujours exprimées en brut ; raisonner uniquement en brut peut donc surestimer le gain perçu.",
+          "Chez les personnes âgées, l'IMC doit être interprété avec prudence, car la diminution de la masse musculaire et les changements de composition corporelle peuvent modifier sa signification. Un IMC apparemment normal peut masquer une faible masse musculaire. L'évaluation doit tenir compte du contexte clinique, de l'évolution du poids et de l'état général.",
         ],
       },
       {
-        question: "Comment connaître son nouveau salaire après une augmentation ?",
+        question: "L'IMC remplace-t-il un avis médical ?",
         answer: [
-          "Calculez d'abord le nouveau brut, puis le nouveau net avant et après impôt. Tenez compte du nombre de mois payés (12, 13, etc.) pour l'impact annuel. Une simulation avec le ",
-          L.calcAugmentation,
-          " compare la situation avant / après et isole le gain net. Votre prochain bulletin confirmera le montant exact.",
-        ],
-      },
-      {
-        question: "Comment calculer le gain annuel d'une augmentation ?",
-        answer: [
-          "Multipliez le gain mensuel (brut ou net, selon ce que vous analysez) par le nombre de mois de rémunération. Sur 13 mois, le gain annuel est plus élevé que sur 12 mois pour une même hausse mensuelle. Le ",
-          L.calcAugmentation,
-          " affiche cet effet dès que vous choisissez le bon nombre de mois.",
+          "Non. L'IMC est un indicateur pédagogique et statistique. Il ne suffit pas pour établir un diagnostic. Pour toute question de santé, de nutrition, de perte ou de prise de poids, l'avis d'un professionnel qualifié peut être nécessaire.",
         ],
       },
     ],
   },
   {
-    id: "heures-supplementaires",
-    title: "Heures supplémentaires et rémunération",
-    tocLabel: "Heures supplémentaires",
+    id: "poids-ideal",
+    title: "Poids idéal et fourchettes de poids",
+    tocLabel: "Poids idéal",
     items: [
       {
-        question: "Comment calculer son salaire avec des heures supplémentaires ?",
+        question: "Comment calculer son poids idéal ?",
         answer: [
-          "Calculez d'abord le taux horaire brut de base (souvent le salaire brut mensuel hors heures supplémentaires divisé par 151,67 à temps plein). Multipliez chaque heure majorée par ce taux selon la majoration applicable, puis ajoutez le résultat au salaire de base du mois. Notre ",
-          L.calcHeuresSup,
-          " estime aussi le passage au net, avec la réduction de cotisations salariales propre aux heures supplémentaires.",
+          "Plusieurs formules historiques (Lorentz, Devine, Robinson, Miller, Hamwi, Broca) estiment un poids théorique à partir de la taille et, souvent, du sexe. Le résultat se lit comme une fourchette, pas comme un chiffre unique. Le ",
+          L.calcPoidsIdeal,
+          " compare ces méthodes côté à côté.",
         ],
       },
       {
-        question: "Comment sont majorées les heures supplémentaires ?",
+        question: "Existe-t-il un poids idéal unique pour une taille donnée ?",
         answer: [
-          "En l'absence d'accord différent, le Code du travail prévoit en principe une majoration de 25 %, puis de 50 %. Une convention collective ou un accord d'entreprise peut fixer d'autres taux, sans descendre normalement sous 10 %. Sur la fiche de paie, les quantités déjà classées à chaque taux apparaissent en général séparément.",
+          "Non. Morphologie, masse musculaire, âge et objectifs personnels font varier le poids compatible avec un bon état de forme. Une fourchette issue de plusieurs formules ou de la zone d'IMC de corpulence normale est plus réaliste qu'une cible fixe au kilo près.",
         ],
       },
       {
-        question: "Quand les heures supplémentaires sont-elles majorées à 25 % ou 50 % ?",
+        question: "Quelle formule de poids idéal est la plus fiable ?",
         answer: [
-          "Dans le régime légal habituel, les huit premières heures supplémentaires de la semaine sont généralement majorées de 25 %, puis les suivantes de 50 %. Cette répartition s'apprécie semaine par semaine : elle ne consiste pas à appliquer automatiquement « 8 heures à 25 % puis le reste à 50 % » sur un total mensuel. Recopiez de préférence les totaux déjà ventilés sur votre relevé ou votre bulletin.",
+          "Aucune formule n'est la plus fiable pour tout le monde. Lorentz, Devine, Miller, Robinson, Hamwi ou Broca reposent sur des méthodes et des hypothèses différentes. Leur intérêt principal est de fournir plusieurs repères théoriques à comparer, plutôt qu'une valeur exacte à atteindre. Le ",
+          L.guidePoidsIdeal,
+          " détaille usages et limites.",
         ],
       },
       {
-        question: "Les heures supplémentaires sont-elles calculées par semaine ou par mois ?",
+        question: "Quelle différence entre poids idéal et IMC ?",
         answer: [
-          "Le décompte légal des majorations se fait en principe par semaine. Le bulletin, lui, peut totaliser sur le mois les heures déjà classées à 25 % et à 50 %. Pour estimer un salaire mensuel, il faut donc partir de ces totaux déjà ventilés, et non redistribuer arbitrairement un volume mensuel unique. Le ",
-          L.calcHeuresSup,
-          " demande précisément ces deux totaux.",
+          "L'IMC classe un poids déjà mesuré par rapport à la taille. Le poids idéal estime un poids théorique à partir de formules, souvent sans partir de votre poids actuel. Les deux sont des repères : l'un décrit où vous êtes, l'autre propose une estimation de zone, sans fournir un objectif personnalisé.",
         ],
       },
       {
-        question: "Comment estimer le gain net lié aux heures supplémentaires ?",
+        question: "Pourquoi les formules donnent-elles des résultats différents ?",
         answer: [
-          "Calculez d'abord le brut des heures majorées, puis tenez compte des cotisations et, le cas échéant, du prélèvement à la source. Les heures supplémentaires bénéficient souvent d'une réduction de cotisations salariales et, sous conditions, d'une exonération d'impôt dans la limite d'un plafond annuel. Le ",
-          L.calcHeuresSup,
-          " fournit une estimation de ce gain net.",
+          "Parce qu'elles reposent sur des coefficients et des hypothèses historiques distincts. Un écart de quelques kilos entre Lorentz et Devine n'est pas une erreur de calcul : c'est le signe que le poids idéal est une estimation, pas une mesure unique. Lisez la zone commune plutôt qu'un chiffre isolé.",
         ],
       },
       {
-        question: "Une convention collective peut-elle prévoir des règles différentes ?",
+        question: "Le poids idéal dépend-il du sexe ?",
         answer: [
-          "Oui. Un accord peut modifier les taux de majoration, le mode de décompte ou le recours au repos compensateur, dans le respect des minimums légaux. Avant de simuler, vérifiez les règles applicables dans votre entreprise ou votre branche. En cas de doute, votre bulletin et votre service RH restent les meilleures sources.",
+          "Plusieurs formules du calculateur utilisent des coefficients différents selon le sexe. Toutes les méthodes ne prennent pas en compte l'âge. Dans tous les cas, la composition corporelle réelle n'est pas directement mesurée : le résultat reste une estimation théorique.",
+        ],
+      },
+      {
+        question: "Le calculateur de poids idéal donne-t-il un objectif médical ?",
+        answer: [
+          "Non. Il fournit une estimation théorique à but pédagogique. Ce n'est ni une prescription ni un objectif de santé personnalisé. Pour définir une cible adaptée, un professionnel tient compte de votre historique, de votre composition corporelle et de vos contraintes.",
         ],
       },
     ],
   },
   {
-    id: "indemnite-de-licenciement",
-    title: "Indemnité de licenciement",
-    tocLabel: "Indemnité de licenciement",
+    id: "masse-grasse",
+    title: "Masse grasse et composition corporelle",
+    tocLabel: "Masse grasse",
     items: [
       {
-        question: "Qui peut bénéficier de l'indemnité légale de licenciement ?",
+        question: "Qu'est-ce que la masse grasse ?",
         answer: [
-          "Dans le cas général, l'indemnité légale concerne les salariés en CDI du secteur privé licenciés, dès lors que les conditions d'ouverture sont remplies. Elle n'est en principe pas due en cas de faute grave ou lourde. Une convention collective, un contrat ou un usage peut prévoir une indemnité conventionnelle plus favorable que ce minimum. Notre ",
-          L.calcIndemnite,
-          " estime uniquement le minimum légal (ou le régime spécial d'inaptitude professionnelle).",
+          "La masse grasse correspond à la part du poids corporel constituée de tissu adipeux. Elle ne doit pas être confondue avec l'IMC, qui met simplement en relation le poids et la taille, ni avec la masse maigre, qui regroupe le reste du corps.",
         ],
       },
       {
-        question: "Quelle ancienneté faut-il pour toucher une indemnité de licenciement ?",
+        question: "Comment calculer son taux de masse grasse ?",
         answer: [
-          "Pour l'indemnité légale, l'ouverture se fait en général à partir de 8 mois d'ancienneté ininterrompue chez le même employeur. En dessous, aucune indemnité légale n'est due dans le cas standard, sauf disposition plus favorable. Une fois le droit ouvert, les années et mois complets d'ancienneté servent ensuite à calculer le montant.",
+          "On l'estime par des formules à partir de la taille, du poids, du sexe, de l'âge et parfois de circonférences (taille, cou, hanches). Sur ce site, le calculateur propose Deurenberg, RFM, YMCA et U.S. Navy. Pour une estimation, utilisez l'",
+          L.calcMasseGrasseAction,
+          ".",
         ],
       },
       {
-        question: "Comment calculer une indemnité de licenciement ?",
+        question: "Quelle différence entre IMC et masse grasse ?",
         answer: [
-          "Pour l'indemnité légale, on part du salaire mensuel de référence le plus favorable et de l'ancienneté. Jusqu'à 10 ans, elle correspond en principe à un quart de mois de salaire par année d'ancienneté. Au-delà, on ajoute un tiers de mois de salaire par année (et mois complets) supplémentaire. Votre convention collective peut prévoir un calcul différent et plus favorable. Le ",
-          L.calcIndemnite,
-          " applique la logique légale pour une estimation indicative.",
+          "L'IMC met en relation poids total et taille. Le taux de masse grasse cherche à estimer la part de graisse dans ce poids. Deux personnes peuvent avoir le même IMC et des taux de masse grasse très différents, surtout si l'une est plus musclée que l'autre.",
         ],
       },
       {
-        question: "Quel salaire de référence est utilisé ?",
+        question: "Pourquoi deux personnes avec le même IMC peuvent-elles avoir des physiques différents ?",
         answer: [
-          "Dans le cas général de l'indemnité légale, on retient la formule la plus avantageuse pour le salarié : la moyenne mensuelle brute des 12 derniers mois, ou un tiers de la rémunération brute des 3 derniers mois. Certaines primes peuvent entrer dans ce calcul, parfois au prorata. En inaptitude d'origine professionnelle, une règle de référence particulière s'applique.",
+          "Parce que l'IMC ignore la composition corporelle. À poids et taille égaux, l'une peut avoir plus de muscle et moins de graisse, l'autre l'inverse, avec des silhouettes différentes. C'est l'une des principales limites de l'indicateur.",
         ],
       },
       {
-        question: "Comment l'indemnité évolue-t-elle après 10 ans d'ancienneté ?",
+        question: "Le calculateur de masse grasse est-il fiable ?",
         answer: [
-          "Le calcul légal se fait alors en deux tranches : 1/4 de mois de salaire par année jusqu'à 10 ans, puis 1/3 de mois de salaire pour chaque année et chaque mois complet au-delà. Les mois complets supplémentaires sont pris en compte proportionnellement ; de simples jours isolés ne valent pas automatiquement un mois complet. Une convention plus favorable peut encore améliorer ce minimum légal.",
+          "C'est un estimateur, pas une mesure clinique. Les résultats peuvent varier selon la formule, les mensurations saisies, la morphologie et les conditions de mesure. Les formules donnent des ordres de grandeur utiles pour se situer et suivre une tendance : comparez-les plutôt que de fixer un chiffre unique.",
         ],
       },
       {
-        question: "Que se passe-t-il en cas d'inaptitude d'origine professionnelle ?",
+        question: "Quelle différence entre masse grasse et masse maigre ?",
         answer: [
-          "Lorsque l'inaptitude résulte d'un accident du travail ou d'une maladie professionnelle, une indemnité spéciale minimale égale au double de l'indemnité légale peut être due, sauf disposition plus favorable. Le salaire de référence obéit alors à une règle particulière. Une indemnité compensatrice de préavis peut s'y ajouter ; elle n'est pas incluse dans le montant principal du simulateur. Cette estimation ne remplace pas un conseil juridique personnalisé.",
+          "La masse grasse est le tissu adipeux. La masse maigre regroupe le reste : muscles, os, organes et eau corporelle. Une variation de poids peut toucher les deux composantes ; l'interprétation utile distingue souvent l'évolution de la graisse de celle de la masse maigre, avec un accompagnement adapté si besoin.",
+        ],
+      },
+      {
+        question: "La masse grasse varie-t-elle selon le sexe ?",
+        answer: [
+          "Oui. En moyenne, la composition corporelle diffère entre les hommes et les femmes, notamment pour la proportion de masse grasse et de masse musculaire. Les formules du calculateur tiennent compte du sexe (et parfois de l'âge ou des circonférences) pour ajuster l'estimation. L'IMC, lui, utilise la même formule pour les deux sexes.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "calculateurs-site",
+    title: "Calculateurs et utilisation du site",
+    tocLabel: "Calculateurs et utilisation du site",
+    items: [
+      {
+        question: "Quel calculateur utiliser en premier ?",
+        answer: [
+          "Commencez par le ",
+          L.calcImc,
+          " pour situer votre corpulence selon le poids et la taille. Complétez ensuite avec le poids idéal (fourchette théorique) ou la masse grasse (composition estimée) selon votre question.",
+        ],
+      },
+      {
+        question: "Les calculateurs sont-ils gratuits ?",
+        answer: [
+          "Oui, les calculateurs IMC, poids idéal et masse grasse sont accessibles gratuitement. Vous pouvez ",
+          L.toolsHub,
+          " depuis la page dédiée.",
+        ],
+      },
+      {
+        question: "Faut-il créer un compte ?",
+        answer: [
+          "Aucun compte ni identifiant n'est nécessaire pour effectuer un calcul. Les outils fonctionnent directement dans le navigateur.",
+        ],
+      },
+      {
+        question: "Les données saisies sont-elles enregistrées ?",
+        answer: [
+          "Les calculs sont effectués directement dans votre navigateur. Les valeurs saisies dans les champs des calculateurs ne sont pas envoyées à notre serveur ni utilisées pour établir un profil personnel. Les outils de mesure d'audience ne se chargent qu'après votre consentement et les champs des calculateurs sont masqués dans les enregistrements de session.",
+        ],
+      },
+      {
+        question: "Quelle différence entre le calculateur IMC, le poids idéal et la masse grasse ?",
+        answer: [
+          "L'IMC classe votre poids actuel par rapport à votre taille. Le poids idéal estime une fourchette théorique via plusieurs formules. La masse grasse estime la part de graisse à partir de mesures et de formules. Ce sont trois angles complémentaires, tous indicatifs.",
         ],
       },
     ],
@@ -388,9 +407,16 @@ export function getFaqPageSchemaItems(): FaqItem[] {
 }
 
 export function getFaqPageTocEntries() {
-  return faqPageCategories.map((category) => ({
-    id: category.id,
-    title: category.tocLabel,
-    level: 2 as const,
-  }));
+  return [
+    ...faqPageCategories.map((category) => ({
+      id: category.id,
+      title: category.tocLabel,
+      level: 2 as const,
+    })),
+    {
+      id: FAQ_PAGE_SOURCES.id,
+      title: FAQ_PAGE_SOURCES.tocLabel,
+      level: 2 as const,
+    },
+  ];
 }

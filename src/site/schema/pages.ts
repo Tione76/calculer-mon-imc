@@ -14,6 +14,7 @@ import { buildBreadcrumbNode, buildWebPageNode } from "./nodes/webpage";
 import { buildFaqPageNode } from "./nodes/faq";
 import { buildArticleNode } from "./nodes/article";
 import { buildWebApplicationNode } from "./nodes/webapplication";
+import { buildItemListNode, type SchemaListItem } from "./nodes/itemlist";
 import type { BreadcrumbItem } from "./types";
 
 const sharedNodes = () => [buildLogoImageNode(), buildOrganizationNode(), buildWebsiteNode()];
@@ -83,7 +84,7 @@ function buildInteractiveCalculatorJsonLd(input: PageBaseInput): Record<string, 
   ]);
 }
 
-/** Page d'accueil (calculateur Brut vers Net). */
+/** Page d'accueil (calculateur IMC). */
 export function buildHomeJsonLd(input: {
   name: string;
   description: string;
@@ -133,7 +134,11 @@ export function buildGuideJsonLd(guide: Guide): Record<string, unknown> {
   ]);
 }
 
-/** Hub /guides ou /nos-outils (WebPage, pas CollectionPage ni WebApplication). */
+/**
+ * Hub /guides ou /nos-outils.
+ * Contenu principal = ItemList (guides ou calculateurs) ; FAQ en hasPart si présente.
+ * Pas de CollectionPage ni WebApplication.
+ */
 export function buildHubJsonLd(input: {
   path: string;
   name: string;
@@ -141,18 +146,31 @@ export function buildHubJsonLd(input: {
   hubLabel: string;
   cover: GuideCoverImage;
   faq: FaqItem[];
+  listName: string;
+  items: SchemaListItem[];
 }): Record<string, unknown> {
-  return buildWebPageJsonLd({
-    path: input.path,
-    name: input.name,
-    description: input.description,
-    breadcrumbs: [
+  const { path, name, description, hubLabel, cover, faq, listName, items } = input;
+  const faqNode = buildFaqPageNode(path, faq);
+  const itemListNode = buildItemListNode(path, listName, items);
+
+  return buildJsonLdGraph([
+    ...sharedNodes(),
+    buildPrimaryImageNode(path, cover),
+    buildBreadcrumbNode(path, [
       { name: "Accueil", path: "/" },
-      { name: input.hubLabel, path: input.path },
-    ],
-    cover: input.cover,
-    faq: input.faq,
-  });
+      { name: hubLabel, path },
+    ]),
+    buildWebPageNode({
+      path,
+      name,
+      description,
+      hasPrimaryImage: true,
+      mainEntityId: schemaIds.itemList(path),
+      hasPartIds: faqNode ? [schemaIds.faq(path)] : undefined,
+    }),
+    itemListNode,
+    faqNode,
+  ]);
 }
 
 /** Calculateur secondaire interactif. */
@@ -170,7 +188,7 @@ export function buildCalculatorJsonLd(input: {
     description: input.description,
     breadcrumbs: [
       { name: "Accueil", path: "/" },
-      { name: "Outils", path: seoConfig.toolsHub.path },
+      { name: seoConfig.toolsHub.h1, path: seoConfig.toolsHub.path },
       { name: input.name, path: input.path },
     ],
     cover: input.cover,

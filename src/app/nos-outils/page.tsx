@@ -3,7 +3,7 @@ import { getAllCalculators } from "@/site/navigation/calculators-registry";
 import { GuidePageLayout, ToolsHubSidebar } from "@/site/guides";
 import { coverToOgInput, TOOLS_HUB_COVER } from "@/site/guides/covers";
 import { ToolListCard } from "@/site/tools/ToolListCard";
-import { ToolsHubEditorial, ToolsHubWhySection } from "@/site/tools/tools-hub-editorial";
+import { ToolsHubEditorial, ToolsHubWhySection, ToolsHubChoiceHelp } from "@/site/tools/tools-hub-editorial";
 import { ToolsHubFaq } from "@/site/tools/tools-hub-faq";
 import { ToolsHubReassurance } from "@/site/tools/tools-hub-reassurance";
 import {
@@ -37,11 +37,16 @@ export default function ToolsHubPage() {
       <JsonLd
         data={buildHubJsonLd({
           path: hub.path,
-          name: hub.title,
+          name: TOOLS_HUB_PAGE_H1,
           description: hub.description,
           hubLabel: hub.h1,
           cover: TOOLS_HUB_COVER,
           faq: TOOL_HUB_FAQ,
+          listName: TOOLS_HUB_TOOLS_SECTION_TITLE,
+          items: calculators.map((tool) => ({
+            name: tool.h1,
+            path: tool.path,
+          })),
         })}
       />
       <GuidePageLayout
@@ -53,7 +58,7 @@ export default function ToolsHubPage() {
         <PageBreadcrumb
           items={[
             { label: "Accueil", href: "/" },
-            { label: "Outils" },
+            { label: "Calculateurs" },
           ]}
         />
         <ToolsHubEditorial />
@@ -68,6 +73,7 @@ export default function ToolsHubPage() {
             ))}
           </div>
           <ToolsHubReassurance />
+          <ToolsHubChoiceHelp />
         </section>
         <ToolsHubWhySection />
         <ToolsHubFaq />

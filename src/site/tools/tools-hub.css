@@ -355,6 +355,12 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .tools-hub-key-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .tools-hub-key-card {
   padding: 22px 24px;
   background: #ffffff;
@@ -378,6 +384,24 @@
   line-height: 1.55;
   margin: 0 0 16px;
   color: var(--ds-text-muted);
+}
+
+.tools-hub-key-card p:last-child {
+  margin-bottom: 0;
+}
+
+.tools-hub-choice-help {
+  margin: 1.5rem 0 0;
+  max-width: 68ch;
+  font-size: 0.975rem;
+  line-height: 1.65;
+  color: var(--ds-text-muted);
+}
+
+.tools-hub-choice-help a {
+  color: var(--ds-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .tools-hub-cta {

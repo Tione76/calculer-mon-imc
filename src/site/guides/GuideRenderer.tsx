@@ -23,7 +23,7 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
     case "list":
       if (block.ordered) {
         return (
-          <ol>
+          <ol className="guide-list guide-list--ordered">
             {block.items.map((item) => (
               <li key={item}>{item}</li>
             ))}
@@ -31,9 +31,48 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
         );
       }
       return (
-        <ul>
+        <ul className="guide-list guide-list--disc">
           {block.items.map((item) => (
             <li key={item}>{item}</li>
+          ))}
+        </ul>
+      );
+
+    case "definition-list":
+      return (
+        <dl className="guide-definition-list">
+          {block.items.map((item) => (
+            <div key={item.term} className="guide-definition-list__row">
+              <dt>{item.term}</dt>
+              <dd>{item.definition}</dd>
+            </div>
+          ))}
+        </dl>
+      );
+
+    case "timeline":
+      return (
+        <ol className="guide-timeline">
+          {block.items.map((item) => (
+            <li key={item.period} className="guide-timeline__item">
+              <p className="guide-timeline__period">{item.period}</p>
+              <p className="guide-timeline__text">{item.text}</p>
+            </li>
+          ))}
+        </ol>
+      );
+
+    case "source-list":
+      return (
+        <ul className="guide-source-list">
+          {block.items.map((item) => (
+            <li key={item.href} className="guide-source-list__item">
+              <span className="guide-source-list__org">{item.org}</span>
+              <a href={item.href} rel="noopener noreferrer" target="_blank" className="guide-source-list__link">
+                {item.title}
+              </a>
+              <span className="guide-source-list__year">{item.year}</span>
+            </li>
           ))}
         </ul>
       );
@@ -83,9 +122,22 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
           {block.items.map((step, i) => (
             <li key={step.title} className="guide-steps__item">
               <span className="guide-steps__num" aria-hidden="true">{i + 1}</span>
-              <div>
+              <div className="guide-steps__body">
                 <p className="guide-steps__title">{step.title}</p>
                 <p className="guide-steps__desc">{step.description}</p>
+                {step.href && step.linkLabel && !isTemplate && !isPlaceholderHref(step.href) ? (
+                  <p className="guide-steps__link-line">
+                    {step.href.startsWith("http") ? (
+                      <a href={step.href} rel="noopener noreferrer" target="_blank" className="guide-steps__link">
+                        {step.linkLabel} →
+                      </a>
+                    ) : (
+                      <Link href={step.href} className="guide-steps__link">
+                        {step.linkLabel} →
+                      </Link>
+                    )}
+                  </p>
+                ) : null}
               </div>
             </li>
           ))}
@@ -102,11 +154,78 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
         </aside>
       );
 
-    case "table":
+    case "formula":
       return (
-        <figure className="guide-table-wrap">
+        <div className="guide-formula-box" role="group" aria-label="Formule">
+          {block.lines.map((line) => (
+            <p key={line} className="guide-formula-box__line">
+              {line}
+            </p>
+          ))}
+        </div>
+      );
+
+    case "table":
+      if (block.variant === "imc-permits") {
+        return (
+          <figure className="guide-table-wrap guide-table-wrap--imc-permits">
+            {block.caption && <p className="guide-table-wrap__lead">{block.caption}</p>}
+            <div className="guide-imc-permits">
+              <div className="guide-imc-permits__panel guide-imc-permits__panel--can">
+                <p className="guide-imc-permits__heading">{block.headers[0]}</p>
+                <ul className="guide-imc-permits__list">
+                  {block.rows.map((row) => (
+                    <li key={row[0]}>
+                      <span className="guide-imc-permits__mark guide-imc-permits__mark--can" aria-hidden="true">
+                        ✓
+                      </span>
+                      {row[0]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="guide-imc-permits__panel guide-imc-permits__panel--cannot">
+                <p className="guide-imc-permits__heading">{block.headers[1]}</p>
+                <ul className="guide-imc-permits__list">
+                  {block.rows.map((row) => (
+                    <li key={row[1]}>
+                      <span className="guide-imc-permits__mark guide-imc-permits__mark--limit" aria-hidden="true">
+                        ○
+                      </span>
+                      {row[1]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            {block.footnote && <figcaption>{block.footnote}</figcaption>}
+          </figure>
+        );
+      }
+
+      return (
+        <figure
+          className={`guide-table-wrap${
+            block.variant === "imc-categories"
+              ? " guide-table-wrap--imc-categories"
+              : block.variant === "editorial-comparison"
+                ? " guide-table-wrap--editorial-comparison"
+                : ""
+          }`}
+        >
+          {block.caption && block.variant === "editorial-comparison" ? (
+            <p className="guide-table-wrap__lead">{block.caption}</p>
+          ) : null}
           <div className="guide-table-scroll">
-            <table className="guide-table">
+            <table
+              className={`guide-table${
+                block.variant === "imc-categories"
+                  ? " guide-table--imc-categories"
+                  : block.variant === "editorial-comparison"
+                    ? " guide-table--editorial-comparison"
+                    : ""
+              }`}
+            >
               <thead>
                 <tr>
                   {block.headers.map((header) => (
@@ -119,15 +238,33 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
               <tbody>
                 {block.rows.map((row) => (
                   <tr key={row.join("-")}>
-                    {row.map((cell) => (
-                      <td key={cell}>{cell}</td>
+                    {row.map((cell, cellIndex) => (
+                      <td
+                        key={cell}
+                        className={
+                          block.variant === "imc-categories" && cellIndex === 1
+                            ? "guide-table__threshold"
+                            : undefined
+                        }
+                      >
+                        {cell}
+                      </td>
                     ))}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {block.caption && <figcaption>{block.caption}</figcaption>}
+          {(block.caption || block.footnote) && block.variant !== "editorial-comparison" && (
+            <figcaption>
+              {block.caption ? <span>{block.caption}</span> : null}
+              {block.caption && block.footnote ? " " : null}
+              {block.footnote ? <span>{block.footnote}</span> : null}
+            </figcaption>
+          )}
+          {block.footnote && block.variant === "editorial-comparison" ? (
+            <figcaption>{block.footnote}</figcaption>
+          ) : null}
         </figure>
       );
 
@@ -283,7 +420,7 @@ function GuideSidebarToolCard({ tool }: { tool: SidebarTool }) {
       </span>
       <span className="guide-sidebar-card__body">
         <span className="guide-sidebar-card__calc-icon" aria-hidden="true">
-          {tool.icon ?? "€"}
+          {tool.icon ?? "⚖"}
         </span>
         <span className="guide-sidebar-card__title">{tool.title}</span>
         <span className="guide-sidebar-card__subtitle">{tool.description}</span>
@@ -317,7 +454,7 @@ export function GuideSidebar({
     <>
       {showTools && tools.length > 0 && (
         <div className="guide-sidebar-block guide-sidebar-block--calculator guide-sidebar-block--tools">
-          <p className="guide-sidebar-block__title">Nos outils gratuits</p>
+          <p className="guide-sidebar-block__title">Nos calculateurs gratuits</p>
           <div className="guide-sidebar-tools-list">
             {tools.map((tool) => (
               <GuideSidebarToolCard key={tool.id} tool={tool} />
@@ -337,6 +474,7 @@ export function GuideSidebar({
 
 interface GuideArticleProps {
   introduction: string[];
+  introDisclaimer?: string;
   introSummary?: import("./types").Guide["introSummary"];
   quickSummary?: import("./types").GuideQuickSummary;
   toc: GuideTocEntry[];
@@ -344,12 +482,38 @@ interface GuideArticleProps {
   faq: import("./types").Guide["faq"];
   faqTitle?: string;
   faqIntro?: string;
+  faqListClassName?: string;
   conclusion: import("./types").Guide["conclusion"];
+  postConclusion?: import("./types").GuidePostConclusion;
   isTemplate?: boolean;
   cover?: import("./covers").GuideCoverImage;
 }
 
+function GuideQuickSummaryCards({ summary }: { summary: import("./types").GuideQuickSummary }) {
+  const cards = summary.cards ?? [];
+  return (
+    <aside className="guide-quick-summary guide-quick-summary--cards" aria-label={summary.title}>
+      <p className="guide-quick-summary__title">{summary.title}</p>
+      <div className="guide-quick-summary__cards">
+        {cards.map((card) => (
+          <div key={card.label} className="guide-quick-summary__fact">
+            <span className="guide-quick-summary__fact-icon" aria-hidden="true">
+              {card.icon}
+            </span>
+            <p className="guide-quick-summary__fact-label">{card.label}</p>
+            <p className="guide-quick-summary__fact-value">{card.value}</p>
+          </div>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
+  if (summary.variant === "cards") {
+    return <GuideQuickSummaryCards summary={summary} />;
+  }
+
   const isFormula = summary.variant === "formula";
   const isReadingOrder = summary.variant === "reading-order";
   const isPipeline = !isFormula && summary.items.some((item) => item.kind);
@@ -417,8 +581,23 @@ function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQ
   );
 }
 
+function renderSectionBlocks(
+  blocks: GuideBlock[],
+  sectionId: string,
+  isTemplate?: boolean,
+) {
+  return blocks.map((block, index) => (
+    <GuideBlockRenderer
+      key={blockKey(sectionId, block, index)}
+      block={block}
+      isTemplate={isTemplate}
+    />
+  ));
+}
+
 export function GuideArticle({
   introduction,
+  introDisclaimer,
   introSummary,
   quickSummary,
   toc,
@@ -426,7 +605,9 @@ export function GuideArticle({
   faq,
   faqTitle,
   faqIntro,
+  faqListClassName,
   conclusion,
+  postConclusion,
   isTemplate,
   cover,
 }: GuideArticleProps) {
@@ -440,6 +621,7 @@ export function GuideArticle({
         {restIntroduction.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
+        {introDisclaimer ? <p className="guide-intro-disclaimer">{introDisclaimer}</p> : null}
       </div>
 
       {introSummary ? (
@@ -488,7 +670,7 @@ export function GuideArticle({
       <section id="faq" className="guide-section">
         <h2>{faqTitle ?? "Questions fréquentes"}</h2>
         {faqIntro ? <p>{faqIntro}</p> : null}
-        <div className="faq-list">
+        <div className={faqListClassName ? `faq-list ${faqListClassName}` : "faq-list"}>
           {faq.map((item) => (
             <details key={item.question} className="faq-item">
               <summary className="faq-item__summary">
@@ -517,15 +699,63 @@ export function GuideArticle({
           </ul>
         </div>
         <p className="guide-conclusion__closing">{conclusion.closingText}</p>
-        {conclusion.closingCta &&
-          (isTemplate || isPlaceholderHref(conclusion.closingCta.href) ? (
-            <span className="guide-conclusion__cta">{conclusion.closingCta.label}</span>
-          ) : (
-            <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
-              {conclusion.closingCta.label}
-            </Link>
-          ))}
+        {conclusion.closingPathway ? (
+          <p className="guide-conclusion__pathway">{conclusion.closingPathway}</p>
+        ) : null}
+        <div className="guide-conclusion__actions">
+          {conclusion.closingCta &&
+            (isTemplate || isPlaceholderHref(conclusion.closingCta.href) ? (
+              <span className="guide-conclusion__cta">{conclusion.closingCta.label}</span>
+            ) : (
+              <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
+                {conclusion.closingCta.label}
+              </Link>
+            ))}
+          {conclusion.secondaryLinks && conclusion.secondaryLinks.length > 0 ? (
+            <p className="guide-conclusion__secondary">
+              {conclusion.secondaryLinks.map((link, index) => (
+                <span key={link.href}>
+                  {index > 0 ? " · " : null}
+                  {isTemplate || isPlaceholderHref(link.href) ? (
+                    <span>{link.label}</span>
+                  ) : (
+                    <Link href={link.href}>{link.label}</Link>
+                  )}
+                </span>
+              ))}
+            </p>
+          ) : null}
+        </div>
       </section>
+
+      {postConclusion?.summary ? (
+        <section id={postConclusion.summary.id} className="guide-section guide-section--post-conclusion">
+          <h2>{postConclusion.summary.title}</h2>
+          {postConclusion.summary.blocks
+            ? renderSectionBlocks(postConclusion.summary.blocks, postConclusion.summary.id, isTemplate)
+            : null}
+        </section>
+      ) : null}
+
+      {postConclusion?.sources ? (
+        <section id={postConclusion.sources.id} className="guide-section guide-section--post-conclusion">
+          <h2>{postConclusion.sources.title}</h2>
+          {postConclusion.sources.blocks
+            ? renderSectionBlocks(postConclusion.sources.blocks, postConclusion.sources.id, isTemplate)
+            : null}
+        </section>
+      ) : null}
+
+      {postConclusion?.editorialNote ? (
+        <aside className="guide-editorial-note" aria-label={postConclusion.editorialNote.title}>
+          <p className="guide-editorial-note__title">{postConclusion.editorialNote.title}</p>
+          {postConclusion.editorialNote.paragraphs.map((paragraph) => (
+            <p key={paragraph} className="guide-editorial-note__text">
+              {paragraph}
+            </p>
+          ))}
+        </aside>
+      ) : null}
     </>
   );
 }

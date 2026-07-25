@@ -1,21 +1,19 @@
+import Link from "next/link";
 import {
-  buildConversionTableRows,
-  buildPracticalCases,
-  example15HourlyNonExecutive,
-  example2500NonExecutive,
-  example36000AnnualNonExecutive,
-  formatEditorialEuro,
+  exampleImc165_50,
+  exampleImc170_70,
+  exampleImc180_90,
+  formatEditorialNumber,
   HOME_EDITORIAL_UPDATED_AT,
+  IMC_CATEGORY_ROWS,
 } from "./home-editorial-data";
-import { EditorialBenefitItem } from "./editorial-check-icon";
+import { HomeFaqContent } from "./home-faq";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { HOME_COVER } from "@/site/guides/covers";
 
-const conversionRows = buildConversionTableRows();
-const practicalCases = buildPracticalCases();
-const ex2500 = example2500NonExecutive();
-const ex36000 = example36000AnnualNonExecutive();
-const ex15 = example15HourlyNonExecutive();
+const exLow = exampleImc165_50();
+const exNormal = exampleImc170_70();
+const exOver = exampleImc180_90();
 
 const revisedDateLabel = new Date(HOME_EDITORIAL_UPDATED_AT).toLocaleDateString("fr-FR", {
   day: "numeric",
@@ -23,387 +21,481 @@ const revisedDateLabel = new Date(HOME_EDITORIAL_UPDATED_AT).toLocaleDateString(
   year: "numeric",
 });
 
-/** Contenu éditorial page d'accueil */
+const FURTHER_TOOLS = [
+  {
+    href: "/calculateurs/masse-grasse",
+    title: "Calculateur de masse grasse",
+    description: "Estimer la composition corporelle au-delà du poids.",
+    icon: "%",
+  },
+  {
+    href: "/calculateurs/poids-ideal",
+    title: "Calculateur de poids idéal",
+    description: "Comparer plusieurs formules de poids de référence.",
+    icon: "◎",
+  },
+] as const;
+
+const FURTHER_GUIDES = [
+  {
+    href: "/guides/quest-ce-que-l-imc",
+    title: "Qu'est-ce que l'IMC ?",
+    description: "Définition, origine et rôle de l'indicateur.",
+  },
+  {
+    href: "/guides/comment-calculer-son-imc",
+    title: "Comment calculer son IMC ?",
+    description: "Formule, unités et cas particuliers pas à pas.",
+  },
+  {
+    href: "/guides/comment-interpreter-son-imc",
+    title: "Comment interpréter son IMC ?",
+    description: "Lire votre résultat selon votre situation.",
+  },
+  {
+    href: "/guides/limites-de-l-imc",
+    title: "Les limites de l'IMC",
+    description: "Quand l'indicateur trompe, et comment le nuancer.",
+  },
+  {
+    href: "/guides/calculer-son-poids-ideal",
+    title: "Calculer son poids idéal",
+    description: "Formules de poids de référence et lecture prudente.",
+  },
+] as const;
+
+/** Page pilier IMC : explique l'essentiel et oriente vers les guides spécialisés. */
 export function HomeEditorial() {
   return (
     <section id="contenu" className="content-section">
       <div className="content-wrap">
-        <div className="prose home-editorial">
+        <div className="prose home-editorial home-pillar">
           <p className="home-editorial__lead home-editorial__prose">
-            Estimez votre salaire Brut vers Net en quelques secondes : conversion horaire,
-            mensuelle ou annuelle, dans les deux sens, avec une projection du prélèvement à la
-            source. Les résultats restent indicatifs, mais utiles pour comparer une offre,
-            préparer un entretien ou situer un ordre de grandeur.
+            Ce <strong>calculateur IMC gratuit</strong> permet de{" "}
+            <strong>calculer son IMC</strong> ou de{" "}
+            <strong>connaître son indice de masse corporelle</strong> en quelques secondes à
+            partir de sa taille et de son poids. Le résultat constitue un repère, pas une mesure
+            médicale précise. Cette page explique brièvement la formule, la lecture du résultat
+            et ses limites, puis renvoie vers les guides spécialisés pour approfondir.
           </p>
 
-          <CoverFigure cover={HOME_COVER} priority />
+          <CoverFigure cover={HOME_COVER} />
 
-          <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire du guide">
-            <p className="home-editorial__toc-title">Dans ce guide</p>
+          <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire">
+            <p className="home-editorial__toc-title">Dans cette page</p>
             <ul className="home-editorial__toc-list editorial-list editorial-list--toc">
               <li>
-                <a href="#calcul-brut-net">Calculer brut vers net</a>
+                <a href="#calcul-imc">Comment calculer son IMC ?</a>
               </li>
               <li>
-                <a href="#comprendre-brut-net">Comprendre le brut et le net</a>
+                <a href="#utilite-imc">À quoi sert l&apos;IMC ?</a>
               </li>
               <li>
-                <a href="#utiliser-calculateur">Utiliser le calculateur</a>
+                <a href="#interpreter-imc">Comment interpréter son résultat ?</a>
               </li>
               <li>
-                <a href="#exemples-cas-pratiques">Voir des exemples</a>
+                <a href="#limites-imc">Les limites de l&apos;IMC</a>
               </li>
               <li>
-                <a href="#prelevement-source">Prélèvement à la source</a>
+                <a href="#imc-masse-grasse">IMC et masse grasse</a>
               </li>
               <li>
-                <a href="#limites-utilite">Limites et utilité</a>
+                <a href="#imc-poids-ideal">IMC et poids idéal</a>
               </li>
               <li>
-                <a href="#faq">FAQ</a>
+                <a href="#erreurs-frequentes">Les erreurs fréquentes</a>
+              </li>
+              <li>
+                <a href="#sources-imc">Sources scientifiques</a>
+              </li>
+              <li>
+                <a href="#faq">Questions fréquentes</a>
               </li>
             </ul>
           </nav>
 
-          <h2 id="calcul-brut-net">Comment calculer son salaire Brut vers Net ?</h2>
+          <h2 id="calcul-imc">Comment calculer son IMC ?</h2>
           <div className="home-editorial__prose">
             <p>
-              Le salaire brut est la rémunération convenue avec l&apos;employeur, avant toute retenue.
-              C&apos;est la référence la plus fréquente sur une offre ou un contrat.
-            </p>
-            <p>
-              Le net estimé avant impôt correspond au montant après cotisations salariales. Le net
-              après impôt est ce qui reste une fois le prélèvement à la source appliqué.
-            </p>
-            <p>
-              L&apos;écart entre les deux niveaux vient des cotisations prélevées sur la rémunération,
-              qui financent la protection sociale (maladie, retraite, chômage).
+              Le calcul est simple, mais son interprétation demande davantage de recul. La
+              formule de l&apos;indice de masse corporelle compare le poids au carré de la
+              taille :
             </p>
 
-            <h3>Formule simplifiée du simulateur</h3>
-            <p>
-              Sur une fiche de paie, chaque cotisation est détaillée. Ici, un coefficient indicatif
-              par profil suffit : net estimé = brut × coefficient. Pour le sens inverse, on divise
-              par le même coefficient.
-            </p>
-            <p>
-              Trois profils sont proposés : salarié non-cadre, salarié cadre et fonction publique.
-              Les coefficients sont configurés pour une estimation simple, revus régulièrement, sans
-              prétendre reproduire une paie réelle.
-            </p>
+            <div className="guide-formula-box" role="group" aria-label="Formule de l'IMC">
+              <p className="guide-formula-box__line">
+                IMC = poids en kilogrammes ÷ taille en mètres<sup>2</sup>
+              </p>
+            </div>
 
-            <aside className="home-editorial__callout home-editorial__callout--example">
-              <strong>Exemple</strong>
+            <p>Points à retenir pour effectuer le calcul :</p>
+            <ul className="editorial-list">
+              <li>le poids s&apos;exprime en kilogrammes ;</li>
+              <li>
+                la taille s&apos;exprime en mètres (170 cm = 1,70 m, 165 cm = 1,65 m) ;
+              </li>
+              <li>
+                on divise le poids par le carré de la taille, pas par la taille seule.
+              </li>
+            </ul>
+
+            <aside className="prose-callout prose-callout--tip">
+              <strong>Astuce unités</strong>
               <p>
-                Salaire brut mensuel : {formatEditorialEuro(ex2500.grossMonthly)}
-                <br />
-                Net estimé avant impôt (non-cadre) : {formatEditorialEuro(ex2500.netMonthly)}
-                <br />
-                Net après impôt : selon le taux saisi dans le simulateur.
+                Si votre taille est en centimètres, convertissez-la d&apos;abord : divisez par
+                100. Une erreur d&apos;unité (garder 170 au lieu de 1,70) fausse complètement le
+                résultat.
               </p>
             </aside>
 
-            <aside className="home-editorial__callout home-editorial__callout--key">
-              <strong>À retenir</strong>
-              <p>
-                Le brut figure au contrat. Le net estimé avant impôt reste soumis au prélèvement à
-                la source, qui le réduit encore.
-              </p>
-            </aside>
-
-            <h3>Convertir un salaire net en brut</h3>
-            <p>
-              En négociation ou pour comparer des offres, vous pouvez partir du net souhaité : le
-              brut équivalent s&apos;affiche selon le profil choisi (cadre, non-cadre, etc.).
-            </p>
-          </div>
-
-          <h2 id="comprendre-brut-net">Comprendre le brut, le net et le net après impôt</h2>
-          <div className="home-editorial__prose">
-            <p>
-              Bulletin, contrat et simulateur emploient des libellés différents. Les confondre
-              fausse les comparaisons. Le tableau ci-dessous clarifie brut, net avant impôt, base
-              imposable et net après impôt.
-            </p>
-          </div>
-
-          <div className="home-editorial__table-wrap home-editorial__wide">
-            <table className="home-editorial__table">
-              <caption>Brut, net avant impôt, net imposable et net après impôt : où les situer</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Notion</th>
-                  <th scope="col">Définition</th>
-                  <th scope="col">Où le retrouver ?</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Salaire brut</td>
-                  <td>Avant cotisations salariales</td>
-                  <td>Contrat, offre d&apos;emploi, fiche de paie</td>
-                </tr>
-                <tr>
-                  <td>Net estimé avant impôt</td>
-                  <td>Après cotisations, avant prélèvement à la source</td>
-                  <td>Résultat du simulateur ; bulletin (net à payer avant impôt)</td>
-                </tr>
-                <tr>
-                  <td>Net imposable estimé</td>
-                  <td>Base fiscale estimée pour calculer le prélèvement</td>
-                  <td>
-                    Estimation interne du simulateur ; montant exact sur votre bulletin de salaire
-                  </td>
-                </tr>
-                <tr>
-                  <td>Net après impôt</td>
-                  <td>Après prélèvement à la source</td>
-                  <td>Net payé sur votre compte bancaire</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div className="home-editorial__prose">
-            <p>
-              Le simulateur affiche un net avant impôt et un net après impôt. Sur un bulletin, la
-              ligne « montant net social » est une notion réglementaire précise : ce n&apos;est pas le
-              libellé utilisé ici.
-            </p>
-
-            <h3>Cotisations prélevées sur le brut</h3>
-            <ul className="editorial-list editorial-list--neutral">
-              <li>Assurance maladie, maternité, invalidité et décès</li>
-              <li>Retraite de base et retraite complémentaire</li>
-              <li>Assurance chômage</li>
-              <li>CSG et CRDS</li>
-              <li>Cotisations liées au statut (cadre, non-cadre, fonction publique)</li>
-            </ul>
-            <p>
-              Deux personnes au même brut peuvent percevoir un net légèrement différent selon leur
-              contrat.
-            </p>
-
-            <h3>Net avant impôt et net après impôt</h3>
-            <p>
-              Le net avant impôt reste après cotisations. Le prélèvement à la source s&apos;applique
-              ensuite sur une base fiscale propre à votre foyer. Le net après impôt est le montant
-              versé après cette retenue.
-            </p>
-
-            <aside className="home-editorial__callout home-editorial__callout--warning">
-              <strong>Attention</strong>
-              <p>
-                Le taux de prélèvement dépend de votre situation fiscale. Il ne se déduit pas
-                fidèlement du seul salaire brut ou du net avant impôt.
-              </p>
-            </aside>
-          </div>
-
-          <h2 id="utiliser-calculateur">Comment utiliser le calculateur ?</h2>
-          <div className="home-editorial__prose">
-            <p>
-              Le simulateur se trouve en haut de page. Il répond à une question simple : combien
-              vais-je toucher, en brut ou en net, à l&apos;horaire, au mois ou à l&apos;année ?
-            </p>
-
-            <h3>Parcours recommandé</h3>
-            <ul className="editorial-list editorial-list--steps">
-              <li>Saisir un montant (brut ou net, horaire, mensuel ou annuel)</li>
-              <li>Choisir le statut : non-cadre, cadre ou fonction publique</li>
-              <li>Ajuster le temps de travail en cas de temps partiel</li>
-              <li>Indiquer le nombre de mois de rémunération (12 à 16)</li>
-              <li>Laisser ou modifier le taux de prélèvement à la source</li>
-              <li>Lire le net avant impôt et le net après impôt, mensuel et annuel</li>
+            <h3>Exemples de calcul IMC</h3>
+            <p>Voici trois cas concrets, avec le même protocole :</p>
+            <ul className="editorial-list">
+              <li>
+                {exNormal.weightKg} kg pour {formatEditorialNumber(exNormal.heightCm / 100, 2)}{" "}
+                m → IMC {formatEditorialNumber(exNormal.bmi)} ({exNormal.category}) ;
+              </li>
+              <li>
+                {exOver.weightKg} kg pour {formatEditorialNumber(exOver.heightCm / 100, 2)} m →
+                IMC {formatEditorialNumber(exOver.bmi)} ({exOver.category}) ;
+              </li>
+              <li>
+                {exLow.weightKg} kg pour {formatEditorialNumber(exLow.heightCm / 100, 2)} m → IMC{" "}
+                {formatEditorialNumber(exLow.bmi)} ({exLow.category}).
+              </li>
             </ul>
 
-            <h3>Ce que l&apos;outil permet</h3>
-            <ul className="editorial-list editorial-list--checks">
-              <EditorialBenefitItem>Conversion brut ↔ net</EditorialBenefitItem>
-              <EditorialBenefitItem>
-                Calcul salaire horaire, mensuel et annuel synchronisé
-              </EditorialBenefitItem>
-              <EditorialBenefitItem>Résultat immédiat à chaque modification</EditorialBenefitItem>
-              <EditorialBenefitItem>Gratuit, sans création de compte</EditorialBenefitItem>
-              <EditorialBenefitItem>Simulation calculée dans votre navigateur</EditorialBenefitItem>
-            </ul>
-
-            <h3>Paramètres disponibles</h3>
-            <ul className="editorial-list editorial-list--neutral">
-              <li>Statut : salarié non-cadre, salarié cadre, fonction publique</li>
-              <li>Temps de travail (10 % à 100 %)</li>
-              <li>Nombre de mois de rémunération</li>
-              <li>Taux de prélèvement à la source (estimation ou saisie manuelle)</li>
-            </ul>
-
-            <h3>Salaire horaire et salaire annuel</h3>
             <p>
-              Pour un salaire horaire, la base retenue est 151,67 heures par mois à temps plein.
-              À titre indicatif, {formatEditorialEuro(ex15.grossHourly)} brut horaire ≈{" "}
-              {formatEditorialEuro(ex15.netMonthly)} net mensuel (non-cadre).
-            </p>
-            <p>
-              Pour le salaire annuel, {formatEditorialEuro(ex36000.grossAnnual)} brut sur 12 mois
-              ≈ {formatEditorialEuro(ex36000.grossMonthly)} brut mensuels, soit environ{" "}
-              {formatEditorialEuro(ex36000.netMonthly)} net avant impôt (non-cadre).
+              Dans le premier exemple : 1,70 × 1,70 = 2,89 ; puis 70 ÷ 2,89 ≈ 24,2. Le deuxième
+              (90 ÷ 3,24) illustre un résultat en surpoids. Le troisième (50 ÷ 2,7225) se situe
+              juste sous le seuil de 18,5. L&apos;arrondi au dixième facilite la lecture, mais
+              ne signifie pas que l&apos;indicateur est précis à ce niveau pour chaque
+              individu.
             </p>
 
-            <aside className="home-editorial__callout home-editorial__callout--advice">
+            <aside className="prose-callout prose-callout--example">
               <strong>Conseil pratique</strong>
               <p>
-                Pour comparer deux offres, exprimez les deux montants dans la même unité et sur la
-                même base de temps de travail.
+                Mesurez-vous pieds nus, le matin, sur une balance stable. Pour comparer dans
+                le temps, gardez le même moment de la journée et la même méthode. L&apos;outil
+                gratuit situé en haut de page applique cette formule pour vous.
               </p>
             </aside>
-          </div>
 
-          <h2 id="exemples-cas-pratiques">Exemples et cas pratiques</h2>
-          <div className="home-editorial__prose">
-            <p>
-              Trois situations courantes, avec des montants indicatifs. Pour un cas personnel,
-              testez vos chiffres dans le simulateur en haut de page.
-            </p>
-          </div>
-
-          <div className="home-editorial__cases home-editorial__wide">
-            {practicalCases.map((item) => (
-              <article key={item.title} className="home-editorial__case-card">
-                <h3>{item.title}</h3>
-                <dl className="home-editorial__case-dl">
-                  <div>
-                    <dt>Situation</dt>
-                    <dd>{item.situation}</dd>
-                  </div>
-                  <div>
-                    <dt>À saisir</dt>
-                    <dd>{item.input}</dd>
-                  </div>
-                  <div>
-                    <dt>Estimation</dt>
-                    <dd>{item.estimate}</dd>
-                  </div>
-                  <div>
-                    <dt>À vérifier</dt>
-                    <dd>{item.verify}</dd>
-                  </div>
-                </dl>
-              </article>
-            ))}
-          </div>
-
-          <div className="home-editorial__prose">
-            <h3>Tableau de conversion par niveau de salaire</h3>
-            <p>
-              Calcul salaire brut net pour des montants mensuels fréquents (non-cadre et cadre).
-              Pour la fonction publique, choisissez le profil dédié : estimation générale, hors
-              primes spécifiques.
-            </p>
-          </div>
-
-          <div className="home-editorial__table-wrap home-editorial__wide">
-            <table className="home-editorial__table home-editorial__table--conversion">
-              <caption>Conversion salaire brut vers net : estimations mensuelles indicatives</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Salaire brut mensuel</th>
-                  <th scope="col" className="home-editorial__table-num">
-                    Net estimé non-cadre
-                  </th>
-                  <th scope="col" className="home-editorial__table-num">
-                    Net estimé cadre
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {conversionRows.map((row) => (
-                  <tr key={row.grossMonthly}>
-                    <td>{formatEditorialEuro(row.grossMonthly)}</td>
-                    <td className="home-editorial__table-num">
-                      {formatEditorialEuro(row.netNonExecutive)}
-                    </td>
-                    <td className="home-editorial__table-num">
-                      {formatEditorialEuro(row.netExecutive)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <p className="home-editorial__table-note home-editorial__prose">
-            Estimations avant prélèvement à la source, calculées avec les coefficients actuels du
-            simulateur.
-          </p>
-
-          <h2 id="prelevement-source">Comment le prélèvement à la source est-il estimé ?</h2>
-          <div className="home-editorial__prose">
-            <p>
-              L&apos;impôt sur le revenu est prélevé à la source sur les salaires. Le taux dépend de
-              votre foyer : revenus, parts fiscales, autres sources, crédits d&apos;impôt. Deux
-              salariés au même brut peuvent avoir des taux différents.
-            </p>
-            <p>
-              Le simulateur ne connaît pas votre situation fiscale réelle. Il calcule d&apos;abord une
-              base imposable estimée à partir du net avant impôt, puis applique un taux indicatif
-              pour afficher un net après impôt.
-            </p>
-            <p>
-              Ce taux par défaut est une approximation : utile pour situer un ordre de grandeur,
-              pas pour reproduire votre bulletin. Connaissez-vous votre taux (bulletin, espace
-              impots.gouv.fr) ? Remplacez-le dans le curseur : le net après impôt devient alors
-              nettement plus proche de ce que vous percevez réellement.
-            </p>
-            <p>
-              À 0 %, vous isolez le net avant impôt et mesurez uniquement l&apos;effet des cotisations
-              sociales.
-            </p>
-          </div>
-
-          <h2 id="limites-utilite">Limites et utilité du calculateur</h2>
-          <div className="home-editorial__prose">
-            <p>
-              L&apos;outil répond à des questions concrètes : combien vais-je toucher, comment comparer
-              deux offres, quel brut viser en négociation, quel écart entre temps plein et temps
-              partiel. Il ne remplace pas une fiche de paie.
-            </p>
-
-            <h3>Limites de l&apos;estimation</h3>
-            <ul className="editorial-list editorial-list--limits">
-              <li>Coefficients indicatifs, sans détail ligne par ligne des cotisations</li>
-              <li>Pas de primes, heures supplémentaires ni avantages en nature</li>
-              <li>Pas de cas atypiques (apprenti, plusieurs employeurs, etc.)</li>
-              <li>Estimation générale pour la fonction publique, hors indemnités spécifiques</li>
-              <li>Taux fiscal indicatif tant que vous n&apos;indiquez pas votre taux réel</li>
-            </ul>
-
-            <h3>Situations où l&apos;outil est utile</h3>
-            <ul className="editorial-list editorial-list--checks">
-              <EditorialBenefitItem>
-                Comparer une offre à votre rémunération actuelle
-              </EditorialBenefitItem>
-              <EditorialBenefitItem>
-                Préparer un entretien ou une demande d&apos;augmentation
-              </EditorialBenefitItem>
-              <EditorialBenefitItem>
-                Obtenir un ordre de grandeur à rapprocher d&apos;un bulletin
-              </EditorialBenefitItem>
-              <EditorialBenefitItem>Estimer un budget à partir d&apos;un futur salaire</EditorialBenefitItem>
-              <EditorialBenefitItem>Évaluer un temps partiel face au temps plein</EditorialBenefitItem>
-            </ul>
-
-            <aside className="home-editorial__callout home-editorial__callout--limit">
-              <strong>Estimation, pas certitude</strong>
+            <aside className="prose-callout prose-callout--advice">
+              <strong>Pour aller plus loin</strong>
               <p>
-                Les chiffres facilitent la comparaison et la préparation. Ils ne remplacent pas un
-                document officiel ni un conseil personnalisé pour une décision importante.
+                Vous souhaitez comprendre l&apos;origine de la formule et ses cas particuliers
+                ? Découvrez comment calculer son IMC étape par étape dans le guide{" "}
+                <Link href="/guides/comment-calculer-son-imc">Comment calculer son IMC</Link>.
+              </p>
+            </aside>
+          </div>
+
+          <h2 id="utilite-imc">À quoi sert l&apos;IMC ?</h2>
+          <div className="home-editorial__prose">
+            <p>
+              Connaître son IMC sert surtout de point de départ. Cet indicateur ne remplace
+              pas un bilan de santé : il constitue surtout un outil de dépistage ou de
+              classement statistique.
+            </p>
+            <p>On l&apos;utilise notamment pour :</p>
+            <ul className="editorial-list">
+              <li>la santé publique et le suivi de la corpulence en population ;</li>
+              <li>un premier repère médical ;</li>
+              <li>l&apos;orientation en nutrition ;</li>
+              <li>le suivi d&apos;une évolution de poids ;</li>
+              <li>la prévention, comme repère parmi d&apos;autres.</li>
+            </ul>
+            <p>
+              Le résultat aide à se situer ; il ne raconte pas à lui seul toute la situation.
+              Pour comprendre précisément ce qu&apos;est l&apos;IMC, son origine et son rôle,
+              consultez{" "}
+              <Link href="/guides/quest-ce-que-l-imc">Qu&apos;est-ce que l&apos;IMC ?</Link>
+            </p>
+          </div>
+
+          <h2 id="interpreter-imc">Comment interpréter son résultat ?</h2>
+          <div className="home-editorial__prose">
+            <p>
+              Une fois le calcul effectué, le chiffre se lit dans une catégorie. Chez
+              l&apos;adulte, les seuils les plus cités s&apos;appuient sur l&apos;OMS et sur
+              les repères diffusés en France, notamment via l&apos;Assurance Maladie.
+            </p>
+            <p>Les grandes familles sont :</p>
+            <ul className="editorial-list">
+              <li>insuffisance pondérale (maigreur) ;</li>
+              <li>corpulence normale ;</li>
+              <li>surpoids ;</li>
+              <li>obésité (classes I, II et III).</li>
+            </ul>
+
+            <div className="home-editorial__table-wrap">
+              <table className="home-editorial__table">
+                <caption>Catégories OMS de l&apos;IMC (adultes)</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">IMC</th>
+                    <th scope="col">Catégorie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {IMC_CATEGORY_ROWS.map((row) => (
+                    <tr key={row.label}>
+                      <td data-label="IMC">{row.range}</td>
+                      <td data-label="Catégorie">{row.label}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              Ces seuils sont des repères statistiques. Un résultat situé juste de part et
+              d&apos;autre d&apos;une frontière ne décrit pas deux situations radicalement
+              différentes. Une différence de quelques dixièmes ne change pas fondamentalement
+              l&apos;interprétation.
+            </p>
+
+            <aside className="prose-callout prose-callout--example">
+              <strong>Exemple de lecture</strong>
+              <p>
+                Un IMC de {formatEditorialNumber(exNormal.bmi)} se situe en corpulence normale.
+                Un IMC de {formatEditorialNumber(exOver.bmi)} se situe en surpoids. Un seuil
+                comme 25 reste une frontière statistique, pas une coupure médicale absolue.
               </p>
             </aside>
 
-            <p className="home-editorial__updated">
-              Contenu révisé le <time dateTime={HOME_EDITORIAL_UPDATED_AT}>{revisedDateLabel}</time>
-              . Chiffres alignés sur les coefficients du simulateur au {revisedDateLabel}.
+            <aside className="prose-callout prose-callout--advice">
+              <strong>Pour aller plus loin</strong>
+              <p>
+                Votre résultat est proche d&apos;un seuil ? Apprenez à interpréter votre
+                résultat avec davantage de recul dans le guide{" "}
+                <Link href="/guides/comment-interpreter-son-imc">
+                  Comment interpréter son IMC
+                </Link>
+                .
+              </p>
+            </aside>
+          </div>
+
+          <h2 id="limites-imc">Les limites de l&apos;IMC</h2>
+          <div className="home-editorial__prose">
+            <p>Quatre limites principales à garder en tête :</p>
+            <ul className="editorial-list">
+              <li>cet indice ne distingue pas muscle et graisse ;</li>
+              <li>il ne tient pas compte de la morphologie ;</li>
+              <li>il ne mesure pas la répartition de la graisse ;</li>
+              <li>
+                sa précision individuelle reste limitée, notamment chez les sportifs, les
+                personnes âgées ou les morphologies atypiques.
+              </li>
+            </ul>
+
+            <aside className="prose-callout prose-callout--advice">
+              <strong>Pour aller plus loin</strong>
+              <p>
+                Vous êtes sportif ou très musclé ? Découvrez dans notre guide consacré aux{" "}
+                <Link href="/guides/limites-de-l-imc">limites de l&apos;IMC</Link> les
+                situations dans lesquelles cet indicateur peut être moins pertinent ou
+                trompeur.
+              </p>
+            </aside>
+          </div>
+
+          <h2 id="imc-masse-grasse">IMC et masse grasse</h2>
+          <div className="home-editorial__prose">
+            <p>
+              Deux personnes ayant le même IMC peuvent avoir une composition corporelle très
+              différente : davantage de muscle ici, davantage de graisse là.
+            </p>
+            <p>
+              Cet indicateur ne mesure pas directement la graisse. Pour affiner la lecture
+              au-delà du couple poids / taille, utilisez notre{" "}
+              <Link href="/calculateurs/masse-grasse">calculateur de masse grasse</Link>. La
+              page dédiée détaille aussi les méthodes d&apos;estimation et leurs limites.
             </p>
           </div>
+
+          <h2 id="imc-poids-ideal">IMC et poids idéal</h2>
+          <div className="home-editorial__prose">
+            <p>
+              L&apos;IMC décrit une situation actuelle à partir du poids réel. Le poids idéal
+              propose une estimation théorique de référence à partir de la taille (et souvent
+              du sexe).
+            </p>
+            <p>
+              Ni l&apos;un ni l&apos;autre ne constitue un objectif médical personnalisé.
+              Ensemble, ils aident simplement à cadrer une lecture.
+            </p>
+            <p>
+              Comparez les formules avec le{" "}
+              <Link href="/calculateurs/poids-ideal">calculateur de poids idéal</Link>, ou
+              approfondissez les méthodes dans le guide{" "}
+              <Link href="/guides/calculer-son-poids-ideal">Calculer son poids idéal</Link>.
+            </p>
+          </div>
+
+          <h2 id="erreurs-frequentes">Les erreurs fréquentes</h2>
+          <div className="home-editorial__prose">
+            <p>Voici les pièges les plus courants lorsqu&apos;on calcule son IMC :</p>
+            <ul className="editorial-list">
+              <li>vouloir atteindre exactement 25 ;</li>
+              <li>comparer son IMC avec celui d&apos;un sportif très musclé ;</li>
+              <li>oublier la composition corporelle ;</li>
+              <li>croire que l&apos;IMC suffit à évaluer la santé ;</li>
+              <li>
+                interpréter une variation de quelques dixièmes comme un changement important.
+              </li>
+            </ul>
+            <p>
+              Pour aller plus loin, consultez nos guides spécialisés :{" "}
+              <Link href="/guides/comment-interpreter-son-imc">
+                Comment interpréter son IMC
+              </Link>
+              ,{" "}
+              <Link href="/guides/limites-de-l-imc">Les limites de l&apos;IMC</Link>, puis les
+              calculateurs de{" "}
+              <Link href="/calculateurs/masse-grasse">masse grasse</Link> et de{" "}
+              <Link href="/calculateurs/poids-ideal">poids idéal</Link>. Pour une vue
+              d&apos;ensemble des simulateurs, voir aussi{" "}
+              <Link href="/nos-outils">Nos outils</Link>.
+            </p>
+          </div>
+
+          <h2 id="sources-imc">Sources scientifiques</h2>
+          <div className="home-editorial__prose">
+            <p>
+              Les seuils et repères présentés s&apos;appuient sur des classifications et
+              recommandations institutionnelles :
+            </p>
+            <ul className="editorial-list editorial-list--sources">
+              <li>
+                Organisation mondiale de la Santé (OMS) : classification de la corpulence chez
+                l&apos;adulte ;
+              </li>
+              <li>
+                Haute Autorité de santé (HAS) : recommandations sur le surpoids et
+                l&apos;obésité de l&apos;adulte ;
+              </li>
+              <li>
+                Assurance Maladie : repères d&apos;interprétation de l&apos;IMC chez
+                l&apos;adulte ;
+              </li>
+              <li>
+                travaux historiques sur l&apos;indice de Quetelet, à l&apos;origine de
+                l&apos;IMC moderne.
+              </li>
+            </ul>
+            <p>
+              Ces références fondent les catégories affichées. Elles ne valident pas le
+              calculateur lui-même comme outil de diagnostic.
+            </p>
+          </div>
+
+          <section id="faq" className="home-pillar-faq" aria-labelledby="faq-heading">
+            <h2 id="faq-heading">Questions fréquentes</h2>
+            <HomeFaqContent />
+          </section>
+
+          <section id="conclusion-imc" className="guide-conclusion">
+            <h2>Conclusion</h2>
+            <div className="guide-conclusion__points">
+              <p className="guide-conclusion__points-title">À retenir</p>
+              <ul className="guide-conclusion__list">
+                <li>
+                  <span className="guide-conclusion__check" aria-hidden="true">
+                    ✔
+                  </span>
+                  Le calculateur IMC est un excellent point de départ pour se situer.
+                </li>
+                <li>
+                  <span className="guide-conclusion__check" aria-hidden="true">
+                    ✔
+                  </span>
+                  Cet indicateur reste statistique : il ne constitue pas un diagnostic.
+                </li>
+                <li>
+                  <span className="guide-conclusion__check" aria-hidden="true">
+                    ✔
+                  </span>
+                  Le résultat doit être lu avec le contexte, sans le prendre au dixième près.
+                </li>
+                <li>
+                  <span className="guide-conclusion__check" aria-hidden="true">
+                    ✔
+                  </span>
+                  Les guides spécialisés permettent d&apos;approfondir chaque sujet.
+                </li>
+              </ul>
+            </div>
+            <p className="guide-conclusion__closing">
+              L&apos;IMC est utile pour se situer et obtenir un premier repère, mais sa
+              précision individuelle reste limitée : il ne décrit pas à lui seul l&apos;état
+              de santé ni la composition corporelle. Pour aller plus loin, utilisez les{" "}
+              <Link href="/guides">guides spécialisés</Link> du site.
+            </p>
+            <div className="guide-conclusion__actions">
+              <a href="#calculateur" className="guide-conclusion__cta home-pillar__cta">
+                Revenir au calculateur
+              </a>
+            </div>
+          </section>
+
+          <div className="home-pillar-further">
+            <h2 id="pour-aller-plus-loin">Pour aller plus loin</h2>
+            <p className="home-pillar-further__lead">
+              Continuez avec les outils et guides les plus utiles pour compléter votre lecture.
+            </p>
+
+            <div className="home-pillar-further__panels">
+              <div className="home-pillar-further__panel">
+                <p className="home-pillar-further__panel-title">Calculateurs à essayer</p>
+                <ul className="home-pillar-further__panel-list">
+                  {FURTHER_TOOLS.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="home-pillar-further__link">
+                        <span className="home-pillar-further__icon" aria-hidden="true">
+                          {item.icon}
+                        </span>
+                        <span className="home-pillar-further__body">
+                          <span className="home-pillar-further__title">{item.title}</span>
+                          <span className="home-pillar-further__desc">{item.description}</span>
+                        </span>
+                        <span className="home-pillar-further__arrow" aria-hidden="true">
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="home-pillar-further__panel">
+                <p className="home-pillar-further__panel-title">Guides à lire</p>
+                <ul className="home-pillar-further__panel-list">
+                  {FURTHER_GUIDES.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="home-pillar-further__link">
+                        <span className="home-pillar-further__body">
+                          <span className="home-pillar-further__title">{item.title}</span>
+                          <span className="home-pillar-further__desc">{item.description}</span>
+                        </span>
+                        <span className="home-pillar-further__arrow" aria-hidden="true">
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <p className="home-editorial__updated home-editorial__prose">
+            Contenu révisé le{" "}
+            <time dateTime={HOME_EDITORIAL_UPDATED_AT}>{revisedDateLabel}</time>.
+          </p>
         </div>
       </div>
     </section>

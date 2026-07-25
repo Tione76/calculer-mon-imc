@@ -1,10 +1,11 @@
-import { homeFaq } from "./home-faq-data";
+import { homeFaqRich } from "./home-faq-data";
+import { renderFaqAnswer } from "./faq-page-utils";
 
 /** FAQ page d'accueil */
 export function HomeFaqContent() {
   return (
     <div className="faq-list">
-      {homeFaq.map((item) => (
+      {homeFaqRich.map((item) => (
         <details key={item.question} className="faq-item">
           <summary className="faq-item__summary">
             <span>{item.question}</span>
@@ -12,9 +13,7 @@ export function HomeFaqContent() {
               ▾
             </span>
           </summary>
-          <div className="faq-item__body">
-            <p>{item.answer}</p>
-          </div>
+          <div className="faq-item__body">{renderFaqAnswer(item.answer)}</div>
         </details>
       ))}
     </div>

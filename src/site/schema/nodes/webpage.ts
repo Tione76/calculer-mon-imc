@@ -28,7 +28,7 @@ type WebPageOptions = {
   name: string;
   description: string;
   hasPrimaryImage?: boolean;
-  /** @id of main entity (Article or FAQPage) */
+  /** @id of main entity (Article, WebApplication, ItemList or FAQPage) */
   mainEntityId?: string;
   /** Additional related entities (e.g. FAQ on an Article page) */
   hasPartIds?: string[];

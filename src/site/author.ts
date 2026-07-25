@@ -8,22 +8,22 @@ export const SITE_AUTHOR = {
   name: siteConfig.author,
   slug: "antoine",
   path: "/auteur/antoine",
-  metaTitle: "Antoine, auteur de Brut vers Net",
+  metaTitle: "Antoine, auteur de Calculer Mon IMC",
   metaDescription:
-    "Antoine est le créateur de Brut vers Net. Il publie des contenus pédagogiques sur le salaire, les cotisations et les calculateurs de rémunération.",
+    "Antoine est le créateur de Calculer Mon IMC. Il publie des contenus pédagogiques sur l'IMC, le poids et les calculateurs santé.",
   pageSubtitle:
-    "Créateur de Brut vers Net, des contenus pédagogiques sur la rémunération.",
-  role: "Créateur de Brut vers Net",
+    "Créateur de Calculer Mon IMC, des contenus pédagogiques sur l'IMC et la santé.",
+  role: "Créateur de Calculer Mon IMC",
   cardIntro:
-    "Des contenus pédagogiques pour rendre la rémunération plus accessible.",
+    "Des contenus pédagogiques pour mieux comprendre l'IMC et les repères de poids.",
   sections: [
     {
       id: "a-propos",
       title: "À propos",
       icon: "user" as const,
       paragraphs: [
-        "Antoine est le créateur de Brut vers Net.",
-        "Passionné par la rémunération, la finance personnelle et les mécanismes qui influencent le pouvoir d'achat, il s'intéresse à la manière de rendre accessibles des sujets souvent perçus comme complexes.",
+        "Antoine est le créateur de Calculer Mon IMC.",
+        "Passionné par la pédagogie santé et les indicateurs accessibles au grand public, il s'intéresse à la manière de rendre compréhensibles des sujets souvent perçus comme techniques.",
       ],
     },
     {
@@ -31,7 +31,7 @@ export const SITE_AUTHOR = {
       title: "Ce que je publie",
       icon: "book" as const,
       paragraphs: [
-        "À travers Brut vers Net, il publie des contenus pédagogiques consacrés au salaire, aux cotisations sociales, aux calculateurs et aux principaux dispositifs liés à la rémunération.",
+        "À travers Calculer Mon IMC, il publie des contenus consacrés à l'IMC, au poids, aux calculateurs santé et à leur interprétation, sans promesse médicale.",
       ],
     },
     {
@@ -39,23 +39,22 @@ export const SITE_AUTHOR = {
       title: "Mon objectif",
       icon: "target" as const,
       paragraphs: [
-        "L'objectif du site est de proposer des explications claires, des outils simples à utiliser et des informations régulièrement mises à jour afin d'aider chacun à mieux comprendre sa rémunération.",
+        "L'objectif du site est de proposer des explications claires, des outils simples à utiliser et des informations régulièrement mises à jour afin d'aider chacun à mieux lire ses repères de poids.",
       ],
     },
   ],
   methodologyTitle: "Méthodologie",
   methodology:
-    "Les contenus publiés sur Brut vers Net sont rédigés à partir des textes officiels disponibles, puis relus et mis à jour lors des évolutions réglementaires afin de garantir des informations aussi fiables et compréhensibles que possible.",
+    "Les contenus publiés sur Calculer Mon IMC sont rédigés à partir de références reconnues (OMS, recommandations publiques), puis relus pour rester pédagogiques et prudents sur le plan médical.",
   sourcesIntro:
-    "Les articles s'appuient, lorsque cela est pertinent, sur des sources officielles. Sources régulièrement consultées :",
+    "Les articles s'appuient, lorsque cela est pertinent, sur des sources officielles ou institutionnelles. Sources régulièrement consultées :",
   sources: [
-    "URSSAF",
-    "Service-Public.fr",
-    "Code du travail",
-    "textes réglementaires applicables",
+    "Organisation mondiale de la Santé (OMS)",
+    "Santé publique France",
+    "recommandations et guides publics sur le poids",
   ],
   ctaText:
-    "Vous souhaitez mieux comprendre votre salaire ou utiliser un de nos outils de simulation ?",
+    "Vous souhaitez estimer votre IMC ou lire nos guides ?",
   ctaLabel: "Découvrir les calculateurs",
 } as const;
 

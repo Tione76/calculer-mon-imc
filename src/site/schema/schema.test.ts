@@ -3,15 +3,23 @@ import { toSchemaDateTime } from "./types";
 import { buildPersonNode } from "./nodes/person";
 import { buildArticleNode } from "./nodes/article";
 import { buildWebApplicationNode } from "./nodes/webapplication";
+import { buildOrganizationNode } from "./nodes/organization";
 import {
   buildHomeJsonLd,
   buildCalculatorJsonLd,
   buildGuideJsonLd,
+  buildHubJsonLd,
   buildWebPageJsonLd,
   buildAuthorJsonLd,
 } from "./pages";
-import { getGuideBySlug } from "@/site/guides/registry";
-import { HOME_COVER, getCalculatorCover } from "@/site/guides/covers";
+import { getGuideBySlug, guides } from "@/site/guides/registry";
+import {
+  HOME_COVER,
+  GUIDES_HUB_COVER,
+  TOOLS_HUB_COVER,
+  getCalculatorCover,
+} from "@/site/guides/covers";
+import { seoConfig } from "@/site/seo.config";
 
 describe("schema datetime and author", () => {
   it("normalise YYYY-MM-DD en ISO 8601 avec heure et fuseau", () => {
@@ -26,39 +34,47 @@ describe("schema datetime and author", () => {
 
   it("émet Person avec le nom Antoine et l'URL de la page auteur", () => {
     expect(buildPersonNode().name).toBe("Antoine");
-    expect(buildPersonNode()["@id"]).toBe("https://brut-vers-net.fr/#author");
-    expect(buildPersonNode().url).toBe("https://brut-vers-net.fr/auteur/antoine");
+    expect(buildPersonNode()["@id"]).toBe("https://calculer-mon-imc.fr/#author");
+    expect(buildPersonNode().url).toBe("https://calculer-mon-imc.fr/auteur/antoine");
   });
 
   it("émet Article avec dates ISO complètes", () => {
-    const guide = getGuideBySlug("comment-est-calcule-le-salaire-net");
+    const guide = getGuideBySlug("quest-ce-que-l-imc");
     expect(guide).toBeTruthy();
     const article = buildArticleNode(guide!, `/guides/${guide!.slug}`);
-    expect(article.datePublished).toBe("2026-07-14T09:00:00+02:00");
-    expect(article.dateModified).toBe("2026-07-15T09:00:00+02:00");
-    expect(article.author).toEqual({ "@id": "https://brut-vers-net.fr/#author" });
+    expect(article.datePublished).toBe("2026-07-20T09:00:00+02:00");
+    expect(article.dateModified).toBe("2026-07-21T09:00:00+02:00");
+    expect(article.author).toEqual({ "@id": "https://calculer-mon-imc.fr/#author" });
+  });
+});
+
+describe("Organization", () => {
+  it("réutilise le logo pour image (identité de marque)", () => {
+    const org = buildOrganizationNode();
+    expect(org.logo).toEqual({ "@id": "https://calculer-mon-imc.fr/#logo" });
+    expect(org.image).toEqual({ "@id": "https://calculer-mon-imc.fr/#logo" });
   });
 });
 
 describe("WebApplication sur calculateurs interactifs", () => {
   it("émet un WebApplication minimal et vérifiable", () => {
     const node = buildWebApplicationNode({
-      path: "/calculateurs/augmentation-salaire",
-      name: "Calculateur d'augmentation de salaire",
+      path: "/",
+      name: "Calculateur IMC",
       description: "Description test",
     });
 
     expect(node).toEqual({
       "@type": "WebApplication",
-      "@id": "https://brut-vers-net.fr/calculateurs/augmentation-salaire#webapp",
-      name: "Calculateur d'augmentation de salaire",
+      "@id": "https://calculer-mon-imc.fr/#webapp",
+      name: "Calculateur IMC",
       description: "Description test",
-      url: "https://brut-vers-net.fr/calculateurs/augmentation-salaire",
-      applicationCategory: "FinanceApplication",
+      url: "https://calculer-mon-imc.fr",
+      applicationCategory: "HealthApplication",
       operatingSystem: "Web",
       browserRequirements: "Requires JavaScript. Requires HTML5.",
       isAccessibleForFree: true,
-      publisher: { "@id": "https://brut-vers-net.fr/#organization" },
+      publisher: { "@id": "https://calculer-mon-imc.fr/#organization" },
     });
     expect(node).not.toHaveProperty("aggregateRating");
     expect(node).not.toHaveProperty("offers");
@@ -67,7 +83,7 @@ describe("WebApplication sur calculateurs interactifs", () => {
 
   it("relie WebPage.mainEntity au WebApplication sur l'accueil et les calculateurs", () => {
     const home = buildHomeJsonLd({
-      name: "Calculateur Brut vers Net",
+      name: "Calculateur IMC",
       description: "Description accueil",
       cover: HOME_COVER,
       faq: [{ question: "Q ?", answer: "R." }],
@@ -78,26 +94,34 @@ describe("WebApplication sur calculateurs interactifs", () => {
     const homeFaq = homeGraph.find((n) => n["@type"] === "FAQPage");
 
     expect(homeApp).toBeTruthy();
-    expect(homePage?.mainEntity).toEqual({ "@id": "https://brut-vers-net.fr/#webapp" });
-    expect(homePage?.hasPart).toEqual([{ "@id": "https://brut-vers-net.fr/#faq" }]);
+    expect(homePage?.mainEntity).toEqual({ "@id": "https://calculer-mon-imc.fr/#webapp" });
+    expect(homePage?.hasPart).toEqual([{ "@id": "https://calculer-mon-imc.fr/#faq" }]);
     expect(homeFaq).toBeTruthy();
 
     const calc = buildCalculatorJsonLd({
-      path: "/calculateurs/indemnite-licenciement",
-      name: "Calculez votre indemnité de licenciement",
+      path: "/calculateurs/poids-ideal",
+      name: "Calculer son poids idéal",
       description: "Description calculateur",
-      cover: getCalculatorCover("indemnite-licenciement"),
+      cover: getCalculatorCover("poids-ideal"),
       faq: [],
     });
     const calcGraph = calc["@graph"] as Record<string, unknown>[];
     expect(calcGraph.some((n) => n["@type"] === "WebApplication")).toBe(true);
     expect(calcGraph.find((n) => n["@type"] === "WebPage")?.mainEntity).toEqual({
-      "@id": "https://brut-vers-net.fr/calculateurs/indemnite-licenciement#webapp",
+      "@id": "https://calculer-mon-imc.fr/calculateurs/poids-ideal#webapp",
     });
+
+    const breadcrumb = calcGraph.find((n) => n["@type"] === "BreadcrumbList");
+    const crumbs = breadcrumb?.itemListElement as Array<{ name: string }>;
+    expect(crumbs.map((c) => c.name)).toEqual([
+      "Accueil",
+      "Calculateurs",
+      "Calculer son poids idéal",
+    ]);
   });
 
   it("n'ajoute pas WebApplication aux guides ni aux pages éditoriales", () => {
-    const guide = getGuideBySlug("comment-est-calcule-le-salaire-net");
+    const guide = getGuideBySlug("quest-ce-que-l-imc");
     expect(guide).toBeTruthy();
     const guideGraph = buildGuideJsonLd(guide!)["@graph"] as Record<string, unknown>[];
     expect(guideGraph.some((n) => n["@type"] === "WebApplication")).toBe(false);
@@ -116,15 +140,63 @@ describe("WebApplication sur calculateurs interactifs", () => {
   });
 });
 
+describe("hubs Schema.org", () => {
+  it("place ItemList en mainEntity et FAQ en hasPart", () => {
+    const graph = buildHubJsonLd({
+      path: seoConfig.guidesHub.path,
+      name: seoConfig.guidesHub.h1,
+      description: seoConfig.guidesHub.description,
+      hubLabel: seoConfig.guidesHub.h1,
+      cover: GUIDES_HUB_COVER,
+      faq: [{ question: "Q ?", answer: "R." }],
+      listName: "Liste des guides",
+      items: guides.map((guide) => ({
+        name: guide.title,
+        path: `/guides/${guide.slug}`,
+      })),
+    })["@graph"] as Record<string, unknown>[];
+
+    const page = graph.find((n) => n["@type"] === "WebPage");
+    const itemList = graph.find((n) => n["@type"] === "ItemList");
+    const faq = graph.find((n) => n["@type"] === "FAQPage");
+
+    expect(itemList).toBeTruthy();
+    expect(faq).toBeTruthy();
+    expect(page?.mainEntity).toEqual({
+      "@id": "https://calculer-mon-imc.fr/guides#itemlist",
+    });
+    expect(page?.hasPart).toEqual([{ "@id": "https://calculer-mon-imc.fr/guides#faq" }]);
+    expect(itemList?.numberOfItems).toBe(guides.length);
+    expect(graph.some((n) => n["@type"] === "WebApplication")).toBe(false);
+  });
+
+  it("utilise le libellé Calculateurs pour le hub outils", () => {
+    const graph = buildHubJsonLd({
+      path: seoConfig.toolsHub.path,
+      name: "Nos calculateurs santé",
+      description: seoConfig.toolsHub.description,
+      hubLabel: seoConfig.toolsHub.h1,
+      cover: TOOLS_HUB_COVER,
+      faq: [],
+      listName: "Calculateurs",
+      items: [{ name: "Calculateur IMC", path: "/" }],
+    })["@graph"] as Record<string, unknown>[];
+
+    const breadcrumb = graph.find((n) => n["@type"] === "BreadcrumbList");
+    const crumbs = breadcrumb?.itemListElement as Array<{ name: string }>;
+    expect(crumbs.map((c) => c.name)).toEqual(["Accueil", "Calculateurs"]);
+  });
+});
+
 describe("page auteur Schema.org", () => {
   it("réutilise le même @id Person sans doublon", () => {
     const graph = buildAuthorJsonLd()["@graph"] as Record<string, unknown>[];
     const persons = graph.filter((n) => n["@type"] === "Person");
     expect(persons).toHaveLength(1);
-    expect(persons[0]["@id"]).toBe("https://brut-vers-net.fr/#author");
-    expect(persons[0].url).toBe("https://brut-vers-net.fr/auteur/antoine");
+    expect(persons[0]["@id"]).toBe("https://calculer-mon-imc.fr/#author");
+    expect(persons[0].url).toBe("https://calculer-mon-imc.fr/auteur/antoine");
     expect(graph.find((n) => n["@type"] === "WebPage")?.mainEntity).toEqual({
-      "@id": "https://brut-vers-net.fr/#author",
+      "@id": "https://calculer-mon-imc.fr/#author",
     });
   });
 });

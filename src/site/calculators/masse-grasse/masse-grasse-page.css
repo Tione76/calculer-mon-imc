@@ -1,0 +1,280 @@
+/** Sous-titre H1 masse grasse : contraste renforcé sur fond vert. */
+.tool-header__subtitle--masse-grasse {
+  color: #ffffff;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+/** Respiration éditoriale (interligne + sections). */
+.mg-editorial {
+  --editorial-space-section: 3.75rem;
+  --editorial-space-block: 2rem;
+  --editorial-space-text: 1.35rem;
+  --editorial-line-height: 1.75;
+}
+
+.mg-editorial .home-editorial__prose {
+  line-height: var(--editorial-line-height);
+}
+
+.mg-editorial .home-editorial__prose > * + * {
+  margin-top: var(--editorial-space-text);
+}
+
+.mg-editorial .home-editorial__prose > .prose-callout + .prose-callout {
+  margin-top: 1.5rem;
+}
+
+.mg-editorial .home-editorial__prose > figure.guide-table-wrap {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  max-width: 100%;
+}
+
+.mg-editorial .guide-formula-box {
+  max-width: var(--editorial-prose-width);
+}
+
+.mg-editorial .guide-conclusion {
+  margin-top: var(--editorial-space-section);
+}
+
+.editorial-list--sources {
+  font-size: 0.9375rem;
+}
+
+.mg-editorial-sidebar-retain {
+  margin-top: 1.25rem;
+}
+
+.mg-editorial-sidebar-retain__list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.mg-editorial-sidebar-retain__list li::marker {
+  color: #166534;
+}
+
+/**
+ * CTA « Revenir au calculateur » :
+ * .home-editorial a force la couleur brand + soulignement ;
+ * on restaure le bouton vert à texte blanc.
+ */
+.mg-editorial a.guide-conclusion__cta,
+.mg-editorial a.mg-editorial__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 32px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #ffffff !important;
+  background: var(--ds-brand, #18753c);
+  border-radius: var(--ds-radius, 4px);
+  text-decoration: none !important;
+  text-underline-offset: 0;
+  text-decoration-color: transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mg-editorial a.guide-conclusion__cta:hover,
+.mg-editorial a.mg-editorial__cta:hover {
+  color: #ffffff !important;
+  background: var(--ds-brand-dark, #145c30);
+  text-decoration: none !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.mg-editorial a.guide-conclusion__cta:focus-visible,
+.mg-editorial a.mg-editorial__cta:focus-visible {
+  outline: 2px solid var(--ds-brand-dark, #145c30);
+  outline-offset: 3px;
+}
+
+/* Encadrés manquants côté blog-page (retain / tip / example / hint). */
+.mg-editorial .prose-callout--retain {
+  background: #f0f7f2;
+  border-color: #b8d9c4;
+  color: #1e5631;
+}
+
+.mg-editorial .prose-callout--retain strong {
+  color: #18753c;
+}
+
+.mg-editorial .prose-callout--tip {
+  background: #f0f7f2;
+  border-color: #b8d9c4;
+  color: #1e5631;
+}
+
+.mg-editorial .prose-callout--tip strong {
+  color: #18753c;
+}
+
+.mg-editorial .prose-callout--example {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+.mg-editorial .prose-callout--example strong {
+  color: #0f766e;
+}
+
+.mg-editorial .prose-callout--hint {
+  background: #f5f0fa;
+  border-color: #d4c4e8;
+  color: #4a3066;
+}
+
+.mg-editorial .prose-callout--hint strong {
+  color: #6b3fa0;
+}
+
+.mg-editorial .prose-callout--advice {
+  background: #f0f7f2;
+  border-color: #b8d9c4;
+  color: #1e5631;
+}
+
+.mg-editorial .prose-callout--advice strong {
+  color: #18753c;
+}
+
+/* Première colonne des tableaux catégories : mise en valeur. */
+.mg-editorial .guide-table-wrap--imc-categories .guide-table--imc-categories tbody tr td:first-child {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.mg-editorial .guide-table-wrap--editorial-comparison .guide-table--editorial-comparison tbody tr td:first-child {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Bloc « Pour aller plus loin » : grille discrète (complète la sidebar). */
+.mg-further {
+  max-width: none;
+}
+
+.mg-further__lead {
+  max-width: var(--editorial-prose-width);
+}
+
+.mg-further__list {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  max-width: 42rem;
+}
+
+@media (min-width: 640px) {
+  .mg-further__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.mg-editorial a.mg-further__link {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--ds-border, #e5e7eb);
+  border-radius: var(--ds-radius, 4px);
+  background: var(--ds-surface, #ffffff);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.mg-editorial a.mg-further__link:hover {
+  border-color: var(--ds-brand-muted, #b8d9c4);
+  background: var(--ds-brand-light, #f0f7f2);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.mg-further__icon {
+  flex: 0 0 auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--ds-brand-light, #f0f7f2);
+  color: var(--ds-brand, #18753c);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.mg-further__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mg-further__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ds-text, #111827);
+  line-height: 1.35;
+}
+
+.mg-further__desc {
+  font-size: 0.8125rem;
+  color: var(--ds-text-muted, #6b7280);
+  line-height: 1.45;
+}
+
+.mg-further__arrow {
+  flex: 0 0 auto;
+  margin-top: 0.1rem;
+  color: var(--ds-brand, #18753c);
+  font-size: 0.9375rem;
+  opacity: 0.7;
+}
+
+.mg-editorial a.mg-further__link:hover .mg-further__arrow {
+  opacity: 1;
+}
+
+.mg-further__hubs {
+  margin-top: 1.35rem;
+  max-width: var(--editorial-prose-width);
+  font-size: 0.9375rem;
+  color: var(--ds-text-muted, #6b7280);
+}
+
+/* Libellés juste avant une liste (Points forts, Hommes, etc.). */
+.mg-editorial .home-editorial__prose > p:has(+ .editorial-list) {
+  margin-bottom: 0;
+}
+
+.mg-editorial .home-editorial__prose > p + .editorial-list {
+  margin-top: 0.5rem;
+}

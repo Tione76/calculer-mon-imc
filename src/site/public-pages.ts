@@ -23,7 +23,7 @@ export interface PublicPage {
 }
 
 /** Dernière mise à jour SEO significative (titles / meta / indexation). */
-const SEO_CONTENT_UPDATED_AT = "2026-07-17";
+const SEO_CONTENT_UPDATED_AT = "2026-07-20";
 
 /** Pages encore non indexables (templates guides uniquement pour l'instant). */
 const NOINDEX_PATHS = new Set([
@@ -207,7 +207,7 @@ export function getPlanDuSiteSections(): PlanDuSiteSection[] {
   const toolPages = pages.filter((p) => p.category === "tools").map(toLink);
 
   return [
-    { title: "Outils", pages: toolPages },
+    { title: "Calculateurs", pages: toolPages },
     { title: "Guides", pages: byCategory("guides") },
     { title: "FAQ", pages: byCategory("faq") },
     { title: "Pages utiles", pages: byCategory("utility") },

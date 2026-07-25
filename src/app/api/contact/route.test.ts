@@ -16,17 +16,22 @@ import { POST } from "@/app/api/contact/route";
 import {
   buildContactEmailContent,
   escapeHtml,
+  isContactDeliveryConfigured,
   isHoneypotFilled,
   isTrustedContactOrigin,
   validateContactPayload,
 } from "@/site/contact/contact-mail";
+import {
+  CONTACT_RATE_LIMIT_MESSAGE,
+  resetContactRateLimitStoreForTests,
+} from "@/site/contact/contact-rate-limit";
 
-function makeRequest(body: unknown, headers?: HeadersInit, url = "https://brut-vers-net.fr/api/contact") {
+function makeRequest(body: unknown, headers?: HeadersInit, url = "https://calculer-mon-imc.fr/api/contact") {
   return new Request(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Origin: "https://brut-vers-net.fr",
+      Origin: "https://calculer-mon-imc.fr",
       ...headers,
     },
     body: JSON.stringify(body),
@@ -84,8 +89,8 @@ describe("contact-mail helpers", () => {
       subject: "Autre demande",
       message: "Bonjour",
     });
-    expect(content.subject).toBe("[Nouveau contact Brut vers Net] Autre demande");
-    expect(content.text).toContain("Nouveau message reçu depuis brut-vers-net.fr");
+    expect(content.subject).toBe("[Nouveau contact Calculer Mon IMC] Autre demande");
+    expect(content.text).toContain("Nouveau message reçu depuis calculer-mon-imc.fr");
     expect(content.text).toContain("alice@example.com");
     expect(content.html).toContain("<strong>Nom :</strong>");
     expect(content.html).not.toContain("<script>");
@@ -96,8 +101,27 @@ describe("POST /api/contact", () => {
   beforeEach(() => {
     sendMock.mockReset();
     process.env.RESEND_API_KEY = "re_test_key";
-    process.env.CONTACT_EMAIL = "contact@brut-vers-net.fr";
-    process.env.CONTACT_FROM_EMAIL = "Formulaire Brut vers Net <contact@brut-vers-net.fr>";
+    process.env.CONTACT_EMAIL = "contact@example.com";
+    process.env.CONTACT_FROM_EMAIL = "Formulaire Test <contact@example.com>";
+    process.env.NODE_ENV = "test";
+    delete process.env.UPSTASH_REDIS_REST_URL;
+    delete process.env.UPSTASH_REDIS_REST_TOKEN;
+    delete process.env.CONTACT_RATE_LIMIT_MAX;
+    resetContactRateLimitStoreForTests();
+  });
+
+  it("refuse l'envoi si la configuration Resend ou les adresses sont absentes", async () => {
+    delete process.env.RESEND_API_KEY;
+    delete process.env.CONTACT_EMAIL;
+    delete process.env.CONTACT_FROM_EMAIL;
+
+    expect(isContactDeliveryConfigured()).toBe(false);
+
+    const response = await POST(makeRequest(validPayload));
+    expect(response.status).toBe(503);
+    const data = await response.json();
+    expect(data.error).toMatch(/indisponible/i);
+    expect(sendMock).not.toHaveBeenCalled();
   });
 
   it("rejette un formulaire vide", async () => {
@@ -135,7 +159,7 @@ describe("POST /api/contact", () => {
   it("accepte Origin www même si l'URL API est en apex", async () => {
     sendMock.mockResolvedValue({ data: { id: "msg_www" }, error: null });
     const response = await POST(
-      makeRequest(validPayload, { Origin: "https://www.brut-vers-net.fr" }),
+      makeRequest(validPayload, { Origin: "https://www.calculer-mon-imc.fr" }),
     );
     expect(response.status).toBe(200);
     expect(sendMock).toHaveBeenCalledTimes(1);
@@ -146,8 +170,8 @@ describe("POST /api/contact", () => {
     const response = await POST(
       makeRequest(
         validPayload,
-        { Origin: "https://brut-vers-net-git-main.vercel.app" },
-        "https://brut-vers-net-git-main.vercel.app/api/contact",
+        { Origin: "https://calculer-mon-imc-git-main.vercel.app" },
+        "https://calculer-mon-imc-git-main.vercel.app/api/contact",
       ),
     );
     expect(response.status).toBe(200);
@@ -162,11 +186,49 @@ describe("POST /api/contact", () => {
     expect(sendMock).not.toHaveBeenCalled();
   });
 
+  it("refuse une requête sans Origin ni Host de confiance (403)", async () => {
+    const response = await POST(
+      makeRequest(validPayload, { Origin: "", Host: "evil.example" }),
+    );
+    expect(response.status).toBe(403);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("accepte une requête sans Origin si Host correspond au site", async () => {
+    sendMock.mockResolvedValue({ data: { id: "msg_host" }, error: null });
+    const headers = new Headers({
+      "Content-Type": "application/json",
+      Host: "calculer-mon-imc.fr",
+    });
+    const response = await POST(
+      new Request("https://calculer-mon-imc.fr/api/contact", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(validPayload),
+      }),
+    );
+    expect(response.status).toBe(200);
+    expect(sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("limite les envois répétés en mode test (429)", async () => {
+    sendMock.mockResolvedValue({ data: { id: "msg_rate" }, error: null });
+    process.env.CONTACT_RATE_LIMIT_MAX = "2";
+
+    const headers = { "x-forwarded-for": "203.0.113.50" };
+    expect((await POST(makeRequest(validPayload, headers))).status).toBe(200);
+    expect((await POST(makeRequest(validPayload, headers))).status).toBe(200);
+    const blocked = await POST(makeRequest(validPayload, headers));
+    expect(blocked.status).toBe(429);
+    expect(await blocked.json()).toEqual({ error: CONTACT_RATE_LIMIT_MESSAGE });
+    expect(sendMock).toHaveBeenCalledTimes(2);
+  });
+
   it("isTrustedContactOrigin accepte apex et www", () => {
     const apex = makeRequest(validPayload);
-    const www = makeRequest(validPayload, { Origin: "https://www.brut-vers-net.fr" });
-    expect(isTrustedContactOrigin(apex, "https://brut-vers-net.fr")).toBe(true);
-    expect(isTrustedContactOrigin(www, "https://brut-vers-net.fr")).toBe(true);
+    const www = makeRequest(validPayload, { Origin: "https://www.calculer-mon-imc.fr" });
+    expect(isTrustedContactOrigin(apex, "https://calculer-mon-imc.fr")).toBe(true);
+    expect(isTrustedContactOrigin(www, "https://calculer-mon-imc.fr")).toBe(true);
   });
 
   it("envoie un e-mail avec des données valides", async () => {
@@ -178,15 +240,15 @@ describe("POST /api/contact", () => {
 
     expect(sendMock).toHaveBeenCalledTimes(1);
     const arg = sendMock.mock.calls[0][0];
-    expect(arg.to).toEqual(["contact@brut-vers-net.fr"]);
-    expect(arg.from).toBe("Formulaire Brut vers Net <contact@brut-vers-net.fr>");
+    expect(arg.to).toEqual(["contact@example.com"]);
+    expect(arg.from).toBe("Formulaire Test <contact@example.com>");
     expect(arg.replyTo).toBe("alice@example.com");
-    expect(arg.subject).toBe("[Nouveau contact Brut vers Net] Autre demande");
+    expect(arg.subject).toBe("[Nouveau contact Calculer Mon IMC] Autre demande");
     expect(arg.text).toContain("Alice Dupont");
     expect(arg.html).toContain("Alice Dupont");
   });
 
-  it("gère une erreur Resend", async () => {
+  it("gère une erreur Resend sans exposer le détail au client", async () => {
     sendMock.mockResolvedValue({
       data: null,
       error: { name: "validation_error", message: "Invalid from" },
@@ -195,7 +257,8 @@ describe("POST /api/contact", () => {
     const response = await POST(makeRequest(validPayload));
     expect(response.status).toBe(500);
     const data = await response.json();
-    expect(data.error).toMatch(/contact@brut-vers-net\.fr/);
+    expect(data.error).toMatch(/réessayer/i);
+    expect(JSON.stringify(data)).not.toContain("Invalid from");
   });
 
   it("n'expose pas RESEND_API_KEY côté client", () => {

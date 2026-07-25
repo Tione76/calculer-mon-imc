@@ -10,7 +10,7 @@ export function CookiePolicyContent() {
     <>
       <div className="guide-intro">
         <p>
-          Cette page décrit comment <strong>BRUT-VERS-NET.FR</strong> utilise les cookies et
+          Cette page décrit comment <strong>CALCULER-MON-IMC.FR</strong> utilise les cookies et
           technologies similaires, et comment vous pouvez gérer vos préférences. Elle est rédigée
           en lien direct avec le bandeau de consentement affiché sur le site et avec les services
           réellement utilisés (Google Analytics 4, Microsoft Clarity, Google AdSense, Google Consent Mode).
@@ -27,7 +27,7 @@ export function CookiePolicyContent() {
           mémoriser certaines informations pendant une visite ou d&apos;une visite à l&apos;autre.
         </p>
         <p>
-          Sur <strong>BRUT-VERS-NET.FR</strong>, nous distinguons trois grandes familles de cookies
+          Sur <strong>CALCULER-MON-IMC.FR</strong>, nous distinguons trois grandes familles de cookies
           et traceurs, selon leur finalité :
         </p>
         <ul>
@@ -51,7 +51,7 @@ export function CookiePolicyContent() {
       </section>
 
       <section id="cookies-utilises" className="guide-section">
-        <h2>Les cookies utilisés sur BRUT-VERS-NET.FR</h2>
+        <h2>Les cookies utilisés sur CALCULER-MON-IMC.FR</h2>
         <p>
           Le tableau ci-dessous résume les catégories de cookies susceptibles d&apos;être utilisées
           sur le site. Le détail des services associés est présenté plus loin dans cette page.
@@ -92,7 +92,7 @@ export function CookiePolicyContent() {
           <h3>Cookies strictement nécessaires</h3>
           <p>
             Ces cookies et traceurs locaux sont indispensables au fonctionnement de{" "}
-            <strong>BRUT-VERS-NET.FR</strong>. Ils permettent notamment :
+            <strong>CALCULER-MON-IMC.FR</strong>. Ils permettent notamment :
           </p>
           <ul>
             <li>de mémoriser votre choix de consentement (acceptation, refus ou personnalisation) ;</li>
@@ -173,7 +173,7 @@ export function CookiePolicyContent() {
       <section id="bandeau-consentement" className="guide-section">
         <h2>Fonctionnement du bandeau de consentement</h2>
         <p>
-          Lors de votre première visite sur <strong>BRUT-VERS-NET.FR</strong>, un bandeau maison
+          Lors de votre première visite sur <strong>CALCULER-MON-IMC.FR</strong>, un bandeau maison
           s&apos;affiche en bas de l&apos;écran. Il vous informe de l&apos;utilisation des cookies
           et vous propose trois options :
         </p>
@@ -206,7 +206,7 @@ export function CookiePolicyContent() {
         <p>Vous disposez de plusieurs moyens pour ajuster vos préférences :</p>
 
         <div className="guide-subsection">
-          <h3>Depuis le site BRUT-VERS-NET.FR</h3>
+          <h3>Depuis le site CALCULER-MON-IMC.FR</h3>
           <p>
             Cliquez sur le bouton <strong>« Gérer les cookies »</strong> en bas de page, ou utilisez
             le panneau ci-dessous pour rouvrir vos préférences à tout moment :
@@ -263,7 +263,7 @@ export function CookiePolicyContent() {
         <h2>Services utilisés</h2>
         <p>
           Le tableau suivant présente les principaux services tiers liés aux cookies ou au
-          consentement sur <strong>BRUT-VERS-NET.FR</strong>.
+          consentement sur <strong>CALCULER-MON-IMC.FR</strong>.
         </p>
 
         <figure className="guide-table-wrap">
@@ -317,7 +317,7 @@ export function CookiePolicyContent() {
           <strong>Google Search Console</strong> et <strong>Ahrefs Webmaster Tools</strong> peuvent
           être utilisés par l&apos;éditeur pour analyser la visibilité du site dans les moteurs de
           recherche. Ces outils ne déposent aucun cookie chez les visiteurs de{" "}
-          <strong>BRUT-VERS-NET.FR</strong>. Ils ne figurent donc pas dans le tableau ci-dessus.
+          <strong>CALCULER-MON-IMC.FR</strong>. Ils ne figurent donc pas dans le tableau ci-dessus.
         </p>
         <p>
           Pour en savoir plus sur le traitement des données personnelles, consultez également nos{" "}
@@ -394,11 +394,11 @@ export function CookiePolicyContent() {
         <h2>Contact</h2>
         <p>
           Pour toute question relative aux cookies, au bandeau de consentement ou à l&apos;utilisation
-          de vos données sur <strong>BRUT-VERS-NET.FR</strong>, vous pouvez contacter l&apos;éditeur :
+          de vos données sur <strong>CALCULER-MON-IMC.FR</strong>, vous pouvez contacter l&apos;éditeur :
         </p>
         <p>
-          <a href="mailto:contact@brut-vers-net.fr">
-            <strong>contact@brut-vers-net.fr</strong>
+          <a href="mailto:contact@calculer-mon-imc.fr">
+            <strong>contact@calculer-mon-imc.fr</strong>
           </a>
         </p>
         <p>

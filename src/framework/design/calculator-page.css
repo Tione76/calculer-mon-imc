@@ -436,10 +436,23 @@
 .home-editorial .editorial-list li {
   position: relative;
   padding-left: 1.625rem;
+  display: list-item;
 }
 
 .home-editorial .editorial-list li + li {
   margin-top: 0.625rem;
+}
+
+/* Puces visibles par défaut (sinon list-style: none rend les listes illisibles). */
+.home-editorial .editorial-list:not(.editorial-list--steps):not(.editorial-list--checks):not(.editorial-list--toc):not(.editorial-list--limits):not(.mg-further__list) li::before {
+  content: "";
+  position: absolute;
+  left: 0.3rem;
+  top: 0.58em;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--ds-brand);
 }
 
 /* Étapes numérotées */

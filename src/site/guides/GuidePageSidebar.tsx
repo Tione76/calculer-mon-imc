@@ -52,16 +52,10 @@ const TOOLS_HUB_FEATURED_GUIDES: {
   slug: string;
   title: string;
 }[] = [
-  { slug: "comment-lire-une-fiche-de-paie", title: "Comment lire une fiche de paie" },
-  {
-    slug: "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
-    title: "Comprendre les cotisations salariales",
-  },
-  {
-    slug: "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
-    title: "Comprendre le prélèvement à la source",
-  },
-  { slug: "comment-calculer-son-salaire-net", title: "Comment calculer son salaire net" },
+  { slug: "quest-ce-que-l-imc", title: "Qu'est-ce que l'IMC ?" },
+  { slug: "comment-calculer-son-imc", title: "Comment calculer son IMC ?" },
+  { slug: "limites-de-l-imc", title: "Les limites de l'IMC" },
+  { slug: "calculer-son-poids-ideal", title: "Calculer son poids idéal" },
 ];
 
 function getToolsHubFeaturedGuides(): GuideSidebarLink[] {

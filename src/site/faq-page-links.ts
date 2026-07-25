@@ -1,47 +1,59 @@
-/** Liens internes : source unique pour la page FAQ */
+/** Liens internes : source unique pour la page FAQ (ancres variées). */
 export const FAQ_INTERNAL_LINKS = {
-  calcBrutNet: {
+  calcImc: {
     href: "/",
-    link: "calculateur de salaire brut vers net",
+    link: "calculateur IMC",
   },
-  calcAugmentation: {
-    href: "/calculateurs/augmentation-salaire",
-    link: "calculateur d'augmentation de salaire",
+  calcImcAction: {
+    href: "/",
+    link: "calculer votre IMC",
   },
-  calcHeuresSup: {
-    href: "/calculateurs/salaire-heures-supplementaires",
-    link: "calculateur de salaire avec heures supplémentaires",
+  calcPoidsIdeal: {
+    href: "/calculateurs/poids-ideal",
+    link: "calculateur de poids idéal",
   },
-  calcIndemnite: {
-    href: "/calculateurs/indemnite-licenciement",
-    link: "simulateur d'indemnité de licenciement",
+  calcMasseGrasse: {
+    href: "/calculateurs/masse-grasse",
+    link: "estimateur de masse grasse",
+  },
+  calcMasseGrasseAction: {
+    href: "/calculateurs/masse-grasse",
+    link: "estimer votre masse grasse",
   },
   toolsHub: {
     href: "/nos-outils",
-    link: "page regroupant tous les outils",
+    link: "consulter tous nos calculateurs",
+  },
+  toolsHubShort: {
+    href: "/nos-outils",
+    link: "Nos outils",
   },
   guidesHub: {
     href: "/guides",
-    link: "page des guides",
+    link: "découvrir tous nos guides",
   },
-  guideBrutNet: {
-    href: "/guides/comment-est-calcule-le-salaire-net",
-    link: "guide sur les différences entre salaire brut et salaire net",
+  guidesHubShort: {
+    href: "/guides",
+    link: "Guides",
   },
-  guideCalculerNet: {
-    href: "/guides/comment-calculer-son-salaire-net",
-    link: "guide « Comment calculer son salaire net ? »",
+  guideQuestCeQueImc: {
+    href: "/guides/quest-ce-que-l-imc",
+    link: "comprendre ce qu'est l'IMC",
   },
-  guideFichePaie: {
-    href: "/guides/comment-lire-une-fiche-de-paie",
-    link: "guide « Comment lire une fiche de paie ? »",
+  guideCalculerImc: {
+    href: "/guides/comment-calculer-son-imc",
+    link: "comprendre la formule de l'IMC",
   },
-  guideCotisations: {
-    href: "/guides/cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
-    link: "guide consacré aux cotisations salariales",
+  guideInterpreterImc: {
+    href: "/guides/comment-interpreter-son-imc",
+    link: "interpréter votre résultat",
   },
-  guidePas: {
-    href: "/guides/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
-    link: "guide sur le prélèvement à la source",
+  guideLimitesImc: {
+    href: "/guides/limites-de-l-imc",
+    link: "connaître les limites de l'indicateur",
+  },
+  guidePoidsIdeal: {
+    href: "/guides/calculer-son-poids-ideal",
+    link: "guide sur le poids idéal",
   },
 } as const;

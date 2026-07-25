@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         destination: "/gestion-des-cookies",
         permanent: true,
       },
+      {
+        source: "/guides/poids-ideal-comment-estimer",
+        destination: "/guides/calculer-son-poids-ideal",
+        permanent: true,
+      },
     ];
   },
   headers: async () => [

@@ -1,7 +1,5 @@
 import { randomBytes } from "node:crypto";
 
-import { siteConfig } from "@/site/site.config";
-
 const INDEXNOW_API_URL = "https://api.indexnow.org/IndexNow";
 const MAX_URLS_PER_REQUEST = 10_000;
 const KEY_PATTERN = /^[a-zA-Z0-9-]{8,128}$/;
@@ -37,7 +35,7 @@ export function isValidIndexNowKey(key: string): boolean {
 
 /**
  * Lit la configuration IndexNow depuis les variables d'environnement.
- * INDEXNOW_KEY est requis. INDEXNOW_HOST est optionnel (dérivé de siteConfig.url).
+ * INDEXNOW_KEY est requis. SITE_URL est requis si la clé est définie. INDEXNOW_HOST est optionnel.
  */
 export function getIndexNowConfig(): IndexNowConfig | null {
   const key = readEnv("INDEXNOW_KEY");
@@ -49,7 +47,15 @@ export function getIndexNowConfig(): IndexNowConfig | null {
     );
   }
 
-  const siteOrigin = siteConfig.url.replace(/\/$/, "");
+  const siteOriginFromEnv =
+    readEnv("SITE_URL") || readEnv("NEXT_PUBLIC_SITE_URL");
+  if (!siteOriginFromEnv) {
+    throw new Error(
+      "SITE_URL est requis lorsque INDEXNOW_KEY est défini (aucun domaine par défaut).",
+    );
+  }
+
+  const siteOrigin = siteOriginFromEnv.replace(/\/$/, "");
   const host = readEnv("INDEXNOW_HOST") || new URL(siteOrigin).host;
   const keyLocation = `${siteOrigin}/${key}.txt`;
 
@@ -99,8 +105,8 @@ export function normalizeIndexNowUrls(
   urls: string | readonly string[],
   config: IndexNowConfig = getIndexNowConfig() ?? {
     key: "",
-    host: new URL(siteConfig.url).host,
-    siteOrigin: siteConfig.url.replace(/\/$/, ""),
+    host: "",
+    siteOrigin: "",
     keyLocation: "",
   },
 ): string[] {

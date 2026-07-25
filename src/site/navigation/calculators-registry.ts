@@ -1,7 +1,7 @@
 import { seoConfig } from "../seo.config";
 import { getCalculatorCover, type GuideCoverImage } from "../guides/covers";
 
-/** Entrée calculateur : source unique pour menu, sidebar, sitemap et page Nos outils */
+/** Entrée calculateur : source unique pour menu, sidebar, sitemap et page Nos calculateurs */
 export interface CalculatorEntry {
   id: string;
   path: string;
@@ -15,32 +15,46 @@ export interface CalculatorEntry {
 
 function getHomeCalculator(): CalculatorEntry {
   return {
-    id: "brut-vers-net",
+    id: "imc",
     path: "/",
     title: seoConfig.home.h1,
-    shortTitle: "Calculateur salaire brut vers net",
-    description: "Estimez votre salaire net à partir de votre salaire brut.",
+    shortTitle: "Calculateur IMC",
+    description: seoConfig.home.description,
     h1: seoConfig.home.h1,
-    cover: getCalculatorCover("brut-vers-net"),
-    icon: "€",
+    cover: getCalculatorCover("imc"),
+    icon: "⚖",
   };
 }
 
-/**
- * Tous les calculateurs publics du site.
- * Ajouter une entrée dans seoConfig.calculators + CALCULATOR_COVERS suffit pour l'intégrer partout.
- */
+function getPoidsIdealCalculator(): CalculatorEntry {
+  const entry = seoConfig.calculators["poids-ideal"];
+  return {
+    id: "poids-ideal",
+    path: entry.path,
+    title: entry.h1,
+    shortTitle: entry.navTitle ?? entry.h1,
+    description: entry.description,
+    h1: entry.h1,
+    cover: getCalculatorCover("poids-ideal"),
+    icon: "◎",
+  };
+}
+
+function getMasseGrasseCalculator(): CalculatorEntry {
+  const entry = seoConfig.calculators["masse-grasse"];
+  return {
+    id: "masse-grasse",
+    path: entry.path,
+    title: entry.h1,
+    shortTitle: entry.navTitle ?? entry.h1,
+    description: entry.description,
+    h1: entry.h1,
+    cover: getCalculatorCover("masse-grasse"),
+    icon: "◉",
+  };
+}
+
+/** Calculateurs publics (navigation, sitemap, hubs). */
 export function getAllCalculators(): CalculatorEntry[] {
-  const home = getHomeCalculator();
-  const secondary = Object.entries(seoConfig.calculators).map(([id, calc]) => ({
-    id,
-    path: calc.path,
-    title: calc.title,
-    shortTitle: calc.navTitle ?? calc.h1,
-    description: calc.description,
-    h1: calc.h1,
-    cover: getCalculatorCover(id),
-    icon: "€",
-  }));
-  return [home, ...secondary];
+  return [getHomeCalculator(), getPoidsIdealCalculator(), getMasseGrasseCalculator()];
 }

@@ -52,8 +52,8 @@ export function getAllSidebarTools(): SidebarTool[] {
 export const SIDEBAR_TOOLS = getAllSidebarTools();
 
 export const SIDEBAR_CALCULATOR = {
-  title: "Calculateur salaire brut vers net",
-  description: "Estimez votre salaire net à partir de votre salaire brut.",
+  title: "Calculateur IMC",
+  description: "Estimez votre indice de masse corporelle à partir de votre taille et de votre poids.",
   href: "/",
 } as const;
 

@@ -2,51 +2,40 @@
  * SEO du site : titres, descriptions, pages supplémentaires.
  */
 export const seoConfig = {
-  titleTemplate: "%s | Brut vers Net",
+  titleTemplate: "%s | Calculer Mon IMC",
   defaultDescription:
-    "Estimez prochainement votre salaire net à partir de votre salaire brut grâce au calculateur Brut vers Net.",
+    "Calculez votre IMC et explorez des guides pédagogiques sur le poids, la santé et les calculateurs bien-être sur Calculer Mon IMC.",
   twitterHandle: undefined as string | undefined,
 
   home: {
-    title: "Calcul du salaire Brut vers Net → gratuit et personnalisé",
-    h1: "Calculateur Brut vers Net",
+    title: "Calculateur IMC → estimation gratuite et guides pédagogiques",
+    h1: "Calculateur IMC",
     description:
-      "Calculateur de salaire Brut vers Net gratuit. Simulez votre salaire avec précision et profitez de nos guides, outils et conseils d'experts sur la rémunération.",
+      "Estimez votre indice de masse corporelle (IMC) et consultez nos guides pour mieux comprendre le poids et les outils santé disponibles sur le site.",
   },
 
   calculators: {
-    "augmentation-salaire": {
-      path: "/calculateurs/augmentation-salaire",
-      title: "Calcul d'augmentation de salaire → gratuit et personnalisé",
-      h1: "Calculateur d'augmentation de salaire",
+    "poids-ideal": {
+      path: "/calculateurs/poids-ideal",
+      title: "Calculer son poids idéal → comparateur de formules gratuit",
+      h1: "Calculer son poids idéal",
       subtitle:
-        "Estimez ce que votre augmentation brute représente réellement en net chaque mois et sur une année.",
+        "Comparez plusieurs méthodes reconnues pour obtenir une estimation de référence adaptée à votre taille.",
       description:
-        "Calculez l'impact d'une augmentation en euros ou en pourcentage sur votre salaire brut, votre salaire net mensuel et votre gain annuel.",
+        "Calculateur de poids idéal gratuit : comparez les principales formules (Lorentz, Devine, Miller, Robinson, Hamwi, Broca) et visualisez une fourchette d'estimation.",
       indexable: true,
-      navTitle: "Simulateur d'augmentation de salaire",
+      navTitle: "Calculateur poids idéal",
     },
-    "salaire-heures-supplementaires": {
-      path: "/calculateurs/salaire-heures-supplementaires",
-      title: "Calcul du salaire avec heures supplémentaires → brut et net",
-      h1: "Calculez votre salaire avec heures supplémentaires",
+    "masse-grasse": {
+      path: "/calculateurs/masse-grasse",
+      title: "Calculateur masse grasse → estimation gratuite par formules reconnues",
+      h1: "Calculer son pourcentage de masse grasse",
       subtitle:
-        "Estimez ce que vos heures supplémentaires représentent en brut et en net, ainsi que votre nouveau salaire mensuel.",
+        "Estimez votre pourcentage de masse grasse grâce à des formules scientifiques reconnues.",
       description:
-        "Calculateur de salaire avec heures supplémentaires brut et net gratuit. Estimez votre rémunération avec précision grâce à notre outil et nos guides d'experts.",
+        "Calculateur de masse grasse gratuit : estimation Deurenberg, comparatif Gallagher et jauge adaptée à votre sexe. Masse grasse, masse maigre et catégories expliquées.",
       indexable: true,
-      navTitle: "Simulateur de salaire avec heures supplémentaires",
-    },
-    "indemnite-licenciement": {
-      path: "/calculateurs/indemnite-licenciement",
-      title: "Calcul indemnité de licenciement → simulateur gratuit",
-      h1: "Calculez votre indemnité de licenciement",
-      subtitle:
-        "Estimez le montant minimal de votre indemnité légale à partir de votre salaire brut de référence et de votre ancienneté.",
-      description:
-        "Calculateur d'indemnité de licenciement gratuit. Obtenez une estimation rapide de votre indemnité et consultez nos analyses et informations pratiques.",
-      indexable: true,
-      navTitle: "Simulateur d'indemnité de licenciement",
+      navTitle: "Calculateur masse grasse",
     },
   } as Record<
     string,
@@ -63,58 +52,59 @@ export const seoConfig = {
 
   guidesHub: {
     path: "/guides",
-    title: "Guides Brut vers Net",
+    title: "Guides IMC et santé",
     h1: "Guides",
     description:
-      "Guides pratiques pour comprendre le salaire brut, le salaire net, les cotisations salariales et le calcul brut vers net.",
-    subtitle: "Comprendre la paie simplement, avec des explications claires et des exemples concrets.",
+      "Guides pour comprendre l'IMC, le poids idéal et les principaux repères liés à la composition corporelle, sans promesse médicale.",
+    subtitle:
+      "Des explications claires pour mieux lire vos résultats et utiliser les calculateurs santé.",
   },
 
   toolsHub: {
     path: "/nos-outils",
-    title: "Calculateurs de salaire et impôts : tous nos outils",
-    h1: "Outils",
+    title: "Calculateurs santé gratuits : IMC, poids idéal et masse grasse",
+    h1: "Calculateurs",
     description:
-      "Découvrez tous nos calculateurs et simulateurs de salaire : brut vers net, prélèvement à la source, augmentation, heures supplémentaires et indemnité.",
-    subtitle: "Contenu en cours de rédaction.",
+      "Utilisez gratuitement nos calculateurs d'IMC, de poids idéal et de masse grasse. Des outils simples, rapides, sans inscription et accompagnés de guides explicatifs.",
+    subtitle: "Des outils gratuits pour estimer votre IMC, votre poids idéal et votre masse grasse.",
   },
 
   legal: {
     contact: {
       title: "Contact",
       description:
-        "Contactez brut-vers-net.fr pour signaler une erreur, proposer une amélioration ou poser une question.",
+        "Contactez calculer-mon-imc.fr pour signaler une erreur, proposer une amélioration ou poser une question.",
     },
     privacy: {
       title: "Politique de confidentialité",
       description:
-        "Découvrez comment BRUT-VERS-NET.FR traite vos données personnelles : contact, cookies, Google Analytics et vos droits RGPD.",
+        "Découvrez comment CALCULER-MON-IMC.FR traite vos données personnelles : contact, cookies, Google Analytics et vos droits RGPD.",
       metaDescription:
-        "Découvrez comment brut-vers-net.fr collecte, utilise et protège vos données personnelles conformément au RGPD.",
+        "Découvrez comment calculer-mon-imc.fr collecte, utilise et protège vos données personnelles conformément au RGPD.",
     },
     cookies: {
       title: "Gestion des cookies",
       description:
-        "Découvrez les cookies utilisés sur BRUT-VERS-NET.FR, gérez vos préférences et comprenez le fonctionnement du bandeau de consentement.",
+        "Découvrez les cookies utilisés sur CALCULER-MON-IMC.FR, gérez vos préférences et comprenez le fonctionnement du bandeau de consentement.",
       metaDescription:
-        "Gérez vos préférences en matière de cookies et découvrez leur utilisation sur brut-vers-net.fr.",
+        "Gérez vos préférences en matière de cookies et découvrez leur utilisation sur calculer-mon-imc.fr.",
     },
     mentions: {
       title: "Mentions légales",
       description: "Informations légales sur l'éditeur et l'hébergeur.",
       metaDescription:
-        "Consultez les mentions légales de brut-vers-net.fr : éditeur, hébergement, propriété intellectuelle et informations légales du site.",
+        "Consultez les mentions légales de calculer-mon-imc.fr : éditeur, hébergement, propriété intellectuelle et informations légales du site.",
     },
     faq: {
-      title: "Questions fréquentes sur le salaire et la rémunération",
+      title: "FAQ IMC : calcul, interprétation, poids idéal et masse grasse",
       description:
-        "Toutes les réponses à vos questions sur le salaire, la rémunération, les cotisations, la fiche de paie, le prélèvement à la source et bien plus.",
+        "Retrouvez les réponses aux questions fréquentes sur le calcul de l'IMC, son interprétation, ses limites, le poids idéal, la masse grasse et nos calculateurs gratuits.",
     },
     sitemap: {
       title: "Plan du site",
       description: "Liste de toutes les pages du site.",
       metaDescription:
-        "Retrouvez l'ensemble des pages disponibles sur brut-vers-net.fr.",
+        "Retrouvez l'ensemble des pages disponibles sur calculer-mon-imc.fr.",
     },
     notFound: { title: "Page introuvable", description: "La page demandée n'existe pas ou a été déplacée." },
     error: { title: "Erreur serveur", description: "Une erreur est survenue. Veuillez réessayer plus tard." },

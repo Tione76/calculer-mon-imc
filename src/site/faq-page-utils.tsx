@@ -7,18 +7,18 @@ export function answerToPlainText(segments: FaqAnswerSegment[]): string {
     .join("");
 }
 
-export function renderFaqAnswer(segments: FaqAnswerSegment[]) {
-  return (
-    <p>
-      {segments.map((seg, index) =>
-        typeof seg === "string" ? (
-          <span key={index}>{seg}</span>
-        ) : (
-          <Link key={index} href={seg.href}>
-            {seg.link}
-          </Link>
-        ),
-      )}
-    </p>
+export function renderFaqSegments(segments: FaqAnswerSegment[]) {
+  return segments.map((seg, index) =>
+    typeof seg === "string" ? (
+      <span key={index}>{seg}</span>
+    ) : (
+      <Link key={index} href={seg.href}>
+        {seg.link}
+      </Link>
+    ),
   );
+}
+
+export function renderFaqAnswer(segments: FaqAnswerSegment[]) {
+  return <p>{renderFaqSegments(segments)}</p>;
 }

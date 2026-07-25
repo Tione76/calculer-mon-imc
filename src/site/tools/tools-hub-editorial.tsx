@@ -6,41 +6,105 @@ import { TOOLS_HUB_COVER } from "@/site/guides/covers";
 export function ToolsHubEditorial() {
   return (
     <div className="tools-hub-editorial">
-      <section className="tools-hub-section tools-hub-section--intro" aria-label="Présentation des outils">
+      <section
+        className="tools-hub-section tools-hub-section--intro"
+        aria-label="Présentation des calculateurs"
+      >
         <p>
-          Tous nos simulateurs sont gratuits et accessibles sans création de compte. Vous pouvez
-          lancer un calcul en quelques secondes, depuis un ordinateur ou un téléphone.
+          Cette page rassemble tous nos calculateurs santé gratuits liés au poids et à la
+          composition corporelle. Le{" "}
+          <Link href="/">calculateur IMC</Link> situe le rapport entre le poids et la taille, le{" "}
+          <Link href="/calculateurs/poids-ideal">calculateur de poids idéal</Link> compare
+          plusieurs formules théoriques, et le{" "}
+          <Link href="/calculateurs/masse-grasse">calculateur de masse grasse</Link> propose une
+          estimation du pourcentage de graisse corporelle.
         </p>
 
         <CoverFigure cover={TOOLS_HUB_COVER} priority />
 
         <p>
-          Ils s&apos;adressent aux salariés, aux demandeurs d&apos;emploi et aux employeurs qui
-          souhaitent mieux comprendre une rémunération, préparer une offre ou vérifier un ordre de
-          grandeur avant une discussion. Pour{" "}
-          <Link href="/">calculer votre salaire brut en net</Link>, commencez par notre outil
-          principal.
-        </p>
-        <p>
-          Les estimations s&apos;appuient sur les règles françaises actuelles. Elles restent
-          indicatives : votre fiche de paie, votre convention collective ou votre situation
-          personnelle peuvent produire un résultat différent.
-        </p>
-        <p>
-          Pour aller plus loin, consultez nos guides afin de{" "}
-          <Link href="/guides/comment-lire-une-fiche-de-paie">comprendre une fiche de paie</Link>,{" "}
-          <Link href="/guides/cotisations-salariales-pourquoi-brut-plus-eleve-que-net">
-            mieux comprendre les cotisations salariales
-          </Link>{" "}
-          ou{" "}
-          <Link href="/guides/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne">
-            anticiper le prélèvement à la source
-          </Link>
-          . De nouveaux outils seront ajoutés progressivement ; vous pouvez aussi parcourir{" "}
-          <Link href="/guides">tous nos guides</Link>.
+          Chaque résultat reste indicatif : ces outils en ligne servent à mieux comprendre
+          quelques repères chiffrés, sans fournir de diagnostic médical ni d&apos;objectif
+          personnalisé. Aucune inscription n&apos;est nécessaire.
         </p>
       </section>
+
+      <ToolsHubOverviewSection />
     </div>
+  );
+}
+
+/** Présentation équilibrée des trois outils après l'image */
+export function ToolsHubOverviewSection() {
+  return (
+    <section
+      className="tools-hub-section"
+      aria-labelledby="tools-hub-overview-title"
+    >
+      <h2 id="tools-hub-overview-title" className="sr-only">
+        Présentation des trois calculateurs
+      </h2>
+      <div className="tools-hub-key-grid">
+        <article className="tools-hub-key-card">
+          <h3>Calculateur IMC</h3>
+          <p>
+            Calculez l&apos;indice de masse corporelle, obtenez la catégorie correspondante et
+            disposez d&apos;un premier repère statistique. Pour{" "}
+            <Link href="/guides/quest-ce-que-l-imc">comprendre ce qu&apos;est l&apos;IMC</Link> ou{" "}
+            <Link href="/guides/comment-calculer-son-imc">découvrir la formule de l&apos;IMC</Link>
+            , consultez ensuite nos guides.
+          </p>
+          <p>
+            <Link href="/" className="tools-hub-cta">
+              Utiliser le calculateur IMC →
+            </Link>
+          </p>
+        </article>
+        <article className="tools-hub-key-card">
+          <h3>Calculateur de poids idéal</h3>
+          <p>
+            Comparez plusieurs formules, obtenez différentes estimations et constatez qu&apos;il
+            n&apos;existe pas de poids idéal universel. Approfondissez avec le guide pour{" "}
+            <Link href="/guides/calculer-son-poids-ideal">
+              comparer les formules de poids idéal
+            </Link>
+            .
+          </p>
+          <p>
+            <Link href="/calculateurs/poids-ideal" className="tools-hub-cta">
+              Estimer son poids idéal →
+            </Link>
+          </p>
+        </article>
+        <article className="tools-hub-key-card">
+          <h3>Calculateur de masse grasse</h3>
+          <p>
+            Estimez le pourcentage de masse grasse, complétez l&apos;IMC et distinguez davantage
+            poids total et composition corporelle. Pour{" "}
+            <Link href="/guides/limites-de-l-imc">connaître les limites de l&apos;IMC</Link>, le
+            guide dédié reste utile.
+          </p>
+          <p>
+            <Link href="/calculateurs/masse-grasse" className="tools-hub-cta">
+              Estimer sa masse grasse →
+            </Link>
+          </p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+export function ToolsHubChoiceHelp() {
+  return (
+    <p className="tools-hub-choice-help">
+      Vous ne savez pas quel outil utiliser ? Commencez par le{" "}
+      <Link href="/">calculateur IMC</Link> pour obtenir un repère général. Le{" "}
+      <Link href="/calculateurs/poids-ideal">calculateur de poids idéal</Link> permet ensuite de
+      comparer plusieurs formules, tandis que le{" "}
+      <Link href="/calculateurs/masse-grasse">calculateur de masse grasse</Link> apporte une
+      estimation plus directement liée à la composition corporelle.
+    </p>
   );
 }
 
@@ -50,26 +114,30 @@ export function ToolsHubWhySection() {
       className="tools-hub-section tools-hub-section--tinted"
       aria-labelledby="tools-hub-why-title"
     >
-      <h2 id="tools-hub-why-title">Pourquoi utiliser nos simulateurs ?</h2>
+      <h2 id="tools-hub-why-title">Pourquoi utiliser nos calculateurs ?</h2>
       <p>
-        Un outil de simulation ne remplace pas un bulletin officiel, mais il aide à y voir plus
-        clair avant de décider. Voici ce que vous pouvez en attendre :
+        Un calculateur santé en ligne ne remplace pas un bilan clinique, mais il aide à situer
+        rapidement un résultat avant de lire nos contenus pédagogiques.
       </p>
       <ul className="tools-hub-benefits">
-        <li>obtenir rapidement une estimation claire à partir de vos propres montants ;</li>
-        <li>préparer une négociation salariale avec des repères concrets en euros nets ;</li>
+        <li>obtenir rapidement une estimation gratuite, sans inscription ;</li>
+        <li>comparer plusieurs indicateurs (IMC, poids idéal, masse grasse) ;</li>
+        <li>visualiser un résultat de manière claire et immédiate ;</li>
         <li>
-          anticiper l&apos;effet d&apos;une augmentation ou d&apos;heures supplémentaires sur votre
-          rémunération ;
+          accéder aux guides pour{" "}
+          <Link href="/guides/comment-interpreter-son-imc">
+            apprendre à interpréter son résultat
+          </Link>{" "}
+          ou comprendre le calcul ;
         </li>
         <li>
-          mieux comprendre les écarts entre salaire brut, salaire net et prélèvement à la source.
+          <Link href="/guides">consulter tous nos guides</Link> pour approfondir formules, seuils
+          et limites.
         </li>
       </ul>
       <p>
-        Les outils sont régulièrement vérifiés et adaptés afin de rester cohérents avec les
-        principales règles françaises applicables. Les résultats restent toutefois indicatifs :
-        ils ne remplacent pas une fiche de paie, un calcul officiel ou un conseil professionnel.
+        Ces résultats constituent des repères pédagogiques et statistiques. Ils ne remplacent ni
+        une mesure clinique, ni un diagnostic, ni un suivi personnalisé.
       </p>
     </section>
   );

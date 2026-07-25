@@ -1,24 +1,40 @@
 import { siteConfig as config } from "@/site/site.config";
-import { HOME_COVER } from "@/site/guides/covers";
 import { absoluteAsset, pruneEmpty, type JsonLdNode } from "../types";
 import { schemaIds } from "../ids";
 
+function resolveSchemaLogo() {
+  if (config.logo) {
+    return config.logo;
+  }
+
+  const faviconSrc = config.favicon.split("?")[0] ?? config.favicon;
+  return {
+    src: faviconSrc,
+    alt: config.name,
+    width: 512,
+    height: 512,
+  };
+}
+
 /** Logo de l'organisation (ImageObject dédié). */
 export function buildLogoImageNode(): JsonLdNode {
+  const logo = resolveSchemaLogo();
+
   return pruneEmpty({
     "@type": "ImageObject",
     "@id": schemaIds.logo(),
-    url: absoluteAsset(config.logo.src),
-    contentUrl: absoluteAsset(config.logo.src),
-    width: config.logo.width,
-    height: config.logo.height,
-    caption: config.logo.alt,
+    url: absoluteAsset(logo.src),
+    contentUrl: absoluteAsset(logo.src),
+    width: logo.width,
+    height: logo.height,
+    caption: logo.alt,
   });
 }
 
 /**
  * Organisation éditrice du site.
  * Une seule instance dans le graphe, réutilisée via @id (publisher, etc.).
+ * image = logo (identité de marque), pas une cover éditoriale.
  */
 export function buildOrganizationNode(): JsonLdNode {
   return pruneEmpty({
@@ -29,12 +45,6 @@ export function buildOrganizationNode(): JsonLdNode {
     email: config.contact.email,
     description: config.footerDescription,
     logo: { "@id": schemaIds.logo() },
-    image: {
-      "@type": "ImageObject",
-      url: absoluteAsset(HOME_COVER.src),
-      width: HOME_COVER.width,
-      height: HOME_COVER.height,
-      caption: HOME_COVER.alt,
-    },
+    image: { "@id": schemaIds.logo() },
   });
 }

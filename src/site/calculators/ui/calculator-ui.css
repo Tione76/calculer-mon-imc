@@ -1,0 +1,117 @@
+/* Composants UI partagés des calculateurs santé */
+
+.calc-ui__results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.calc-ui__result-card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: var(--ds-radius-md);
+  padding: 16px 18px;
+  color: var(--ds-text);
+}
+
+.calc-ui__result-card--primary {
+  text-align: center;
+}
+
+.calc-ui__result-label {
+  font-size: var(--ds-font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ds-text-muted);
+  margin: 0 0 6px;
+}
+
+.calc-ui__result-value {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--ds-text);
+}
+
+.calc-ui__result-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--ds-font-size-sm);
+  font-weight: 700;
+  background: var(--ds-brand-light, #f0fdf4);
+  color: var(--ds-brand);
+}
+
+.calc-ui__result-text {
+  margin: 0;
+  font-size: var(--ds-font-size-md);
+  line-height: 1.55;
+  color: var(--ds-text);
+}
+
+.calc-ui__result-text + .calc-ui__result-text {
+  margin-top: 8px;
+}
+
+.calc-ui__disclaimer {
+  margin: 0;
+  font-size: var(--ds-font-size-sm);
+  line-height: 1.5;
+  color: var(--ds-text-muted);
+}
+
+.calc-ui__guides {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calc-ui__guides a {
+  color: var(--ds-brand);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.calc-ui__field {
+  min-width: 0;
+}
+
+.calc-ui__field .calc-input {
+  height: var(--calc-ui-input-height, 40px);
+  padding: 0 14px;
+  font-size: var(--ds-font-size-xl);
+  font-weight: 500;
+  width: 100%;
+}
+
+.calc-ui__field .calc-input:not(:placeholder-shown) {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.calc-ui__field .calc-input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 0 0 4px rgba(var(--ds-brand-rgb), 0.22);
+}
+
+.calc-ui__reset {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--ds-label-on-brand);
+  font-size: var(--ds-font-size-md);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 12px 4px;
+  min-height: 44px;
+  min-width: 44px;
+}

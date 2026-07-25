@@ -1,0 +1,60 @@
+/* Calculateur IMC : compléments au shell commun */
+
+.imc-calc {
+  --imc-calc-gap: 16px;
+  max-width: 52rem;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--imc-calc-gap);
+}
+
+.imc-calc__guides {
+  margin-top: 4px;
+}
+
+.imc-calc__result-step {
+  scroll-margin-top: 1.5rem;
+}
+
+.imc-calc .calc-shell__results {
+  gap: 10px;
+}
+
+.imc-calc .calc-shell__gauge-slot .imc-result-card {
+  margin: 0;
+}
+
+.imc-calc .calc-shell__gauge-slot .imc-result-card--gauge-only {
+  padding-bottom: 16px;
+}
+
+.imc-calc .calc-shell__gauge-slot .imc-result-card--gauge-only .imc-result-card__footer {
+  margin-top: 8px;
+  padding-top: 14px;
+}
+
+@media (min-width: 768px) {
+  .imc-calc__result-step {
+    scroll-margin-top: 2rem;
+  }
+
+  .imc-calc .calc-shell__results {
+    gap: 8px;
+  }
+
+  .imc-calc .calc-shell__gauge-slot {
+    padding: 0 4px;
+  }
+
+  .imc-calc .calc-shell__gauge-slot .imc-result-card__gauge {
+    margin-top: -40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .imc-calc .calc-shell__gauge-slot .imc-result-card__gauge {
+    margin-top: -32px;
+  }
+}

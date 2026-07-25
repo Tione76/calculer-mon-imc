@@ -7,10 +7,10 @@ export function MentionsLegalesContent() {
       <section className="guide-section">
         <h2>Éditeur du site</h2>
         <p>
-          Le site <strong>BRUT-VERS-NET.FR</strong>, accessible à l&apos;adresse :
+          Le site <strong>CALCULER-MON-IMC.FR</strong>, accessible à l&apos;adresse :
         </p>
         <p>
-          <a href="https://brut-vers-net.fr">https://brut-vers-net.fr</a>
+          <a href="https://calculer-mon-imc.fr">https://calculer-mon-imc.fr</a>
         </p>
         <p>est édité par :</p>
         <p>
@@ -19,8 +19,8 @@ export function MentionsLegalesContent() {
         <p>Statut : Particulier</p>
         <p>Adresse électronique :</p>
         <p>
-          <a href="mailto:contact@brut-vers-net.fr">
-            <strong>contact@brut-vers-net.fr</strong>
+          <a href="mailto:contact@calculer-mon-imc.fr">
+            <strong>contact@calculer-mon-imc.fr</strong>
           </a>
         </p>
         <p>Une page Contact est disponible à l&apos;adresse :</p>
@@ -75,8 +75,9 @@ export function MentionsLegalesContent() {
       <section className="guide-section">
         <h2>Objet du site</h2>
         <p>
-          BRUT-VERS-NET.FR met gratuitement à disposition d&apos;outils et de contenus
-          pédagogiques consacrés au salaire brut et au salaire net.
+          CALCULER-MON-IMC.FR met gratuitement à disposition d&apos;outils et de contenus
+          pédagogiques consacrés à l&apos;indice de masse corporelle (IMC), au poids et à la
+          santé.
         </p>
         <p>Les contenus publiés ont une vocation pédagogique et informative.</p>
       </section>
@@ -86,7 +87,7 @@ export function MentionsLegalesContent() {
         <p>Les informations diffusées sur le site sont fournies à titre informatif.</p>
         <p>
           Malgré le soin apporté à leur rédaction et aux calculateurs proposés, elles ne
-          constituent pas un conseil fiscal, comptable, juridique ou professionnel personnalisé.
+          constituent pas un avis médical, un diagnostic ou un conseil de santé personnalisé.
         </p>
         <p>
           Les utilisateurs restent responsables de l&apos;utilisation qu&apos;ils font des
@@ -94,7 +95,7 @@ export function MentionsLegalesContent() {
         </p>
         <p>
           En cas de doute ou de situation particulière, il est recommandé de consulter un
-          professionnel compétent.
+          professionnel de santé qualifié.
         </p>
       </section>
 
@@ -102,8 +103,8 @@ export function MentionsLegalesContent() {
         <h2>Calculateurs</h2>
         <p>Les calculateurs proposés sur le site permettent notamment :</p>
         <ul>
-          <li>d&apos;estimer un salaire net à partir d&apos;un salaire brut ;</li>
-          <li>de comparer des scénarios de rémunération.</li>
+          <li>d&apos;estimer son indice de masse corporelle (IMC) ;</li>
+          <li>de consulter des guides pédagogiques sur le poids et la santé.</li>
         </ul>
         <p>
           Les résultats sont calculés automatiquement à partir des informations saisies par
@@ -185,7 +186,7 @@ export function MentionsLegalesContent() {
         <h2>Contact</h2>
         <p>Pour toute question concernant le site :</p>
         <p>
-          <a href="mailto:contact@brut-vers-net.fr">contact@brut-vers-net.fr</a>
+          <a href="mailto:contact@calculer-mon-imc.fr">contact@calculer-mon-imc.fr</a>
         </p>
         <p>ou via la page :</p>
         <p>

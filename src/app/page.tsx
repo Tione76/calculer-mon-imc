@@ -18,7 +18,7 @@ export default function HomePage() {
     <>
       <JsonLd
         data={buildHomeJsonLd({
-          name: seoConfig.home.title,
+          name: seoConfig.home.h1,
           description: seoConfig.home.description,
           cover: HOME_COVER,
           faq: config.faq,

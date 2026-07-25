@@ -36,7 +36,7 @@ Référence : `src/framework/templates.ts`.
 
 1. Dupliquez ce dépôt.
 2. Modifiez les fichiers dans **`src/site/`** (voir ci-dessous).
-3. Remplacez les assets : `public/logo.svg`, `public/og-image.png`, `src/app/icon.svg`.
+3. Remplacez les assets : `public/logo.png`, `src/app/icon.png`, `src/app/apple-icon.png`, `public/logo-icon.png`.
 4. Mettez à jour `public/manifest.webmanifest`.
 5. Copiez `.env.example` → `.env.local` (IDs Google).
 6. `npm run dev` puis déployez sur Vercel.
@@ -56,7 +56,7 @@ Référence : `src/framework/templates.ts`.
 
 La couleur principale (`colors.primary`) alimente automatiquement le design system (`--ds-brand`).
 
-Valeur officielle : `#f28539`.
+Valeur officielle : `#16A34A`.
 
 ---
 
@@ -176,8 +176,8 @@ NEXT_PUBLIC_ADSENSE_ID=ca-pub-XXXXXXXXXX
 
 # Formulaire de contact (serveur uniquement)
 RESEND_API_KEY=
-CONTACT_EMAIL=contact@brut-vers-net.fr
-CONTACT_FROM_EMAIL=Formulaire Brut vers Net <contact@brut-vers-net.fr>
+CONTACT_EMAIL=
+CONTACT_FROM_EMAIL=Formulaire Calculer Mon IMC <contact@calculer-mon-imc.fr>
 ```
 
 Voir aussi `.env.example`. Google Analytics 4 (`@next/third-parties`) et AdSense ne se chargent qu'**après consentement** (Google Consent Mode v2).
@@ -190,7 +190,7 @@ Après chaque déploiement **Production** Vercel réussi, le workflow GitHub
 
 ```env
 INDEXNOW_KEY=votre-cle
-SITE_URL=https://brut-vers-net.fr
+SITE_URL=https://calculer-mon-imc.fr
 ```
 
 Ajoutez le secret GitHub `INDEXNOW_KEY`. Commandes manuelles :

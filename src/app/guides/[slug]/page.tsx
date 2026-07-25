@@ -17,6 +17,7 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildGuideJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
+import { isImcReferenceGuide } from "@/site/guides/data/imc-reference-guide-slugs";
 import "@/site/guides/guide-page.css";
 
 interface GuidePageProps {
@@ -60,6 +61,7 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
         title={guide.title}
         subtitle={guide.subtitle}
         sidebar={<GuidePageSidebar slug={slug} />}
+        articleBodyClassName={isImcReferenceGuide(slug) ? "guide-article--imc-reference" : undefined}
       >
         <PageBreadcrumb
           items={[
@@ -71,6 +73,7 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
         <GuideAuthorMeta updatedAt={guide.updatedAt} readingTime={readingTime} />
         <GuideArticle
           introduction={guide.introduction}
+          introDisclaimer={guide.introDisclaimer}
           introSummary={guide.introSummary}
           quickSummary={guide.quickSummary}
           toc={toc}
@@ -78,7 +81,9 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
           faq={guide.faq}
           faqTitle={guide.faqTitle}
           faqIntro={guide.faqIntro}
+          faqListClassName={isImcReferenceGuide(slug) ? "faq-list--imc-guide" : undefined}
           conclusion={guide.conclusion}
+          postConclusion={guide.postConclusion}
           cover={resolveGuideCover(guide)}
         />
       </GuidePageLayout>

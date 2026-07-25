@@ -4,39 +4,39 @@ import { siteConfig } from "@/site/site.config";
 import {
   buildContactEmailContent,
   CONTACT_ERROR_MESSAGE,
+  CONTACT_UNAVAILABLE_MESSAGE,
   getContactFromAddress,
   getContactRecipient,
   getResendApiKey,
+  isContactDeliveryConfigured,
   isHoneypotFilled,
   isTrustedContactOrigin,
   type ContactPayload,
   validateContactPayload,
 } from "@/site/contact/contact-mail";
+import {
+  CONTACT_RATE_LIMIT_MESSAGE,
+  isContactRateLimitAllowed,
+} from "@/site/contact/contact-rate-limit";
 
 export async function POST(request: Request) {
-  const originHeader = request.headers.get("origin");
-  const requestHost = (() => {
-    try {
-      return new URL(request.url).host;
-    } catch {
-      return null;
-    }
-  })();
-
   if (!isTrustedContactOrigin(request, siteConfig.url)) {
-    // Diagnostic temporaire (pas de données personnelles)
-    console.warn("[contact] Origine refusée", {
-      origin: originHeader,
-      requestHost,
-      siteUrl: siteConfig.url,
-    });
     return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 403 });
+  }
+
+  if (!(await isContactRateLimitAllowed(request))) {
+    return NextResponse.json({ error: CONTACT_RATE_LIMIT_MESSAGE }, { status: 429 });
+  }
+
+  if (!isContactDeliveryConfigured()) {
+    console.error("[contact] Configuration d'envoi incomplète (Resend ou adresses manquantes)");
+    return NextResponse.json({ error: CONTACT_UNAVAILABLE_MESSAGE }, { status: 503 });
   }
 
   const apiKey = getResendApiKey();
   if (!apiKey) {
     console.error("[contact] Configuration d'envoi manquante");
-    return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 500 });
+    return NextResponse.json({ error: CONTACT_UNAVAILABLE_MESSAGE }, { status: 503 });
   }
 
   let body: ContactPayload;
@@ -80,17 +80,14 @@ export async function POST(request: Request) {
     if (error) {
       console.error("[contact] Échec d'envoi Resend", {
         name: error.name,
-        message: error.message,
       });
       return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 500 });
     }
 
     console.info("[contact] E-mail envoyé", { id: data?.id ?? null });
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("[contact] Exception d'envoi", {
-      message: error instanceof Error ? error.message : "unknown",
-    });
+  } catch {
+    console.error("[contact] Exception d'envoi");
     return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 500 });
   }
 }

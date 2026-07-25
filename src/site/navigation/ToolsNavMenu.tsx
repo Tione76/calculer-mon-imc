@@ -8,8 +8,8 @@ interface ToolsNavMenuProps {
 export function ToolsNavMenu({ items }: ToolsNavMenuProps) {
   return (
     <NavDropdownMenu
-      label="Nos outils"
-      menuAriaLabel="Nos outils"
+      label="Nos calculateurs"
+      menuAriaLabel="Nos calculateurs"
       items={items}
     />
   );

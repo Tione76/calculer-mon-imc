@@ -1,18 +1,18 @@
 import type { Guide } from "./types";
 import { attachGuideCover } from "./covers";
-import { commentCalculerSonSalaireNetGuide } from "./data/comment-calculer-son-salaire-net";
-import { commentEstCalculeLeSalaireNetGuide } from "./data/comment-est-calcule-le-salaire-net";
-import { commentLireUneFicheDePaieGuide } from "./data/comment-lire-une-fiche-de-paie";
-import { cotisationsSalarialesGuide } from "./data/cotisations-salariales-pourquoi-brut-plus-eleve-que-net";
-import { prelevementALaSourceGuide } from "./data/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne";
+import { questCeQueLImcGuide } from "./data/quest-ce-que-l-imc";
+import { commentCalculerSonImcGuide } from "./data/comment-calculer-son-imc";
+import { commentInterpreterSonImcGuide } from "./data/comment-interpreter-son-imc";
+import { limitesDeLImcGuide } from "./data/limites-de-l-imc";
+import { calculerSonPoidsIdealGuide } from "./data/calculer-son-poids-ideal";
 
 /** Guides publiés */
 export const guides: Guide[] = [
-  attachGuideCover(commentEstCalculeLeSalaireNetGuide),
-  attachGuideCover(commentLireUneFicheDePaieGuide),
-  attachGuideCover(commentCalculerSonSalaireNetGuide),
-  attachGuideCover(cotisationsSalarialesGuide),
-  attachGuideCover(prelevementALaSourceGuide),
+  attachGuideCover(questCeQueLImcGuide),
+  attachGuideCover(commentCalculerSonImcGuide),
+  attachGuideCover(commentInterpreterSonImcGuide),
+  attachGuideCover(limitesDeLImcGuide),
+  attachGuideCover(calculerSonPoidsIdealGuide),
 ];
 
 export const GUIDE_MODEL_SLUG = "modele";
