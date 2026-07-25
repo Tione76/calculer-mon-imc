@@ -4,12 +4,9 @@ name: IndexNow after Vercel production
 # Se déclenche uniquement après un déploiement Vercel Production réussi
 # (jamais sur Preview).
 #
-# Désactivé en attente de la configuration IndexNow pour https://calculer-mon-imc.fr.
-# Réactivation : passer INDEXNOW_WORKFLOW_ENABLED à "true", puis configurer
-# les secrets INDEXNOW_KEY et SITE_URL=https://calculer-mon-imc.fr
-
-env:
-  INDEXNOW_WORKFLOW_ENABLED: "false"
+# Prérequis secrets GitHub :
+#   INDEXNOW_KEY
+#   SITE_URL=https://calculer-mon-imc.fr
 
 on:
   deployment_status:
@@ -21,8 +18,9 @@ concurrency:
 jobs:
   notify-indexnow:
     # Production réussie uniquement ; exclut Preview / preview.
+    # Note : le contexte `env` n'est pas disponible dans jobs.<id>.if
+    # (sinon GitHub échoue avec "No jobs were run" / graphe indisponible).
     if: >-
-      env.INDEXNOW_WORKFLOW_ENABLED == 'true' &&
       github.event.deployment_status.state == 'success' &&
       (
         github.event.deployment_status.environment == 'Production' ||
