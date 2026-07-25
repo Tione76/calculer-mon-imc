@@ -372,7 +372,7 @@
   background: #ffffff;
 }
 
-.tools-hub-key-card h3 {
+.tools-hub-key-card__title {
   font-size: 0.9375rem;
   font-weight: 700;
   color: var(--ds-brand);

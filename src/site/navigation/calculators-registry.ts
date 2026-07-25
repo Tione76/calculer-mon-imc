@@ -10,7 +10,6 @@ export interface CalculatorEntry {
   description: string;
   h1: string;
   cover: GuideCoverImage;
-  icon: string;
 }
 
 function getHomeCalculator(): CalculatorEntry {
@@ -22,7 +21,6 @@ function getHomeCalculator(): CalculatorEntry {
     description: seoConfig.home.description,
     h1: seoConfig.home.h1,
     cover: getCalculatorCover("imc"),
-    icon: "⚖",
   };
 }
 
@@ -36,7 +34,6 @@ function getPoidsIdealCalculator(): CalculatorEntry {
     description: entry.description,
     h1: entry.h1,
     cover: getCalculatorCover("poids-ideal"),
-    icon: "◎",
   };
 }
 
@@ -50,7 +47,6 @@ function getMasseGrasseCalculator(): CalculatorEntry {
     description: entry.description,
     h1: entry.h1,
     cover: getCalculatorCover("masse-grasse"),
-    icon: "◉",
   };
 }
 

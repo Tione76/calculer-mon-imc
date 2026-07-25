@@ -1,5 +1,16 @@
 /** Styles spécifiques page pilier IMC (accueil). */
 
+/** Sous-titre H1 IMC : contraste renforcé sur fond vert, centré comme le H1. */
+.tool-header__subtitle--imc {
+  color: #ffffff;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.55;
+  margin: 0 0 1.25rem;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
 .home-pillar .guide-formula-box {
   max-width: var(--editorial-prose-width, 38rem);
 }

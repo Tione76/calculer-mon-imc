@@ -22,12 +22,12 @@ export interface FaqPageSourceItem {
 }
 
 export const FAQ_PAGE_META = {
-  title: "FAQ IMC : calcul, interprétation, poids idéal et masse grasse",
+  title: "Questions fréquentes sur le poids, l'IMC et le poids idéal",
   description:
-    "Retrouvez les réponses aux questions fréquentes sur le calcul de l'IMC, son interprétation, ses limites, le poids idéal, la masse grasse et nos calculateurs gratuits.",
+    "Vous vous posez des questions sur le poids, l'IMC ou le poids idéal ? Retrouvez des réponses claires et fiables aux interrogations les plus courantes.",
 };
 
-export const FAQ_PAGE_H1 = "Questions fréquentes sur l'IMC";
+export const FAQ_PAGE_H1 = "Questions fréquentes autour du poids";
 
 export const FAQ_PAGE_SUBTITLE =
   "Calcul, interprétation, limites de l'IMC, poids idéal, masse grasse et utilisation de nos calculateurs.";

@@ -68,9 +68,9 @@ export const siteConfig = {
     "Outils et guides gratuits pour estimer votre IMC, comprendre le poids et utiliser des calculateurs santé pédagogiques.",
 
   home: {
-    h1: "Calculez votre IMC",
+    h1: "Calculez votre IMC en quelques secondes",
     intro: [
-      "Estimez votre indice de masse corporelle et explorez nos guides sur le poids et la santé.",
+      "Calculateur d'IMC gratuit pour évaluer votre corpulence à partir de votre taille et de votre poids.",
     ] as [string, string?],
   },
 

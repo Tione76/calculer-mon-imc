@@ -44,9 +44,9 @@ describe("quest-ce-que-l-imc — guide de référence", () => {
   });
 
   it("expose title, seoTitle, description, auteur (via schema) et dates", () => {
-    expect(guide.title).toBe("Qu'est-ce que l'IMC ?");
-    expect(guide.seoTitle).toBe("Qu'est-ce que l'IMC ? Définition, calcul, utilité et limites");
-    expect(guide.description).toContain("Découvrez ce qu'est l'IMC");
+    expect(guide.title).toBe("Qu'est-ce que l'IMC et à quoi sert-il ?");
+    expect(guide.seoTitle).toBe("Qu'est-ce que l'IMC ? Définition, calcul et utilité");
+    expect(guide.description).toContain("indice de masse corporelle");
     expect(guide.publishedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(guide.updatedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 

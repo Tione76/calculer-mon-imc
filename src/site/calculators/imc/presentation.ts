@@ -3,10 +3,7 @@ import type { CalculatorResult } from "../types";
 export const IMC_DISCLAIMER =
   "L'IMC est un indicateur statistique simple. Il ne tient pas compte notamment de la masse musculaire, de l'âge, du sexe ou de la morphologie.";
 
-export const IMC_CALC_TITLE = "Calculez votre IMC";
-
-export const IMC_CALC_INTRO =
-  "Renseignez votre taille et votre poids pour obtenir votre indice et la catégorie correspondante.";
+export const IMC_CALC_TITLE = "Renseignez vos informations";
 
 export const IMC_STEP1_HELP = "Indiquez votre taille et votre poids en centimètres et en kilogrammes.";
 

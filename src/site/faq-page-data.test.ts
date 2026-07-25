@@ -34,8 +34,8 @@ describe("FAQ page content", () => {
   const allQuestions = allItems.map((item) => item.question);
 
   it("expose les métadonnées SEO, le H1 et l'intro IMC", () => {
-    expect(FAQ_PAGE_H1).toBe("Questions fréquentes sur l'IMC");
-    expect(FAQ_PAGE_META.title).toContain("FAQ IMC");
+    expect(FAQ_PAGE_H1).toBe("Questions fréquentes autour du poids");
+    expect(FAQ_PAGE_META.title).toContain("Questions fréquentes");
     expect(FAQ_PAGE_META.description).toContain("IMC");
     expect(FAQ_PAGE_INTRO_PARAGRAPHS).toHaveLength(2);
     const introPlain = FAQ_PAGE_INTRO_PARAGRAPHS.map(answerToPlainText).join(" ");

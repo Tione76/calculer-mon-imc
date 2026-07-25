@@ -13,7 +13,7 @@ const path = "/plan-du-site";
 const metaDescription = page.metaDescription ?? page.description;
 
 export const metadata = buildPageMetadata(config, seoConfig, {
-  title: page.title,
+  title: page.seoTitle ?? page.title,
   description: metaDescription,
   path,
 });

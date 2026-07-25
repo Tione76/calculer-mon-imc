@@ -3,10 +3,10 @@ import { imcGuideSidebar } from "./guide-imc-shared";
 
 export const limitesDeLImcGuide: Guide = {
   slug: "limites-de-l-imc",
-  title: "Les limites de l'IMC",
-  seoTitle: "Les limites de l'IMC : ce que l'indicateur ne dit pas et comment l'utiliser",
+  title: "Quelles sont les limites de l'IMC ?",
+  seoTitle: "Quelles sont les limites de l'IMC ? Fiabilité et exceptions",
   description:
-    "Pourquoi l'IMC a des limites ? Sportifs, seniors, enfants : découvrez quand l'IMC peut tromper, ce qu'il mesure réellement et comment l'utiliser comme repère utile.",
+    "L'IMC est un indicateur reconnu, mais il présente certaines limites. Découvrez pour quels profils il est le moins pertinent et pourquoi son interprétation doit parfois être nuancée.",
   subtitle:
     "L'IMC reste un indicateur reconnu par l'OMS et l'Assurance Maladie : voici ses limites réelles, sans le discréditer, pour mieux lire votre résultat.",
   publishedAt: "2026-07-20",

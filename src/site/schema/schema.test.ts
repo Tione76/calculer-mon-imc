@@ -100,7 +100,7 @@ describe("WebApplication sur calculateurs interactifs", () => {
 
     const calc = buildCalculatorJsonLd({
       path: "/calculateurs/poids-ideal",
-      name: "Calculer son poids idéal",
+      name: "Calculez votre poids idéal en quelques secondes",
       description: "Description calculateur",
       cover: getCalculatorCover("poids-ideal"),
       faq: [],
@@ -116,7 +116,7 @@ describe("WebApplication sur calculateurs interactifs", () => {
     expect(crumbs.map((c) => c.name)).toEqual([
       "Accueil",
       "Calculateurs",
-      "Calculer son poids idéal",
+      "Calculez votre poids idéal en quelques secondes",
     ]);
   });
 

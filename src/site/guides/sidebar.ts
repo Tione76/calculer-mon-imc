@@ -21,7 +21,6 @@ export interface SidebarTool {
   description: string;
   href: string;
   cover: GuideCoverImage;
-  icon?: string;
   badge?: string;
 }
 
@@ -43,7 +42,6 @@ export function getAllSidebarTools(): SidebarTool[] {
     description: calc.description,
     href: calc.path,
     cover: calc.cover,
-    icon: calc.icon,
     badge: DEFAULT_TOOL_BADGE,
   }));
 }

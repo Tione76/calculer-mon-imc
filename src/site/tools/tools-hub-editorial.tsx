@@ -46,7 +46,7 @@ export function ToolsHubOverviewSection() {
       </h2>
       <div className="tools-hub-key-grid">
         <article className="tools-hub-key-card">
-          <h3>Calculateur IMC</h3>
+          <div className="tools-hub-key-card__title">Calculateur IMC</div>
           <p>
             Calculez l&apos;indice de masse corporelle, obtenez la catégorie correspondante et
             disposez d&apos;un premier repère statistique. Pour{" "}
@@ -61,7 +61,7 @@ export function ToolsHubOverviewSection() {
           </p>
         </article>
         <article className="tools-hub-key-card">
-          <h3>Calculateur de poids idéal</h3>
+          <div className="tools-hub-key-card__title">Calculateur de poids idéal</div>
           <p>
             Comparez plusieurs formules, obtenez différentes estimations et constatez qu&apos;il
             n&apos;existe pas de poids idéal universel. Approfondissez avec le guide pour{" "}
@@ -77,7 +77,7 @@ export function ToolsHubOverviewSection() {
           </p>
         </article>
         <article className="tools-hub-key-card">
-          <h3>Calculateur de masse grasse</h3>
+          <div className="tools-hub-key-card__title">Calculateur de masse grasse</div>
           <p>
             Estimez le pourcentage de masse grasse, complétez l&apos;IMC et distinguez davantage
             poids total et composition corporelle. Pour{" "}

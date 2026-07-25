@@ -30,7 +30,7 @@ export const POIDS_IDEAL_DISCLAIMER = [
 export const POIDS_IDEAL_MEAN_NOTE =
   "Cette moyenne résume les résultats obtenus, mais elle n'est pas scientifiquement supérieure à chaque formule prise séparément.";
 
-export const POIDS_IDEAL_QUICK_TITLE = "Calculez votre poids idéal";
+export const POIDS_IDEAL_QUICK_TITLE = "Renseignez vos informations";
 
 export const POIDS_IDEAL_QUICK_INTRO =
   "Choisissez une méthode et obtenez une estimation théorique à partir de votre taille.";

@@ -419,9 +419,6 @@ function GuideSidebarToolCard({ tool }: { tool: SidebarTool }) {
         <GuideCoverImage cover={tool.cover} decorative className="guide-sidebar-card__cover-img" />
       </span>
       <span className="guide-sidebar-card__body">
-        <span className="guide-sidebar-card__calc-icon" aria-hidden="true">
-          {tool.icon ?? "⚖"}
-        </span>
         <span className="guide-sidebar-card__title">{tool.title}</span>
         <span className="guide-sidebar-card__subtitle">{tool.description}</span>
         <span className="guide-sidebar-card__badge">{tool.badge ?? "✓ Outil gratuit"}</span>

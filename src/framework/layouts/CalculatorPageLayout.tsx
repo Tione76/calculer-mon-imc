@@ -46,6 +46,9 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
         />
         <div className="tool-header__inner">
           <h1 className="tool-header__title tool-header__title--sentence">{site.home.h1}</h1>
+          {site.home.intro[0] ? (
+            <p className="tool-header__subtitle tool-header__subtitle--imc">{site.home.intro[0]}</p>
+          ) : null}
           <div className="calc-stage" id="calculateur">
             <CalculatorHero Calculator={Calculator} />
           </div>

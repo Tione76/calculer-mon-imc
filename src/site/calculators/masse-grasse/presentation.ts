@@ -28,7 +28,7 @@ export const MASSE_GRASSE_WAIST_MEASURE_DETAILS =
 
 export const MASSE_GRASSE_CARD_TITLE = "Estimez votre masse grasse";
 
-export const MASSE_GRASSE_QUICK_TITLE = "Estimation rapide";
+export const MASSE_GRASSE_QUICK_TITLE = "Renseignez vos informations";
 
 export const MASSE_GRASSE_PERSONALIZED_TITLE = "Estimation personnalisée";
 

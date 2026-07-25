@@ -93,7 +93,7 @@ describe("calculer-son-poids-ideal — guide de référence poids idéal", () =>
     expect(guide.quickSummary?.variant).toBe("cards");
     expect(guide.quickSummary?.cards).toHaveLength(6);
     expect(guide.introDisclaimer).toBeTruthy();
-    expect(guide.title).toContain("méthodes, formules et limites");
+    expect(guide.title).toContain("Comment estimer votre poids idéal");
   });
 
   it("organise FAQ, conclusion, en résumé, sources et note éditoriale", () => {

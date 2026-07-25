@@ -4,9 +4,9 @@ import { imcGuideSidebar } from "./guide-imc-shared";
 export const commentCalculerSonImcGuide: Guide = {
   slug: "comment-calculer-son-imc",
   title: "Comment calculer son IMC ?",
-  seoTitle: "Comment calculer son IMC ? Formule, exemples et méthode pas à pas",
+  seoTitle: "Comment calculer son IMC ? Formule, méthode et exemples",
   description:
-    "Comment calculer son IMC ? Formule officielle, conversion cm en mètres, exemples chiffrés, erreurs à éviter et vérification avec le calculateur gratuit.",
+    "Apprenez à réaliser le calcul de votre indice de masse corporelle (IMC) grâce à la formule de référence. Découvrez la méthode et des exemples pour obtenir un résultat fiable.",
   subtitle:
     "Poids, taille, conversion et formule : tout pour obtenir un IMC fiable, avec des exemples que vous pouvez reproduire chez vous.",
   publishedAt: "2026-07-20",

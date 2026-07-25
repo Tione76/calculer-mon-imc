@@ -2,5 +2,5 @@
 export const POIDS_IDEAL_BREADCRUMB_ITEMS = [
   { label: "Accueil", href: "/" },
   { label: "Calculateurs", href: "/nos-outils" },
-  { label: "Calculer son poids idéal" },
+  { label: "Calculez votre poids idéal en quelques secondes" },
 ] as const;

@@ -13,10 +13,10 @@ const IMC_ADULT_SUMMARY_ROWS: string[][] = [
 
 export const questCeQueLImcGuide: Guide = {
   slug: "quest-ce-que-l-imc",
-  title: "Qu'est-ce que l'IMC ?",
-  seoTitle: "Qu'est-ce que l'IMC ? Définition, calcul, utilité et limites",
+  title: "Qu'est-ce que l'IMC et à quoi sert-il ?",
+  seoTitle: "Qu'est-ce que l'IMC ? Définition, calcul et utilité",
   description:
-    "Découvrez ce qu'est l'IMC, son origine, sa formule, ses catégories chez l'adulte, son utilité et les limites à connaître pour bien l'interpréter.",
+    "Découvrez ce qu'est l'indice de masse corporelle (IMC), son intérêt et son rôle dans l'évaluation du poids et de la corpulence.",
   subtitle:
     "L'indice de masse corporelle expliqué simplement : définition, utilité, calcul, lecture des résultats et limites essentielles.",
   publishedAt: "2026-07-20",

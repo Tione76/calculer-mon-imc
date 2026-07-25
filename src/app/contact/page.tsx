@@ -11,7 +11,7 @@ const page = seoConfig.legal.contact;
 const path = "/contact";
 
 export const metadata = buildPageMetadata(config, seoConfig, {
-  title: page.title,
+  title: page.seoTitle ?? page.title,
   description: page.description,
   path,
 });

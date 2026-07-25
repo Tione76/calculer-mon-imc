@@ -29,10 +29,10 @@ function formulaBlock(lines: string[]): GuideBlock {
 
 export const calculerSonPoidsIdealGuide: Guide = {
   slug: "calculer-son-poids-ideal",
-  title: "Calculer son poids idéal : méthodes, formules et limites",
-  seoTitle: "Calculer son poids idéal : formules Lorentz, Devine, Miller et limites",
+  title: "Comment estimer votre poids idéal ?",
+  seoTitle: "Comment estimer votre poids idéal ? Méthodes et calculs",
   description:
-    "Comment calculer son poids idéal ? Formules Lorentz, Devine, Miller, Robinson, Hamwi et Broca : méthodes, comparaison, limites et interprétation prudente de chaque estimation.",
+    "Découvrez les principales méthodes d'estimation du poids idéal, comparez leurs formules, leurs calculs et les limites de chacune.",
   subtitle:
     "Il n'existe pas de poids idéal universel, mais plusieurs méthodes reconnues permettent d'estimer une fourchette de référence utile lorsqu'elle est bien interprétée.",
   publishedAt: "2026-07-20",

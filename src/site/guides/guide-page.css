@@ -1086,13 +1086,11 @@
 }
 
 .guide-sidebar-card--calculator .guide-sidebar-card__body {
-  position: relative;
   padding: 17px 18px 18px;
 }
 
 .guide-sidebar-card--calculator .guide-sidebar-card__title {
   display: block;
-  padding-right: 42px;
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--ds-brand);
@@ -1102,24 +1100,6 @@
 
 .guide-sidebar-card--calculator:hover .guide-sidebar-card__title {
   color: var(--ds-brand);
-}
-
-.guide-sidebar-card__calc-icon {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--ds-brand);
-  border-radius: 6px;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-weight: 700;
-  line-height: 1;
-  box-shadow: 0 2px 6px rgba(var(--ds-brand-rgb), 0.2);
 }
 
 .guide-sidebar-card__subtitle {

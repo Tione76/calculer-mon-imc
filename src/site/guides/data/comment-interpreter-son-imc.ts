@@ -13,10 +13,10 @@ const IMC_ADULT_CATEGORIES_ROWS: string[][] = [
 
 export const commentInterpreterSonImcGuide: Guide = {
   slug: "comment-interpreter-son-imc",
-  title: "Comment interpréter son IMC ?",
-  seoTitle: "Comment interpréter son IMC ? Catégories OMS, lecture et limites",
+  title: "Comment interpréter votre IMC ?",
+  seoTitle: "Comment interpréter votre IMC ? Maigreur, surpoids et obésité",
   description:
-    "Que signifie votre IMC ? Catégories OMS adultes, exemples concrets (IMC normal, élevé, faible), limites d'interprétation et conseils pour lire votre résultat sans diagnostic.",
+    "Découvrez comment interpréter le résultat de votre IMC grâce aux différentes catégories de corpulence. Retrouvez des exemples concrets pour mieux comprendre votre résultat.",
   subtitle:
     "Votre chiffre est calculé : découvrez ce qu'il représente réellement, où le situer parmi les catégories OMS et pourquoi le contexte compte toujours.",
   publishedAt: "2026-07-20",

@@ -27,7 +27,7 @@ export default function FaqPage() {
       <JsonLd
         data={buildWebPageJsonLd({
           path: "/faq",
-          name: FAQ_PAGE_META.title,
+          name: FAQ_PAGE_H1,
           description: FAQ_PAGE_META.description,
           breadcrumbs: [
             { name: "Accueil", path: "/" },

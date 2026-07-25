@@ -8,9 +8,9 @@ export const SITE_AUTHOR = {
   name: siteConfig.author,
   slug: "antoine",
   path: "/auteur/antoine",
-  metaTitle: "Antoine, auteur de Calculer Mon IMC",
+  metaTitle: "Page Auteur - Antoine | Calculer mon IMC",
   metaDescription:
-    "Antoine est le créateur de Calculer Mon IMC. Il publie des contenus pédagogiques sur l'IMC, le poids et les calculateurs santé.",
+    "Découvrez le parcours d'Antoine, auteur des contenus du site, ainsi que son approche pour créer des guides et des calculateurs fiables autour du poids, de la santé et de l'IMC.",
   pageSubtitle:
     "Créateur de Calculer Mon IMC, des contenus pédagogiques sur l'IMC et la santé.",
   role: "Créateur de Calculer Mon IMC",

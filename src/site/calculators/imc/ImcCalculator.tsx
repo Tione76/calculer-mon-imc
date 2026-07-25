@@ -26,7 +26,6 @@ import { formatImcValue } from "./format";
 import { getImcInterpretationSentence } from "./gauge/interpretation";
 import { getActiveSegmentAccent, getGaugeZoneTitleLines } from "./gauge/mapping";
 import {
-  IMC_CALC_INTRO,
   IMC_CALC_TITLE,
   IMC_GUIDE_LINKS,
   IMC_HEIGHT_LABEL,
@@ -251,7 +250,10 @@ export default function ImcCalculator() {
         <div className="calc-shell__card">
           <header className="calc-shell__header">
             <h2 className="calc-shell__title">{IMC_CALC_TITLE}</h2>
-            <p className="calc-shell__intro">{IMC_CALC_INTRO}</p>
+            <p className="calc-shell__intro">
+              Renseignez votre <strong>taille</strong> et votre <strong>poids</strong> pour obtenir
+              votre indice et la <strong>catégorie correspondante</strong>.
+            </p>
           </header>
 
           <div className="calc-shell__panel">
