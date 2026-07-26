@@ -63,11 +63,12 @@ describe("Microsoft Clarity integration", () => {
   it("lit NEXT_PUBLIC_CLARITY_PROJECT_ID depuis la config centralisée", () => {
     expect(siteConfigSource).toContain("NEXT_PUBLIC_CLARITY_PROJECT_ID");
     expect(siteConfigSource).toContain("microsoftClarityId");
+    expect(envExampleSource).toContain("NEXT_PUBLIC_CLARITY_PROJECT_ID=xs8k921z4a");
   });
 
   it("charge Clarity une seule fois via SiteProvider", () => {
     expect(providerSource).toContain("<ClarityLoader />");
-    expect(providerSource.match(/ClarityLoader/g)?.length).toBe(2);
+    expect(providerSource.match(/<ClarityLoader\s*\/>/g)?.length).toBe(1);
   });
 
   it("utilise Consent API V2 et n'initialise Clarity qu'après consentement analytique", () => {
@@ -86,5 +87,11 @@ describe("Microsoft Clarity integration", () => {
     expect(analyticsSource).toMatch(/if \(!gaId \|\| status === "pending" \|\| !preferences\.analytics\)/);
     expect(analyticsSource).toMatch(/if \(!clientId \|\| status === "pending" \|\| !preferences\.advertising\) return null/);
     expect(analyticsSource).toMatch(/if \(!IS_PRODUCTION \|\| !projectId \|\| status === "pending"\) return/);
+  });
+
+  it("n'embarque aucun second script Clarity en dehors de ClarityLoader", () => {
+    expect(layoutSource).not.toContain("clarity.ms");
+    expect(layoutSource).not.toContain("Clarity.init");
+    expect(providerSource.match(/Clarity\.init/g)?.length ?? 0).toBe(0);
   });
 });

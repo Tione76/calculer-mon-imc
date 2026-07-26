@@ -172,6 +172,7 @@ Variables `.env.local` :
 
 ```env
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XECS76B3RJ
+NEXT_PUBLIC_CLARITY_PROJECT_ID=xs8k921z4a
 NEXT_PUBLIC_ADSENSE_ID=ca-pub-XXXXXXXXXX
 
 # Formulaire de contact (serveur uniquement)
@@ -180,7 +181,7 @@ CONTACT_EMAIL=
 CONTACT_FROM_EMAIL=Formulaire Calculer Mon IMC <contact@calculer-mon-imc.fr>
 ```
 
-Voir aussi `.env.example`. Google Analytics 4 (`@next/third-parties`) et AdSense ne se chargent qu'**après consentement** (Google Consent Mode v2).
+Voir aussi `.env.example`. Google Analytics 4 (`@next/third-parties`) et Microsoft Clarity ne se chargent qu'**après consentement analytique** (bandeau cookies + Google Consent Mode v2 pour GA ; Clarity Consent API V2). AdSense uniquement après consentement publicitaire.
 
 ### IndexNow
 
