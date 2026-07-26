@@ -14,6 +14,50 @@ const providerSource = readFileSync(
   join(process.cwd(), "src/framework/SiteProvider.tsx"),
   "utf8",
 );
+const layoutSource = readFileSync(join(process.cwd(), "src/app/layout.tsx"), "utf8");
+const envExampleSource = readFileSync(join(process.cwd(), ".env.example"), "utf8");
+
+describe("Google Analytics 4 integration", () => {
+  it("lit NEXT_PUBLIC_GA_MEASUREMENT_ID depuis la config centralisée", () => {
+    expect(siteConfigSource).toContain("NEXT_PUBLIC_GA_MEASUREMENT_ID");
+    expect(siteConfigSource).toContain("googleAnalyticsId");
+    expect(envExampleSource).toContain("NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XECS76B3RJ");
+  });
+
+  it("ne charge GA4 qu'après consentement analytique et sans GTM", () => {
+    expect(analyticsSource).toContain("@next/third-parties/google");
+    expect(analyticsSource).toContain("GoogleAnalytics");
+    expect(analyticsSource).toMatch(
+      /if \(!gaId \|\| status === "pending" \|\| !preferences\.analytics\)/,
+    );
+    expect(analyticsSource).not.toContain("GTM-");
+    expect(analyticsSource).not.toContain("GoogleTagManager");
+  });
+
+  it("suit les navigations App Router via page_view après le chargement initial", () => {
+    expect(analyticsSource).toContain("GaRouteTracker");
+    expect(analyticsSource).toContain("usePathname");
+    expect(analyticsSource).toContain('gtag("event", "page_view"');
+    expect(analyticsSource).toContain("isFirstPath");
+  });
+
+  it("monte AnalyticsScripts une seule fois via SiteProvider", () => {
+    expect(providerSource).toContain("<AnalyticsScripts />");
+    expect(providerSource.match(/<AnalyticsScripts\s*\/>/g)?.length).toBe(1);
+  });
+
+  it("définit Consent Mode par défaut à denied avant tout chargement GA", () => {
+    expect(layoutSource).toContain("gtag('consent','default'");
+    expect(layoutSource).toContain("analytics_storage:'denied'");
+    expect(providerSource).toContain("updateConsentMode");
+  });
+
+  it("n'embarque qu'une seule intégration gtag/js via GoogleAnalytics", () => {
+    expect(analyticsSource.match(/gtag\/js/g)?.length ?? 0).toBe(0);
+    expect(layoutSource.match(/gtag\/js/g)?.length ?? 0).toBe(0);
+    expect(analyticsSource).toContain("<GoogleAnalytics");
+  });
+});
 
 describe("Microsoft Clarity integration", () => {
   it("lit NEXT_PUBLIC_CLARITY_PROJECT_ID depuis la config centralisée", () => {
@@ -36,7 +80,6 @@ describe("Microsoft Clarity integration", () => {
 
   it("ne s'appuie pas sur Google Consent Mode pour piloter Clarity", () => {
     expect(analyticsSource).not.toContain("updateConsentMode");
-    expect(analyticsSource).not.toContain("gtag");
   });
 
   it("ne charge pas GA4, Clarity ni AdSense sans identifiant configuré", () => {

@@ -171,7 +171,7 @@ Build production : `npm run build` puis `npm start`.
 Variables `.env.local` :
 
 ```env
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XECS76B3RJ
 NEXT_PUBLIC_ADSENSE_ID=ca-pub-XXXXXXXXXX
 
 # Formulaire de contact (serveur uniquement)

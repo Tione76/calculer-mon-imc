@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { useConsent, useSite } from "@/framework/SiteProvider";
@@ -18,8 +19,40 @@ function toClarityConsent(enabled: boolean): ClarityConsentState {
 }
 
 /**
+ * Suit les navigations App Router (client-side) après le page_view initial
+ * envoyé par gtag('config') dans @next/third-parties.
+ */
+function GaRouteTracker({ gaId }: { gaId: string }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const isFirstPath = useRef(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+
+    const query = searchParams.toString();
+    const pagePath = query ? `${pathname}?${query}` : pathname;
+
+    if (isFirstPath.current) {
+      isFirstPath.current = false;
+      return;
+    }
+
+    window.gtag("event", "page_view", {
+      page_path: pagePath,
+      page_location: `${window.location.origin}${pagePath}`,
+      page_title: document.title,
+      send_to: gaId,
+    });
+  }, [pathname, searchParams, gaId]);
+
+  return null;
+}
+
+/**
  * Google Analytics 4 via @next/third-parties.
  * Chargé une seule fois, uniquement après consentement analytique (bandeau cookies).
+ * Désactivation : le composant est démonté et Consent Mode passe analytics_storage à denied.
  */
 export function AnalyticsScripts() {
   const { analytics } = useSite();
@@ -30,7 +63,14 @@ export function AnalyticsScripts() {
     return null;
   }
 
-  return <GoogleAnalytics gaId={gaId} debugMode={IS_DEVELOPMENT} />;
+  return (
+    <>
+      <GoogleAnalytics gaId={gaId} debugMode={IS_DEVELOPMENT} />
+      <Suspense fallback={null}>
+        <GaRouteTracker gaId={gaId} />
+      </Suspense>
+    </>
+  );
 }
 
 export function AdSenseLoader() {
