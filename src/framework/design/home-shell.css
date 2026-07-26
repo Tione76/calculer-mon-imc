@@ -1,0 +1,8 @@
+/**
+ * Shell CSS critique page d'accueil : header, nav, calculateur.
+ * Sans blog-page ni guide-page (éditorial below-fold).
+ */
+@import "./tokens.css";
+@import "./forms.css";
+@import "./shared.css";
+@import "./calculator-page.css";

@@ -1,56 +1,56 @@
-"use client";
-
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 import Link from "next/link";
-import { useSite, CalculatorProvider } from "@/framework/SiteProvider";
 import { AdSlot } from "@/framework/AdSlot";
-import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
 import { PageFooter } from "@/framework/design/PageFooter";
-import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
-import { hasSidebarContent } from "@/site/guides/sidebar";
-import { HomeEditorial } from "@/site/home-editorial";
-import "@/framework/design/index.css";
-import "@/site/guides/guide-page.css";
+import { HomeCalculatorIsland } from "@/framework/layouts/HomeCalculatorIsland";
+import { HomeToolHeaderNav } from "@/framework/layouts/HomeToolHeaderNav";
+import "@/framework/design/home-shell.css";
 import "@/site/home-page.css";
 
+export interface HomeBlogPost {
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  href: string;
+}
+
 interface CalculatorPageLayoutProps {
+  h1: string;
+  subtitle?: string;
   Calculator: ComponentType;
+  children: ReactNode;
+  sidebar?: ReactNode;
+  blogPosts?: HomeBlogPost[];
 }
 
-function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
-  return (
-    <div className="calc-tool calc-tool--main" data-clarity-mask="true">
-      <Calculator />
-      <p className="calc-disclaimer">
-        Cette estimation est indicative. L&apos;IMC ne tient pas compte de la morphologie, de la
-        masse musculaire ou de l&apos;âge. Il ne remplace pas un avis médical.
-      </p>
-    </div>
-  );
-}
-
-function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
-  const site = useSite();
-  const showSidebar = hasSidebarContent({ pageType: "home", currentPath: "/" });
+/**
+ * Layout accueil (Server Component) : H1, sous-titre LCP, éditorial et sidebar
+ * sont rendus côté serveur. Seuls la nav, le calculateur, les pubs et le footer
+ * restent des Client Components.
+ */
+export function CalculatorPageLayout({
+  h1,
+  subtitle,
+  Calculator,
+  children,
+  sidebar,
+  blogPosts = [],
+}: CalculatorPageLayoutProps) {
+  const showSidebar = Boolean(sidebar);
 
   return (
     <>
       <section className="tool-header tool-header--compact">
-        <SiteNav
-          siteName={site.name}
-          nav={site.navigation.header}
-          logo={site.logo}
-          guidesNavigation={site.guidesNavigation}
-          toolsNavigation={site.toolsNavigation}
-        />
+        <HomeToolHeaderNav />
         <div className="tool-header__inner">
-          <h1 className="tool-header__title tool-header__title--sentence">{site.home.h1}</h1>
-          {site.home.intro[0] ? (
-            <p className="tool-header__subtitle tool-header__subtitle--imc">{site.home.intro[0]}</p>
+          <h1 className="tool-header__title tool-header__title--sentence">{h1}</h1>
+          {subtitle ? (
+            <p className="tool-header__subtitle tool-header__subtitle--imc">{subtitle}</p>
           ) : null}
           <div className="calc-stage" id="calculateur">
-            <CalculatorHero Calculator={Calculator} />
+            <HomeCalculatorIsland Calculator={Calculator} />
           </div>
         </div>
         <HeaderCurveDown />
@@ -60,9 +60,9 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
         <div className="content-wrap content-wrap--wide home-with-sidebar">
           <div className={`article-layout${showSidebar ? "" : " article-layout--single"}`}>
             <div className="home-with-sidebar__main">
-              <HomeEditorial />
+              {children}
 
-              {site.blogPosts.length > 0 && (
+              {blogPosts.length > 0 ? (
                 <section id="blog" className="content-section content-section--border">
                   <div className="content-wrap">
                     <div className="section-heading">
@@ -72,7 +72,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
                       </div>
                     </div>
                     <div className="blog-grid">
-                      {site.blogPosts.map((post) => (
+                      {blogPosts.map((post) => (
                         <article key={post.title} className="blog-card">
                           <div className="blog-card__thumb">
                             <span className="blog-card__meta">
@@ -93,13 +93,13 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
                     </div>
                   </div>
                 </section>
-              )}
+              ) : null}
 
               <div className="content-wrap">
                 <AdSlot position="after-result" />
               </div>
             </div>
-            {showSidebar && <HomePageSidebar />}
+            {sidebar}
           </div>
         </div>
       </main>
@@ -110,13 +110,5 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
 
       <PageFooter />
     </>
-  );
-}
-
-export function CalculatorPageLayout({ Calculator }: CalculatorPageLayoutProps) {
-  return (
-    <CalculatorProvider>
-      <CalculatorPageInner Calculator={Calculator} />
-    </CalculatorProvider>
   );
 }

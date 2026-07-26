@@ -10,6 +10,8 @@ import {
 import { HomeFaqContent } from "./home-faq";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { HOME_COVER } from "@/site/guides/covers";
+import "@/framework/design/editorial-layout.css";
+import "@/site/home-editorial-guide.css";
 
 const exLow = exampleImc165_50();
 const exNormal = exampleImc170_70();
