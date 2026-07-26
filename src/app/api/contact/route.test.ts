@@ -90,9 +90,13 @@ describe("contact-mail helpers", () => {
       message: "Bonjour",
     });
     expect(content.subject).toBe("[Nouveau contact Calculer Mon IMC] Autre demande");
-    expect(content.text).toContain("Nouveau message reçu depuis calculer-mon-imc.fr");
+    expect(content.text).toContain("Nom :");
+    expect(content.text).toContain("Email :");
+    expect(content.text).toContain("Sujet :");
+    expect(content.text).toContain("Message :");
     expect(content.text).toContain("alice@example.com");
     expect(content.html).toContain("<strong>Nom :</strong>");
+    expect(content.html).toContain("<strong>Email :</strong>");
     expect(content.html).not.toContain("<script>");
   });
 });
@@ -110,7 +114,7 @@ describe("POST /api/contact", () => {
     resetContactRateLimitStoreForTests();
   });
 
-  it("refuse l'envoi si la configuration Resend ou les adresses sont absentes", async () => {
+  it("refuse l'envoi si la clé Resend est absente", async () => {
     delete process.env.RESEND_API_KEY;
     delete process.env.CONTACT_EMAIL;
     delete process.env.CONTACT_FROM_EMAIL;
@@ -122,6 +126,22 @@ describe("POST /api/contact", () => {
     const data = await response.json();
     expect(data.error).toMatch(/indisponible/i);
     expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("utilise les adresses par défaut du site si CONTACT_* sont absents", async () => {
+    delete process.env.CONTACT_EMAIL;
+    delete process.env.CONTACT_FROM_EMAIL;
+    process.env.RESEND_API_KEY = "re_test_key";
+    sendMock.mockResolvedValue({ data: { id: "msg_defaults" }, error: null });
+
+    expect(isContactDeliveryConfigured()).toBe(true);
+
+    const response = await POST(makeRequest(validPayload));
+    expect(response.status).toBe(200);
+    const arg = sendMock.mock.calls[0][0];
+    expect(arg.to).toEqual(["contact@calculer-mon-imc.fr"]);
+    expect(arg.from).toBe("Calculer Mon IMC <contact@calculer-mon-imc.fr>");
+    expect(arg.replyTo).toBe("alice@example.com");
   });
 
   it("rejette un formulaire vide", async () => {

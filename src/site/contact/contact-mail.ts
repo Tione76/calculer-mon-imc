@@ -69,29 +69,34 @@ export function normalizeFromAddress(value: string): string {
   const trimmed = value.trim().replace(/^["']|["']$/g, "");
   if (/<[^>]+>/.test(trimmed)) return trimmed;
   if (EMAIL_PATTERN.test(trimmed)) {
-    return `Formulaire ${siteConfig.name} <${trimmed}>`;
+    return `${siteConfig.name} <${trimmed}>`;
   }
   return trimmed;
 }
 
 export function getContactRecipient(): string[] {
-  const raw = readEnv("CONTACT_EMAIL") || readEnv("CONTACT_TO_EMAIL");
+  const raw =
+    readEnv("CONTACT_EMAIL") ||
+    readEnv("CONTACT_TO_EMAIL") ||
+    siteConfig.contact.email;
   return parseRecipientList(raw);
 }
 
 export function getContactFromAddress(): string {
-  return normalizeFromAddress(readEnv("CONTACT_FROM_EMAIL"));
+  const configured = readEnv("CONTACT_FROM_EMAIL");
+  if (configured) return normalizeFromAddress(configured);
+  return `${siteConfig.name} <${siteConfig.contact.email}>`;
 }
 
 export function getResendApiKey(): string {
   return readEnv("RESEND_API_KEY");
 }
 
-/** Vrai uniquement si Resend et les adresses expéditeur/destinataire sont configurés via l'environnement. */
+/** Vrai uniquement si Resend est configuré et que destinataire / expéditeur sont résolus. */
 export function isContactDeliveryConfigured(): boolean {
   if (!getResendApiKey()) return false;
   if (getContactRecipient().length === 0) return false;
-  if (!readEnv("CONTACT_FROM_EMAIL")) return false;
+  if (!getContactFromAddress()) return false;
   return true;
 }
 
@@ -158,12 +163,10 @@ export function buildContactEmailContent(data: ValidatedContactPayload) {
   const subject = `[Nouveau contact ${siteConfig.name}] ${data.subject}`;
 
   const text = [
-    `Nouveau message reçu depuis ${siteConfig.domain}`,
-    "",
     "Nom :",
     data.name,
     "",
-    "Adresse e-mail :",
+    "Email :",
     data.email,
     "",
     "Sujet :",
@@ -174,9 +177,8 @@ export function buildContactEmailContent(data: ValidatedContactPayload) {
   ].join("\n");
 
   const html = [
-    `<p>Nouveau message reçu depuis ${escapeHtml(siteConfig.domain)}</p>`,
     `<p><strong>Nom :</strong><br>${escapeHtml(data.name)}</p>`,
-    `<p><strong>Adresse e-mail :</strong><br>${escapeHtml(data.email)}</p>`,
+    `<p><strong>Email :</strong><br>${escapeHtml(data.email)}</p>`,
     `<p><strong>Sujet :</strong><br>${escapeHtml(data.subject)}</p>`,
     `<p><strong>Message :</strong></p>`,
     `<p>${escapeHtml(data.message).replace(/\n/g, "<br>")}</p>`,
